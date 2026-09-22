@@ -1,0 +1,100 @@
+---
+import { SITE, NAV, whatsappHref, telHref, mailHref } from "../data/site.js";
+import { CORE_SERVICES, FOCUS_SERVICES } from "../data/services.js";
+import Logo from "./Logo.astro";
+const year = new Date().getFullYear();
+---
+
+<footer class="site-foot">
+  <div class="wrap" style="padding-block:clamp(3rem,6vw,5rem);">
+    <div class="foot">
+      <div>
+        <Logo height="34" withWordmark={false} />
+        <p class="t-lede" style="margin:1.5rem 0 0;max-width:22rem;">
+          Founder-led consulting in Nagpur. Strategy, local visibility, software,
+          automation and marketing — built and kept running.
+        </p>
+        <p style="margin-top:1.5rem;">
+          <a href={mailHref} class="link-u">{SITE.email}</a>
+        </p>
+        <p style="margin:0.25rem 0 0;">
+          <a href={telHref} data-track="phone-click" class="link-u">{SITE.phoneDisplay}</a>
+        </p>
+      </div>
+
+      <div>
+        <h2 class="label" style="margin-bottom:1.1rem;">Pages</h2>
+        <ul class="foot__list">
+          <li><a href="/">Home</a></li>
+          {NAV.map((i) => <li><a href={i.href}>{i.label}</a></li>)}
+          <li><a href="/faq">FAQ</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h2 class="label" style="margin-bottom:1.1rem;">Services</h2>
+        <ul class="foot__list">
+          {CORE_SERVICES.map((s) => (
+            <li><a href={`/services/${s.slug}`}>{s.name}</a></li>
+          ))}
+        </ul>
+      </div>
+
+      <div>
+        <h2 class="label" style="margin-bottom:1.1rem;">Specialisms</h2>
+        <ul class="foot__list">
+          {FOCUS_SERVICES.map((s) => (
+            <li><a href={`/services/${s.slug}`}>{s.name}</a></li>
+          ))}
+        </ul>
+      </div>
+    </div>
+
+    <hr class="rule" style="margin-top:3rem;" />
+    <div class="foot__base">
+      <span>&copy; {year} {SITE.name}. {SITE.address.locality}, {SITE.address.region}, India.</span>
+      <span class="foot__links">
+        <a href="/privacy">Privacy</a>
+        <a href="/terms">Terms</a>
+        <a href={whatsappHref} data-track="whatsapp-click" rel="noopener" target="_blank">WhatsApp</a>
+      </span>
+    </div>
+  </div>
+</footer>
+
+<style>
+  /* Lifted dark surface rather than a light slab — the footer should settle the
+     page, not interrupt it. */
+  .site-foot {
+    background: var(--paper-2);
+    border-top: 1px solid var(--border);
+  }
+
+  .foot { display: grid; gap: 2.75rem; grid-template-columns: 1fr; }
+  @media (min-width: 700px) { .foot { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 1000px) { .foot { grid-template-columns: 1.6fr 1fr 1.2fr 1.2fr; } }
+
+  .foot__list { list-style: none; margin: 0; padding: 0; }
+  .foot__list li { margin-bottom: 0.55rem; }
+  .foot__list a {
+    display: inline-block;
+    padding: 0.2rem 0;
+    font-size: 0.9375rem;
+    color: var(--ink-dim);
+    border-bottom: 1px solid transparent;
+  }
+  .foot__list a:hover { color: var(--ink); border-color: var(--border); }
+
+  .foot__base {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: space-between;
+    padding-top: 1.5rem;
+    font-size: 0.875rem;
+    color: var(--ink-faint);
+  }
+  .foot__links { display: flex; gap: 1.5rem; }
+  .foot__links a { border-bottom: 1px solid transparent; }
+  .foot__links a:hover { color: var(--ink); border-color: var(--border); }
+</style>

@@ -1,0 +1,183 @@
+---
+import Base from "../layouts/Base.astro";
+import Cta from "../components/Cta.astro";
+import { CORE_SERVICES, FOCUS_SERVICES } from "../data/services.js";
+import { SITE } from "../data/site.js";
+---
+
+<Base
+  title="Pricing and Starting Rates | Kool Konsulting Nagpur"
+  description="What each engagement costs, what it includes and excludes, minimum terms and what moves the price. Local visibility from ₹18,000, plans from ₹45,000."
+  path="/pricing"
+  ogSlug="pricing"
+  breadcrumbs={[{ name: "Pricing", href: "/pricing" }]}
+>
+  <section class="section-sm">
+    <div class="wrap">
+      <p class="label label-accent">Pricing</p>
+      <h1 class="t-hero" style="max-width:16ch;margin-top:1rem;">
+        What it costs, before you have to ask.
+      </h1>
+      <p class="t-lede" style="margin-top:1.35rem;max-width:52ch;">
+        Most firms make you sit through two meetings to find out. If our starting
+        figure does not suit your budget, you should know that in thirty seconds.
+        Below is where each engagement starts and what moves it.
+      </p>
+    </div>
+  </section>
+
+  <section class="section-sm">
+    <div class="wrap">
+      <table class="tbl">
+        <caption class="sr-only">Starting prices by service</caption>
+        <thead>
+          <tr>
+            <th scope="col">Service</th>
+            <th scope="col">Starts at</th>
+            <th scope="col">Structure</th>
+          </tr>
+        </thead>
+        <tbody>
+          {CORE_SERVICES.map((s) => (
+            <tr>
+              <th scope="row"><a href={`/services/${s.slug}`}>{s.name}</a></th>
+              <td class="tbl__p">{s.priceFrom}</td>
+              <td class="tbl__n">{s.priceNote}</td>
+            </tr>
+          ))}
+          {FOCUS_SERVICES.filter((s) =>
+            ["google-business-profile-management", "reputation-management", "workflow-automation", "internal-tools"].includes(s.slug)
+          ).map((s) => (
+            <tr>
+              <th scope="row"><a href={`/services/${s.slug}`}>{s.name}</a></th>
+              <td class="tbl__p">{s.priceFrom}</td>
+              <td class="tbl__n">{s.priceNote}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <p class="form-note" style="margin-top:1rem;">
+        All figures exclude GST. Advertising spend, hosting and third-party service
+        fees are paid by you directly to those providers — we do not mark them up.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="grid g2">
+        <div class="inc">
+          <h2 class="t-title">Every engagement includes</h2>
+          <ul class="ticks">
+            <li>A written scope agreed before any work starts</li>
+            <li>Direct access to Kulvir, not an account manager</li>
+            <li>Fixed fee for defined work — no hourly billing on delivery</li>
+            <li>Full ownership of everything produced, handed over on completion</li>
+            <li>A reply to any question within {SITE.responseWindow}</li>
+            <li>GST invoice for every payment</li>
+          </ul>
+        </div>
+        <div class="inc">
+          <h2 class="t-title">Never included</h2>
+          <ul class="crosses">
+            <li>Advertising spend — paid by you, directly to Google or Meta</li>
+            <li>Hosting and third-party subscriptions, at cost to you</li>
+            <li>Guaranteed rankings or guaranteed funding, which nobody can honestly sell</li>
+            <li>Paid links or purchased reviews, which risk your domain and your profile</li>
+            <li>Statutory valuations for tax or litigation — that needs a registered valuer</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section invert">
+    <div class="wrap">
+      <p class="label">The detail</p>
+      <h2 class="t-display" style="margin-top:0.9rem;max-width:20ch;">
+        What moves the price, and the terms.
+      </h2>
+      <div class="grid g2" style="margin-top:clamp(2rem,4vw,3rem);">
+        <div class="term">
+          <h3 class="t-sub">What increases it</h3>
+          <p>
+            More locations, more competitive categories, larger data migrations,
+            integrations with older systems that have no modern interface, and
+            anything needing to be delivered faster than the stated timeline.
+          </p>
+        </div>
+        <div class="term">
+          <h3 class="t-sub">What reduces it</h3>
+          <p>
+            Clean data you already hold, a single decision-maker, a longer commitment,
+            and being an early client willing to let us write the work up once it
+            produces results.
+          </p>
+        </div>
+        <div class="term">
+          <h3 class="t-sub">Minimum terms</h3>
+          <p>
+            Monthly services run to a three-month minimum, because local visibility
+            and advertising cannot be judged in less than that. One-off work — plans,
+            models, builds — carries no term at all.
+          </p>
+        </div>
+        <div class="term">
+          <h3 class="t-sub">Payment</h3>
+          <p>
+            Half on starting and half on delivery for one-off work; monthly services
+            invoiced in advance. Bank transfer or UPI. If we have not started, the
+            advance comes back in full.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-sm">
+    <div class="wrap">
+      <div class="notfor">
+        <h2 class="label" style="margin:0 0 0.85rem;">Who we are not for</h2>
+        <p>
+          If you are choosing on price alone, we will lose to a freelancer and you
+          should let us. This pricing buys one accountable person who does both the
+          thinking and the building — worth it when the decision is expensive to get
+          wrong, and not worth it when you need a logo by Friday.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <Cta heading="Not sure which engagement fits?" body="Tell us the problem on a free 30-minute call and we will tell you what it takes to fix — including when the answer is cheaper than you expect." />
+</Base>
+
+<style>
+  .tbl { width: 100%; border-collapse: collapse; text-align: left; }
+  .tbl th, .tbl td { padding: 1.15rem 1rem 1.15rem 0; border-top: 1px solid var(--border); vertical-align: baseline; }
+  .tbl thead th { border-top: 0; font-size: 0.875rem; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-faint); padding-bottom: 0.75rem; }
+  .tbl tbody th { font-family: var(--font-display); font-size: 1.3rem; font-weight: 400; line-height: 1.15; }
+  .tbl tbody th a { border-bottom: 1px solid transparent; }
+  .tbl tbody th a:hover { color: var(--accent); border-color: var(--accent); }
+  .tbl__p { font-weight: 500; white-space: nowrap; color: var(--accent); }
+  .tbl__n { font-size: 0.9375rem; color: var(--ink-dim); }
+  @media (max-width: 720px) {
+    .tbl thead { display: none; }
+    .tbl tbody th, .tbl td { display: block; border-top: 0; padding: 0.2rem 0; }
+    .tbl tbody th { border-top: 1px solid var(--border); padding-top: 1.25rem; }
+    .tbl tbody tr td:last-child { padding-bottom: 1.25rem; }
+  }
+
+  .inc h2 { margin-bottom: 1.25rem; }
+  .ticks, .crosses { list-style: none; margin: 0; padding: 0; }
+  .ticks li, .crosses li { position: relative; padding: 0.8rem 0 0.8rem 1.75rem; border-top: 1px solid var(--border); font-size: 0.9875rem; color: var(--ink-dim); }
+  .ticks li:last-child, .crosses li:last-child { border-bottom: 1px solid var(--border); }
+  .ticks li::before { content: ""; position: absolute; left: 0; top: 1.3rem; width: 8px; height: 8px; background: var(--accent); transform: rotate(45deg); }
+  .crosses li::before { content: "—"; position: absolute; left: 0; top: 0.8rem; color: var(--ink-faint); }
+
+  .term { border-top: 1px solid rgba(20, 19, 15, 0.28); padding-top: 1.15rem; }
+  .term h3 { margin: 0 0 0.75rem; }
+  .term p { margin: 0; color: rgba(20, 19, 15, 0.78); font-size: 0.9875rem; max-width: 46ch; }
+
+  .notfor { border-left: 3px solid var(--accent); background: var(--accent-soft); padding: 1.5rem 1.75rem; max-width: 60rem; }
+  .notfor p { margin: 0; color: var(--ink-dim); max-width: 62ch; }
+</style>

@@ -1,0 +1,389 @@
+---
+import Base from "../layouts/Base.astro";
+import Cta from "../components/Cta.astro";
+import { SITE, whatsappHref } from "../data/site.js";
+import { CORE_SERVICES } from "../data/services.js";
+import { CASE_STUDIES, TESTIMONIALS, OUTCOME_STATS, hasWork, hasTestimonials, hasStats } from "../data/work.js";
+
+const title = "Consulting and Local SEO in Nagpur | Kool Konsulting";
+const description =
+  "Founder-led consulting in Nagpur: Google Business Profile, local SEO, business plans, AI automation and websites. Built and kept running. Free 30-minute call.";
+---
+
+<Base
+  title={title}
+  description={description}
+  path="/"
+  ogSlug="index"
+  schema={[
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      name: SITE.name,
+      url: SITE.origin,
+    },
+  ]}
+>
+  <!-- ============ HERO: offer, subhead, both CTAs and proof above the fold ============ -->
+  <section class="hero">
+    <div class="wrap">
+      <p class="label label-accent hero__kicker">Nagpur · Founder-led consulting</p>
+
+      <h1 class="t-hero hero__h1">
+        Get found by customers in Nagpur — and get the systems to serve them.
+      </h1>
+
+      <p class="hero__sub">
+        For owner-run businesses across Maharashtra: we set up your local visibility,
+        plan the growth on real numbers, and build the software and automation that
+        runs it. One firm, from the plan to the thing working.
+      </p>
+
+      <div class="hero__actions">
+        <a href="/contact" class="btn" data-track="cta-contact">Book a free 30-minute consultation</a>
+        <a href="/services" class="btn btn-ghost">See what we do</a>
+      </div>
+
+      <!-- Proof element. A real face and real credentials, not invented
+           client results. -->
+      <div class="hero__proof">
+        {SITE.founder.photo && (
+          <img
+            class="hero__face"
+            src={SITE.founder.photo}
+            alt={SITE.founder.photoAlt}
+            width="112"
+            height="112"
+            loading="eager"
+            decoding="async"
+          />
+        )}
+        <div class="hero__proof-txt">
+          <p class="hero__proof-label">Run by</p>
+          <p class="hero__proof-body">
+            <strong>{SITE.founder.name}</strong> — {SITE.founder.creds}.<span class="hero__proof-long">
+              {" "}You work with him directly, not an account manager.</span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="rule" />
+
+  <!-- ============ Outcome stats, only when real ones exist ============ -->
+  {hasStats && (
+    <section class="section-sm">
+      <div class="wrap grid g3">
+        {OUTCOME_STATS.map((s) => (
+          <div>
+            <p class="stat__fig">{s.figure}</p>
+            <p class="stat__label">{s.label}</p>
+            <p class="stat__note">{s.note}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+  )}
+
+  <!-- ============ Services ============ -->
+  <section class="section">
+    <div class="wrap">
+      <div class="head">
+        <p class="label">What we do</p>
+        <h2 class="t-display">Five lines of work, one firm accountable for the result.</h2>
+        <p class="t-lede">
+          Take one on its own, or bring us in for the whole picture. Starting prices
+          are published on every page — no call needed to find out.
+        </p>
+      </div>
+
+      <div class="rows">
+        {CORE_SERVICES.map((s, i) => (
+          <a class="row row--svc" href={`/services/${s.slug}`}>
+            <span class="label label-accent row__num">{String(i + 1).padStart(2, "0")}</span>
+            <span class="row__main">
+              <span class="t-title row__name">{s.name}</span>
+              <span class="row__desc">{s.summary}</span>
+            </span>
+            <span class="row__price">From {s.priceFrom}</span>
+          </a>
+        ))}
+      </div>
+      <hr class="rule" />
+    </div>
+  </section>
+
+  <!-- ============ Wedge / why us ============ -->
+  <section class="section invert">
+    <div class="wrap">
+      <div class="head">
+        <p class="label">Why this firm</p>
+        <h2 class="t-display" style="max-width:22ch;">
+          Strategy firms hand over a document. Vendors build the wrong thing. We do both halves.
+        </h2>
+      </div>
+
+      <div class="grid g3" style="margin-top:clamp(2.5rem,5vw,4rem);">
+        <div>
+          <p class="why__t">The plan and the build are the same job</p>
+          <p class="why__b">
+            A market-entry study that recommends a second location is worth little if
+            nobody can execute it. We write the plan and then build the website, the
+            profile and the systems the plan depends on — so nothing is lost in the
+            handover between two suppliers.
+          </p>
+        </div>
+        <div>
+          <p class="why__t">Numbers before opinions</p>
+          <p class="why__b">
+            Every projection traces to an assumption you have seen and can change.
+            Every campaign reports cost per enquiry in rupees. Where a number is an
+            estimate we label it, because a stated estimate is worth more than a
+            confident guess.
+          </p>
+        </div>
+        <div>
+          <p class="why__t">You keep everything</p>
+          <p class="why__b">
+            Code goes to a repository in your name. Models arrive as working
+            spreadsheets, not locked PDFs. Your Google profile stays registered to
+            your account throughout — we take manager access, never ownership.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ Work: honest empty state until real case studies exist ============ -->
+  <section class="section">
+    <div class="wrap">
+      {hasWork ? (
+        <>
+          <div class="head">
+            <p class="label">Selected work</p>
+            <h2 class="t-display">What we have built, and what it produced.</h2>
+          </div>
+          <div class="rows">
+            {CASE_STUDIES.slice(0, 3).map((c) => (
+              <a class="row row--svc" href={`/work/${c.slug}`}>
+                <span class="row__main">
+                  <span class="t-title row__name">{c.headline}</span>
+                  <span class="row__desc">{c.client} · {c.sector}</span>
+                </span>
+                <span class="row__price">Read the case study</span>
+              </a>
+            ))}
+          </div>
+          <hr class="rule" />
+        </>
+      ) : (
+        <div class="newfirm">
+          <p class="label">Where we are</p>
+          <h2 class="t-display" style="max-width:24ch;">
+            Kool Konsulting is new. We would rather say so than invent a client list.
+          </h2>
+          <div class="newfirm__grid">
+            <p>
+              The firm launched in 2026 and the first engagements are under way. Until
+              those finish, there are no case studies to show you — and we are not
+              going to fill the gap with stock logos or testimonials nobody gave.
+            </p>
+            <p>
+              What we can show you is the work itself. This website is our own build:
+              statically generated, structured data on every page, complete content in
+              the HTML with JavaScript disabled, and a payload under 200 KB. That is
+              the same standard we build client sites to, and you can inspect it right
+              now.
+            </p>
+          </div>
+          <div class="newfirm__actions">
+            <a href="/about" class="btn btn-ghost">Kulvir's background</a>
+            <a href="/work" class="btn btn-ghost">How we will publish results</a>
+          </div>
+          <p class="newfirm__note">
+            Early clients get founder attention and pricing that will not last. If
+            being first is worth a lower rate to you, say so on the call.
+          </p>
+        </div>
+      )}
+    </div>
+  </section>
+
+  {hasTestimonials && (
+    <section class="section-sm">
+      <div class="wrap grid g2">
+        {TESTIMONIALS.slice(0, 2).map((t) => (
+          <blockquote class="quote">
+            <p class="t-sub">“{t.text}”</p>
+            <footer>
+              <span>{t.name}</span> — {t.role}, {t.company}
+            </footer>
+          </blockquote>
+        ))}
+      </div>
+    </section>
+  )}
+
+  <!-- ============ Low-commitment offer ============ -->
+  <section class="section">
+    <div class="wrap">
+      <div class="scorecard">
+        <div>
+          <p class="label label-accent">Not ready to talk?</p>
+          <h2 class="t-display" style="margin-top:0.75rem;max-width:18ch;">
+            Get a free Google Business Profile scorecard.
+          </h2>
+          <p class="t-lede" style="margin-top:1.25rem;max-width:44ch;">
+            Send your business name. We check your profile against the factors that
+            decide map-pack ranking and email you a short, specific assessment —
+            what is missing and what to fix first. No call required, and it is
+            yours whether or not you ever hire us.
+          </p>
+        </div>
+        <div class="scorecard__cta">
+          <a href="/scorecard" class="btn btn-accent" data-track="scorecard-view">Get the free scorecard</a>
+          <p class="form-note" style="margin:0.9rem 0 0;">Sent within two working days.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Cta
+    heading="Tell us what is not working."
+    body={`A free 30-minute call. You will get a straight answer on whether we can help and what it would cost. Reply within ${SITE.responseWindow}.`}
+  />
+</Base>
+
+<style>
+  /* Fold budget: header (72px) + hero must fit 1280x700 desktop and, on a
+     390x844 phone, the ~704px left after browser chrome. Verified in-browser. */
+  .hero { padding-block: clamp(1.25rem, 4vw, 3rem) clamp(1.75rem, 4vw, 3rem); }
+  .hero__kicker { margin: 0 0 0.85rem; }
+  .hero__h1 { max-width: 17ch; margin: 0; }
+  .hero__sub {
+    margin: 1rem 0 0;
+    max-width: 52ch;
+    font-size: clamp(0.9875rem, 1.2vw, 1.1875rem);
+    line-height: 1.45;
+    color: var(--ink-dim);
+  }
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.7rem;
+    margin-top: 1.35rem;
+  }
+  .hero__proof {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 1.35rem;
+    padding-top: 0.9rem;
+    border-top: 1px solid var(--border);
+    max-width: 64ch;
+  }
+  /* Face crop pulled to the top of the frame so the head, not the tie, fills
+     a small square. */
+  .hero__face {
+    width: 56px;
+    height: 56px;
+    flex-shrink: 0;
+    object-fit: cover;
+    object-position: 50% 12%;
+    border: 1px solid var(--border);
+  }
+  .hero__proof-txt { min-width: 0; }
+  .hero__proof-label {
+    margin: 0;
+    font-size: 0.875rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+  .hero__proof-body { margin: 0; font-size: 0.9375rem; line-height: 1.45; color: var(--ink-dim); max-width: 52ch; }
+  .hero__proof-body strong { color: var(--ink); font-weight: 500; }
+
+  /* On narrow phones the credential line is trimmed to its load-bearing half so
+     the proof element still clears the fold. */
+  .hero__proof-long { display: none; }
+  @media (min-width: 560px) {
+    .hero__proof-long { display: inline; }
+  }
+
+  @media (min-width: 900px) {
+    .hero__h1 { font-size: min(4.5rem, 5.4vw); }
+  }
+
+  .head { max-width: 46rem; }
+  .head .label { margin: 0 0 0.9rem; }
+  .head .t-lede { margin: 1.25rem 0 0; }
+
+  .rows { margin-top: clamp(2rem, 4vw, 3rem); }
+  .row--svc {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.4rem 1.5rem;
+    align-items: baseline;
+  }
+  .row__num { grid-row: 1; }
+  .row__main { display: block; }
+  .row__name { display: block; }
+  .row__desc { display: block; margin-top: 0.5rem; color: var(--ink-dim); font-size: 1rem; }
+  .row__price {
+    grid-column: 2;
+    font-size: 0.9375rem;
+    color: var(--accent);
+    font-weight: 500;
+  }
+  @media (min-width: 900px) {
+    .row--svc { grid-template-columns: 3rem 1fr 14rem; }
+    .row__price { grid-column: 3; grid-row: 1; text-align: right; }
+  }
+
+  .why__t {
+    font-family: var(--font-display);
+    font-size: 1.45rem;
+    line-height: 1.15;
+    margin: 0 0 0.85rem;
+    padding-top: 1.1rem;
+    border-top: 1px solid rgba(20, 19, 15, 0.28);
+  }
+  .why__b { margin: 0; font-size: 0.9875rem; color: rgba(20, 19, 15, 0.78); }
+
+  .newfirm { border-top: 1px solid var(--border); padding-top: clamp(2rem, 4vw, 3rem); }
+  .newfirm .label { margin: 0 0 1rem; }
+  .newfirm__grid { display: grid; gap: 1.5rem; margin-top: 1.75rem; max-width: 60rem; }
+  @media (min-width: 800px) { .newfirm__grid { grid-template-columns: 1fr 1fr; gap: 2.5rem; } }
+  .newfirm__grid p { margin: 0; color: var(--ink-dim); }
+  .newfirm__actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 2rem; }
+  .newfirm__note {
+    margin: 1.75rem 0 0;
+    font-size: 0.9375rem;
+    color: var(--ink);
+    border-left: 2px solid var(--accent);
+    padding-left: 1rem;
+    max-width: 52ch;
+  }
+
+  .stat__fig { font-family: var(--font-display); font-size: clamp(3rem, 6vw, 4.5rem); margin: 0; line-height: 1; }
+  .stat__label { margin: 0.75rem 0 0; font-size: 1rem; }
+  .stat__note { margin: 0.25rem 0 0; font-size: 0.9375rem; color: var(--ink-dim); }
+
+  .quote { margin: 0; border-left: 2px solid var(--accent); padding-left: 1.5rem; }
+  .quote footer { margin-top: 1rem; font-size: 0.9375rem; color: var(--ink-dim); }
+  .quote footer span { color: var(--ink); font-weight: 500; }
+
+  .scorecard {
+    display: grid;
+    gap: 2rem;
+    align-items: end;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    padding: clamp(1.75rem, 4vw, 3rem);
+  }
+  @media (min-width: 860px) { .scorecard { grid-template-columns: 1.5fr 1fr; } }
+  .scorecard .t-display { font-size: clamp(1.75rem, 3.2vw, 2.6rem); }
+</style>

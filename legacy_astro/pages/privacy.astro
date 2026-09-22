@@ -1,0 +1,109 @@
+---
+import Base from "../layouts/Base.astro";
+import { SITE } from "../data/site.js";
+const updated = "August 2026";
+---
+
+<Base
+  title="Privacy Notice and Your Data Rights | Kool Konsulting"
+  description="What personal data Kool Konsulting collects through this website, why we collect it, how long we keep it, and your rights under India's DPDP Act 2023 explained."
+  path="/privacy"
+  ogSlug="privacy"
+  breadcrumbs={[{ name: "Privacy", href: "/privacy" }]}
+>
+  <section class="section">
+    <div class="wrap legal">
+      <p class="label label-accent">Legal</p>
+      <h1 class="t-display" style="margin-top:1rem;">Privacy notice</h1>
+      <p class="form-note" style="margin-top:0.75rem;">Last updated {updated}</p>
+
+      <div class="prose" style="margin-top:2.5rem;">
+        <p>
+          This notice explains what personal data {SITE.name} collects through this
+          website, why we collect it and what we do with it. It is written to meet
+          India's Digital Personal Data Protection Act 2023.
+        </p>
+
+        <h2 class="t-title">Who we are</h2>
+        <p>
+          {SITE.name}, a consulting practice based in {SITE.address.locality},
+          {" "}{SITE.address.region}, India, is the data fiduciary for the personal
+          data described here. Contact us about anything on this page at
+          {" "}<a href={`mailto:${SITE.email}`}>{SITE.email}</a>.
+        </p>
+
+        <h2 class="t-title">What we collect, and why</h2>
+        <p>
+          <strong>When you send an enquiry.</strong> Your name, email address, and
+          optionally your phone number, business name, the service you are interested
+          in, your timeline and what you describe as the problem. We collect this only
+          to answer your enquiry and, if it leads somewhere, to carry out the work.
+          The lawful basis is your consent, given by submitting the form.
+        </p>
+        <p>
+          <strong>When you request a scorecard.</strong> Your business name, city and
+          email address, used only to prepare and send that assessment.
+        </p>
+        <p>
+          <strong>When you browse.</strong> If website analytics are enabled we use
+          Plausible Analytics, which is cookie-free, collects no personal data and
+          does not track you across sites. There is no advertising pixel on this site
+          and we do not build visitor profiles.
+        </p>
+
+        <h2 class="t-title">Cookies</h2>
+        <p>
+          This site sets no tracking or advertising cookies, which is why you have not
+          been shown a consent banner. Your browser stores one small item locally —
+          the time of your last form submission — purely to stop the same enquiry
+          being sent repeatedly. It never leaves your device and we cannot read it.
+        </p>
+
+        <h2 class="t-title">Who else sees your data</h2>
+        <p>
+          Form submissions are processed by Netlify, which hosts this site, and
+          delivered to our email. If you book a call, that booking is handled by
+          Cal.com. Each holds your data only to provide that service. We do not sell
+          personal data, and we do not share it for anyone else's marketing.
+        </p>
+
+        <h2 class="t-title">How long we keep it</h2>
+        <p>
+          Enquiries that do not become work are deleted within twelve months. Records
+          relating to actual engagements are kept for eight years, as Indian tax and
+          contractual record-keeping requires. Scorecard requests are deleted within
+          six months.
+        </p>
+
+        <h2 class="t-title">Your rights</h2>
+        <p>
+          Under the DPDP Act you may ask us for a copy of the personal data we hold
+          about you, ask us to correct anything inaccurate, ask us to erase it, and
+          withdraw consent at any time. Write to
+          {" "}<a href={`mailto:${SITE.email}`}>{SITE.email}</a> and we will respond
+          within thirty days. If you are not satisfied with our response you may
+          complain to the Data Protection Board of India.
+        </p>
+
+        <h2 class="t-title">Children</h2>
+        <p>
+          This site is intended for business owners and is not directed at anyone
+          under 18. We do not knowingly collect data from children.
+        </p>
+
+        <h2 class="t-title">Changes</h2>
+        <p>
+          If this notice changes materially we will update the date at the top and,
+          where the change affects data we already hold about you, contact you
+          directly.
+        </p>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .legal { max-width: 46rem; }
+  .legal .prose h2 { margin: 2.5rem 0 0.9rem; }
+  .legal .prose a { text-decoration: underline; }
+</style>

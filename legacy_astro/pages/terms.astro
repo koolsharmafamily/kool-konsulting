@@ -1,0 +1,114 @@
+---
+import Base from "../layouts/Base.astro";
+import { SITE } from "../data/site.js";
+const updated = "August 2026";
+---
+
+<Base
+  title="Terms of Service and Engagement | Kool Konsulting IN"
+  description="The terms on which Kool Konsulting provides consulting services: scope, fees, cancellation, ownership of work, confidentiality, guarantees and liability limits."
+  path="/terms"
+  ogSlug="terms"
+  breadcrumbs={[{ name: "Terms", href: "/terms" }]}
+>
+  <section class="section">
+    <div class="wrap legal">
+      <p class="label label-accent">Legal</p>
+      <h1 class="t-display" style="margin-top:1rem;">Terms of service</h1>
+      <p class="form-note" style="margin-top:0.75rem;">Last updated {updated}</p>
+
+      <div class="prose" style="margin-top:2.5rem;">
+        <p>
+          These terms apply to consulting services provided by {SITE.name}. Each
+          engagement also has its own written scope, and where the two differ the
+          scope document takes precedence.
+        </p>
+
+        <h2 class="t-title">Scope of work</h2>
+        <p>
+          Before any work begins we agree a written scope setting out what will be
+          delivered, the timeline and the fee. Anything outside that scope is quoted
+          separately and started only once you have agreed it in writing. We will not
+          run up a bill on work you did not ask for.
+        </p>
+
+        <h2 class="t-title">Fees and payment</h2>
+        <p>
+          One-off engagements are billed half on starting and half on delivery.
+          Monthly services are invoiced in advance. All fees exclude GST, which is
+          added at the prevailing rate. Advertising spend, hosting and third-party
+          subscriptions are paid by you directly to those providers and are not
+          marked up by us. Invoices are due within fourteen days.
+        </p>
+
+        <h2 class="t-title">Cancellation</h2>
+        <p>
+          If work has not started, any advance is returned in full. If work is under
+          way, either side may end the engagement with thirty days' written notice;
+          you pay for work completed to that date and we deliver everything produced
+          so far. Monthly services carry a three-month minimum term.
+        </p>
+
+        <h2 class="t-title">Ownership</h2>
+        <p>
+          On payment in full, you own everything produced for you — source code,
+          documents, financial models, campaign assets and account access. Code is
+          delivered to a repository in your name. We retain ownership of our own
+          pre-existing tools, templates and methods, and may reuse general knowledge
+          and techniques gained during the engagement.
+        </p>
+
+        <h2 class="t-title">Your responsibilities</h2>
+        <p>
+          You agree to provide accurate information, timely access to accounts and
+          systems we need, and decisions within the timeframes agreed. Delays in
+          these move the delivery date and may affect the fee where they cause
+          material rescheduling.
+        </p>
+
+        <h2 class="t-title">Confidentiality</h2>
+        <p>
+          We treat your business information as confidential and will not disclose it
+          without your permission. We will not publish any case study, name you as a
+          client or quote you without your written approval first.
+        </p>
+
+        <h2 class="t-title">What we do not guarantee</h2>
+        <p>
+          We do not guarantee search rankings, enquiry volumes, revenue outcomes, loan
+          approval or investment. These depend on factors outside our control,
+          including competitor activity, search engine changes and third-party credit
+          decisions. Any figures discussed are estimates based on stated assumptions
+          and are not promises. We commit to performing the agreed work competently
+          and to reporting results honestly, including when they are poor.
+        </p>
+
+        <h2 class="t-title">Liability</h2>
+        <p>
+          Our total liability arising from an engagement is limited to the fees paid
+          for that engagement. Neither party is liable for indirect or consequential
+          loss, including lost profits. Nothing here limits liability for fraud or for
+          anything that cannot lawfully be limited.
+        </p>
+
+        <h2 class="t-title">Governing law</h2>
+        <p>
+          These terms are governed by the laws of India, and the courts at Nagpur,
+          Maharashtra have exclusive jurisdiction. We will attempt in good faith to
+          resolve any dispute by discussion before either side commences proceedings.
+        </p>
+
+        <h2 class="t-title">Contact</h2>
+        <p>
+          Questions about these terms: <a href={`mailto:${SITE.email}`}>{SITE.email}</a>.
+        </p>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .legal { max-width: 46rem; }
+  .legal .prose h2 { margin: 2.5rem 0 0.9rem; }
+  .legal .prose a { text-decoration: underline; }
+</style>

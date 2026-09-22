@@ -1,0 +1,199 @@
+---
+import Base from "../layouts/Base.astro";
+import { SITE, whatsappHref } from "../data/site.js";
+---
+
+<Base
+  title="Free Google Business Profile Scorecard | Kool Konsulting"
+  description="Send your business name and get a free written assessment of your Google Business Profile — what is missing, what competitors have, and what to fix first."
+  path="/scorecard"
+  ogSlug="scorecard"
+  breadcrumbs={[{ name: "Free scorecard", href: "/scorecard" }]}
+>
+  <section class="section-sm">
+    <div class="wrap sc">
+      <div>
+        <p class="label label-accent">Free · No call required</p>
+        <h1 class="t-hero" style="max-width:15ch;margin-top:1rem;">
+          Your Google Business Profile, scored.
+        </h1>
+        <p class="t-lede" style="margin-top:1.35rem;max-width:46ch;">
+          Send your business name. We check your profile by hand against the factors
+          that decide map-pack ranking, compare it to the businesses currently
+          ranking above you, and email you a short written assessment.
+        </p>
+
+        <div class="sc__what">
+          <p class="label" style="margin:0 0 1.1rem;">What you get back</p>
+          <ul class="ticks">
+            <li>A score out of 10 against the factors Google actually weighs</li>
+            <li>The specific fields on your profile that are empty or wrong</li>
+            <li>What the three businesses ranking above you have that you do not</li>
+            <li>The three things to fix first, in order, with the reason for each</li>
+          </ul>
+        </div>
+
+        <p class="sc__note">
+          Written by hand, not generated — which is why it takes two working days.
+          It is yours to act on with or without us. If the fixes are things you can
+          do yourself, the assessment will say so.
+        </p>
+      </div>
+
+      <div class="sc__form">
+        <form
+          name="scorecard"
+          method="POST"
+          action="/api/enquiry"
+          id="scForm"
+          novalidate
+        >
+          <input type="hidden" name="form-name" value="scorecard" />
+          <input type="hidden" name="render-time" id="scRenderTime" value="" />
+          <p class="hp" aria-hidden="true">
+            <label>Leave blank <input name="website-url" tabindex="-1" autocomplete="off" /></label>
+          </p>
+
+          <h2 class="t-title" style="margin-bottom:1.5rem;">Request the scorecard</h2>
+
+          <label class="field">
+            <span class="label">Business name <span aria-hidden="true" style="color:var(--accent)">*</span></span>
+            <input class="input" type="text" name="business" required placeholder="As it appears on Google" />
+          </label>
+
+          <label class="field">
+            <span class="label">City or area <span aria-hidden="true" style="color:var(--accent)">*</span></span>
+            <input class="input" type="text" name="city" required placeholder="Nagpur" value="Nagpur" />
+          </label>
+
+          <label class="field">
+            <span class="label">Email <span aria-hidden="true" style="color:var(--accent)">*</span></span>
+            <input class="input" type="email" name="email" required autocomplete="email" placeholder="you@business.com" />
+          </label>
+
+          <div id="scMsg" role="status" aria-live="polite"></div>
+
+          <button type="submit" class="btn btn-accent" style="width:100%;" data-track="scorecard-request">
+            Send me the scorecard
+          </button>
+          <p class="form-note" style="margin:1rem 0 0;">
+            One email with your assessment. No mailing list, no sequence — see the
+            <a href="/privacy" style="text-decoration:underline;">privacy notice</a>.
+          </p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-sm">
+    <div class="wrap">
+      <div class="sc__alt">
+        <p>
+          Would rather just talk it through? A free 30-minute call covers the same
+          ground live, and you can ask follow-up questions.
+        </p>
+        <div class="sc__alt-actions">
+          <a href="/contact" class="btn btn-ghost" data-track="cta-contact">Book a free call</a>
+          <a href={whatsappHref} target="_blank" rel="noopener" data-track="whatsapp-click" class="btn btn-ghost">
+            WhatsApp {SITE.phoneDisplay}
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .sc { display: grid; gap: clamp(2.5rem, 5vw, 4rem); align-items: start; }
+  @media (min-width: 940px) { .sc { grid-template-columns: 1.2fr 1fr; } }
+
+  .sc__what { margin-top: 2.5rem; }
+  .ticks { list-style: none; margin: 0; padding: 0; }
+  .ticks li { position: relative; padding: 0.8rem 0 0.8rem 1.75rem; border-top: 1px solid var(--border); font-size: 0.9875rem; color: var(--ink-dim); }
+  .ticks li:last-child { border-bottom: 1px solid var(--border); }
+  .ticks li::before { content: ""; position: absolute; left: 0; top: 1.3rem; width: 8px; height: 8px; background: var(--accent); transform: rotate(45deg); }
+
+  .sc__note { margin-top: 1.75rem; border-left: 2px solid var(--accent); padding-left: 1rem; font-size: 0.9375rem; color: var(--ink-dim); max-width: 48ch; }
+
+  .sc__form {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-top: 3px solid var(--accent);
+    padding: clamp(1.5rem, 3vw, 2.25rem);
+    position: sticky;
+    top: 96px;
+  }
+
+  .sc__alt {
+    display: grid;
+    gap: 1.5rem;
+    align-items: center;
+    border-top: 1px solid var(--border);
+    padding-top: 2rem;
+  }
+  @media (min-width: 800px) { .sc__alt { grid-template-columns: 1.4fr 1fr; } }
+  .sc__alt p { margin: 0; color: var(--ink-dim); max-width: 46ch; }
+  .sc__alt-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+</style>
+
+<script is:inline define:vars={{ whatsappHref, phone: SITE.phoneDisplay }}>
+  (function () {
+    const form = document.getElementById("scForm");
+    if (!form) return;
+    const msg = document.getElementById("scMsg");
+    const renderedAt = Date.now();
+    const rt = document.getElementById("scRenderTime");
+    if (rt) rt.value = String(renderedAt);
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      msg.innerHTML = "";
+
+      const email = form.elements["email"];
+      const business = form.elements["business"];
+      if (!business.value.trim()) {
+        msg.innerHTML = '<p class="form-error">Please enter your business name.</p>';
+        business.focus();
+        return;
+      }
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email.value.trim())) {
+        msg.innerHTML = '<p class="form-error">Please enter a valid email address.</p>';
+        email.focus();
+        return;
+      }
+      if (Date.now() - renderedAt < 3000) {
+        msg.innerHTML = '<p class="form-error">That was submitted unusually fast. Please try once more.</p>';
+        return;
+      }
+
+      const btn = form.querySelector('button[type="submit"]');
+      btn.disabled = true;
+      btn.textContent = "Sending…";
+
+      try {
+        const res = await fetch("/api/enquiry", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+            Accept: "application/json",
+          },
+          body: new URLSearchParams(new FormData(form)).toString(),
+        });
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok || !data.ok) throw new Error(data.error || String(res.status));
+        if (window.plausible) window.plausible("scorecard-request");
+        form.innerHTML =
+          '<div class="form-ok"><p style="margin:0 0 0.5rem;font-weight:500;">Request received.</p>' +
+          '<p style="margin:0;">Your scorecard will be written by hand and emailed within two working days.</p></div>';
+      } catch (err) {
+        btn.disabled = false;
+        btn.textContent = "Send me the scorecard";
+        msg.innerHTML =
+          '<p class="form-error"><strong>That did not send.</strong> ' +
+          (err && err.message ? String(err.message) : "") +
+          ' You can message us on WhatsApp at <a href="' + whatsappHref +
+          '" style="text-decoration:underline;">' + phone + "</a> with your business name instead.</p>";
+      }
+    });
+  })();
+</script>

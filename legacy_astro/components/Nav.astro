@@ -1,0 +1,106 @@
+---
+import { NAV } from "../data/site.js";
+import Logo from "./Logo.astro";
+
+const here = Astro.url.pathname.replace(/\/$/, "") || "/";
+const isActive = (href) => here === href || (href !== "/" && here.startsWith(href + "/"));
+---
+
+<header class="site-head">
+  <div class="wrap site-head__in">
+    <a href="/" aria-label="Kool Konsulting — home" class="site-head__logo"><Logo /></a>
+
+    <nav class="site-head__nav" aria-label="Primary">
+      {NAV.map((item) => (
+        <a
+          href={item.href}
+          aria-current={isActive(item.href) ? "page" : undefined}
+          class:list={["site-head__link", { "is-active": isActive(item.href) }]}
+        >
+          {item.label}
+        </a>
+      ))}
+      <a href="/contact" class="btn btn-head">Book a free call</a>
+    </nav>
+
+    <details class="site-head__mob">
+      <summary aria-label="Menu"><span></span><span></span><span></span></summary>
+      <div class="site-head__panel">
+        {NAV.map((item) => (
+          <a href={item.href} aria-current={isActive(item.href) ? "page" : undefined}>{item.label}</a>
+        ))}
+        <a href="/contact" class="btn" style="margin-top:1rem;">Book a free call</a>
+      </div>
+    </details>
+  </div>
+</header>
+
+<style>
+  .site-head {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--paper);
+    border-bottom: 1px solid var(--border-soft);
+  }
+  .site-head__in {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 72px;
+    gap: 1rem;
+  }
+  .site-head__logo { display: flex; align-items: center; min-height: 44px; }
+  .site-head__nav { display: none; align-items: center; gap: 1.9rem; }
+  @media (min-width: 940px) { .site-head__nav { display: flex; } }
+
+  .site-head__link {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    color: var(--ink-dim);
+    border-bottom: 1px solid transparent;
+    transition: color 0.25s ease, border-color 0.25s ease;
+  }
+  .site-head__link:hover { color: var(--ink); }
+  .site-head__link.is-active { color: var(--accent); border-color: var(--accent); }
+
+  .btn-head { min-height: 44px; padding: 0.55rem 1.2rem; font-size: 0.875rem; }
+
+  .site-head__mob { position: relative; }
+  @media (min-width: 940px) { .site-head__mob { display: none; } }
+  .site-head__mob summary {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    width: 48px;
+    height: 48px;
+    cursor: pointer;
+    align-items: flex-end;
+  }
+  .site-head__mob summary::-webkit-details-marker { display: none; }
+  .site-head__mob summary span { display: block; width: 24px; height: 1.5px; background: var(--ink); }
+  .site-head__panel {
+    position: absolute;
+    right: 0;
+    top: 100%;
+    min-width: 62vw;
+    background: var(--paper);
+    border: 1px solid var(--border);
+    padding: 0.5rem 1.25rem 1.25rem;
+    display: flex;
+    flex-direction: column;
+  }
+  .site-head__panel a:not(.btn) {
+    padding: 0.9rem 0;
+    border-bottom: 1px solid var(--border-soft);
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    min-height: 44px;
+  }
+  .site-head__panel a[aria-current="page"] { color: var(--accent); }
+</style>

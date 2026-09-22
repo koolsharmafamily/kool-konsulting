@@ -1,0 +1,237 @@
+---
+import Base from "../layouts/Base.astro";
+import Cta from "../components/Cta.astro";
+import { SITE } from "../data/site.js";
+
+const f = SITE.founder;
+---
+
+<Base
+  title="About Kulvir Sharma, Founder | Kool Konsulting Nagpur"
+  description="Kool Konsulting is run by Kulvir Sharma from Nagpur: finance and management training, M&A advisory background, and experience building a venture end to end."
+  path="/about"
+  ogSlug="about"
+  breadcrumbs={[{ name: "About", href: "/about" }]}
+  schema={[
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "@id": `${SITE.origin}/about#kulvir`,
+      name: f.name,
+      jobTitle: "Founder",
+      worksFor: { "@id": `${SITE.origin}/#organisation` },
+      address: {
+        "@type": "PostalAddress",
+        addressLocality: SITE.address.locality,
+        addressRegion: SITE.address.region,
+        addressCountry: SITE.address.country,
+      },
+      alumniOf: [
+        { "@type": "CollegeOrUniversity", name: "The University of Melbourne" },
+        { "@type": "CollegeOrUniversity", name: "University of Delhi" },
+      ],
+      knowsAbout: [
+        "Local SEO",
+        "Google Business Profile",
+        "Financial modelling",
+        "Business planning",
+        "Workflow automation",
+        "AI agents",
+      ],
+    },
+  ]}
+>
+  <section class="section-sm">
+    <div class="wrap">
+      <p class="label label-accent">About</p>
+      <h1 class="t-hero" style="max-width:16ch;margin-top:1rem;">
+        One person you can reach, accountable for the whole job.
+      </h1>
+    </div>
+  </section>
+
+  <section class="section-sm">
+    <div class="wrap founder">
+      <div class="prose" style="max-width:62ch;">
+        <p>
+          Kool Konsulting is run by <strong>{f.name}</strong> from Nagpur. It exists
+          because of a gap that is easy to see once you have worked on both sides of
+          it: the firms that write the strategy do not build anything, and the
+          agencies that build things were never shown the strategy.
+        </p>
+        <p>
+          The owner ends up as the integration layer — briefing a consultant, then
+          re-briefing a web agency, then a third supplier for automation, and
+          personally carrying the context between all of them. Things get lost in
+          those handovers, and it is usually the reason the plan never quite lands.
+        </p>
+        <p>
+          Kulvir's training is in finance — a Bachelor of Commerce in Finance and
+          Management from the University of Melbourne, with work in M&amp;A and
+          corporate advisory where the discipline is that every number in a model
+          traces back to a stated assumption. He has also built and run his own
+          venture, which is where the other half comes from: knowing what it costs to
+          actually ship the thing, not just to recommend it.
+        </p>
+        <p>
+          Those two halves are the firm. A market-entry study and the website the
+          expansion needs are the same engagement here, done by the same person, so
+          nothing has to survive a handover.
+        </p>
+      </div>
+
+      <aside class="panel">
+        {f.photo ? (
+          <img
+            src={f.photo}
+            alt={f.photoAlt}
+            width={f.photoWidth}
+            height={f.photoHeight}
+            loading="eager"
+            decoding="async"
+            class="panel__img"
+          />
+        ) : (
+          /* No stock photography and no "coming soon" box. A typographic panel
+             holds the space honestly until a real photograph is supplied. */
+          <div class="panel__type">
+            <p class="panel__name">{f.name}</p>
+            <p class="panel__role">Founder · Nagpur</p>
+          </div>
+        )}
+        <div class="panel__meta">
+          <p class="panel__q">Direct line</p>
+          <p><a href="/contact" class="link-u">Book a call with Kulvir</a></p>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <section class="section invert">
+    <div class="wrap">
+      <p class="label">Background</p>
+      <h2 class="t-display" style="margin-top:0.9rem;max-width:20ch;">
+        Training, and the work behind it.
+      </h2>
+      <ul class="creds">
+        {f.credentials.map((c) => (
+          <li>
+            <span class="creds__t">{c.title}</span>
+            <span class="creds__o">{c.org}</span>
+            <span class="creds__m">{c.meta}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <p class="label">How we work</p>
+      <h2 class="t-display" style="margin-top:0.9rem;max-width:20ch;">
+        Four commitments, and what each one costs us.
+      </h2>
+
+      <div class="grid g2" style="margin-top:clamp(2rem,4vw,3rem);">
+        <div class="val">
+          <h3 class="t-sub">We publish our prices</h3>
+          <p>
+            Every service page states a starting figure. It costs us the enquiries
+            from people for whom we are too expensive — which is the point. Neither
+            of us should spend two meetings discovering that.
+          </p>
+        </div>
+        <div class="val">
+          <h3 class="t-sub">We say when to buy something else</h3>
+          <p>
+            If Tally, Zoho or a template site genuinely covers your case, that is what
+            we will tell you, and we will not invoice for the conversation. Building
+            something you did not need is a bad first project and a worse reference.
+          </p>
+        </div>
+        <div class="val">
+          <h3 class="t-sub">You keep everything</h3>
+          <p>
+            Repositories in your name, models as working files, your Google profile
+            registered to your own account. Making a client dependent is a business
+            model. It is not this one.
+          </p>
+        </div>
+        <div class="val">
+          <h3 class="t-sub">We report the flat months too</h3>
+          <p>
+            Local visibility work has months where the numbers do not move. You will
+            hear about those in the same report and in the same tone as the good ones,
+            along with what we are changing.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-sm">
+    <div class="wrap">
+      <div class="notfor">
+        <h2 class="label" style="margin:0 0 0.85rem;">Who we are not for</h2>
+        <p>
+          Businesses wanting the cheapest available option, anyone needing work
+          started tomorrow, and large organisations that need a panel of specialists
+          rather than one accountable person. A firm this size is an advantage in
+          speed and access — it is not an advantage in headcount.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <Cta heading="Work with Kulvir directly." />
+</Base>
+
+<style>
+  .founder { display: grid; gap: clamp(2rem, 5vw, 4rem); }
+  @media (min-width: 940px) { .founder { grid-template-columns: 1.4fr 1fr; align-items: start; } }
+
+  .panel { border: 1px solid var(--border); background: var(--panel); }
+  .panel__img {
+    width: 100%;
+    height: auto;
+    display: block;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    border-bottom: 1px solid var(--border);
+  }
+  .panel__type {
+    aspect-ratio: 4 / 5;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: clamp(1.5rem, 3vw, 2.25rem);
+    background: var(--paper-2);
+    border-bottom: 1px solid var(--border);
+  }
+  .panel__name { font-family: var(--font-display); font-size: clamp(2rem, 4vw, 2.75rem); line-height: 1.05; margin: 0; }
+  .panel__role { margin: 0.5rem 0 0; font-size: 0.9375rem; color: var(--ink-dim); }
+  .panel__meta { padding: clamp(1.25rem, 2.5vw, 1.75rem); }
+  .panel__q { margin: 0 0 0.4rem; font-size: 0.875rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-faint); }
+  .panel__meta p { margin: 0; }
+
+  .creds { list-style: none; margin: clamp(2rem, 4vw, 3rem) 0 0; padding: 0; }
+  .creds li {
+    display: grid;
+    gap: 0.35rem 2rem;
+    padding: 1.35rem 0;
+    border-top: 1px solid rgba(20, 19, 15, 0.22);
+  }
+  .creds li:last-child { border-bottom: 1px solid rgba(20, 19, 15, 0.22); }
+  @media (min-width: 860px) { .creds li { grid-template-columns: 1.1fr 1.2fr 12rem; align-items: baseline; } }
+  .creds__t { font-family: var(--font-display); font-size: 1.4rem; line-height: 1.15; }
+  .creds__o { color: rgba(20, 19, 15, 0.78); font-size: 0.9875rem; }
+  .creds__m { font-size: 0.875rem; color: rgba(20, 19, 15, 0.6); }
+  @media (min-width: 860px) { .creds__m { text-align: right; } }
+
+  .val { border-top: 1px solid var(--border); padding-top: 1.25rem; }
+  .val h3 { margin: 0 0 0.75rem; }
+  .val p { margin: 0; color: var(--ink-dim); font-size: 0.9875rem; max-width: 48ch; }
+
+  .notfor { border-left: 3px solid var(--accent); background: var(--accent-soft); padding: 1.5rem 1.75rem; max-width: 60rem; }
+  .notfor p { margin: 0; color: var(--ink-dim); max-width: 62ch; }
+</style>

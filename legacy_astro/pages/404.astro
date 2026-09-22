@@ -1,0 +1,45 @@
+---
+import Base from "../layouts/Base.astro";
+import { CORE_SERVICES } from "../data/services.js";
+
+// Netlify serves this file with a real HTTP 404 status for unmatched paths —
+// no soft-404. Verify after deploy with: curl -I https://<domain>/no-such-page
+---
+
+<Base
+  title="Page Not Found (404) | Kool Konsulting Nagpur India"
+  description="That page does not exist on this site. Use the links here to reach our consulting services, published pricing, frequently asked questions and contact details."
+  path="/404"
+  ogSlug="404"
+  noIndex={true}
+>
+  <section class="section">
+    <div class="wrap" style="max-width:46rem;">
+      <p class="label label-accent">404</p>
+      <h1 class="t-display" style="margin-top:1rem;max-width:16ch;">
+        That page does not exist.
+      </h1>
+      <p class="t-lede" style="margin-top:1.25rem;max-width:42ch;">
+        It may have moved, or the link may be wrong. Here is everything else.
+      </p>
+
+      <ul class="links" style="margin-top:2.5rem;">
+        {CORE_SERVICES.map((s) => (
+          <li><a href={`/services/${s.slug}`}>{s.name}</a></li>
+        ))}
+        <li><a href="/pricing">Pricing</a></li>
+        <li><a href="/contact">Contact</a></li>
+      </ul>
+
+      <a href="/" class="btn" style="margin-top:2.5rem;">Back to home</a>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .links { list-style: none; margin: 0; padding: 0; }
+  .links li { border-top: 1px solid var(--border); }
+  .links li:last-child { border-bottom: 1px solid var(--border); }
+  .links a { display: block; padding: 0.9rem 0; min-height: 44px; font-family: var(--font-display); font-size: 1.3rem; }
+  .links a:hover { color: var(--accent); }
+</style>

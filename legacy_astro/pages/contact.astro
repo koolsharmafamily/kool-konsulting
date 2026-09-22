@@ -1,0 +1,183 @@
+---
+import Base from "../layouts/Base.astro";
+import EnquiryForm from "../components/EnquiryForm.astro";
+import { SITE, whatsappHref, telHref, mailHref } from "../data/site.js";
+---
+
+<Base
+  title="Contact Kool Konsulting | Free Consultation, Nagpur"
+  description="Book a free 30-minute consultation with Kulvir Sharma or message on WhatsApp. Nagpur consulting for local visibility, strategy, automation and software."
+  path="/contact"
+  ogSlug="contact"
+  breadcrumbs={[{ name: "Contact", href: "/contact" }]}
+  schema={[
+    {
+      "@context": "https://schema.org",
+      "@type": "ContactPage",
+      name: "Contact Kool Konsulting",
+      url: `${SITE.origin}/contact`,
+    },
+  ]}
+>
+  <section class="section-sm">
+    <div class="wrap">
+      <p class="label label-accent">Contact</p>
+      <h1 class="t-hero" style="max-width:15ch;margin-top:1rem;">
+        Tell us what is not working.
+      </h1>
+      <p class="t-lede" style="margin-top:1.35rem;max-width:50ch;">
+        A free 30-minute call. You will get a straight answer on whether we can
+        help and roughly what it would cost — no proposal deck, no obligation.
+        Every enquiry gets a reply within {SITE.responseWindow}.
+      </p>
+    </div>
+  </section>
+
+  <section class="section-sm">
+    <div class="wrap channels">
+      <a href={whatsappHref} target="_blank" rel="noopener" data-track="whatsapp-click" class="ch ch--wa">
+        <span class="ch__k">Fastest</span>
+        <span class="ch__v">WhatsApp</span>
+        <span class="ch__n">{SITE.phoneDisplay}</span>
+      </a>
+      <a href={telHref} data-track="phone-click" class="ch">
+        <span class="ch__k">Call</span>
+        <span class="ch__v">{SITE.phoneDisplay}</span>
+        <span class="ch__n">Mon–Sat, 10am–7pm IST</span>
+      </a>
+      <a href={mailHref} data-track="email-click" class="ch">
+        <span class="ch__k">Email</span>
+        <span class="ch__v">{SITE.email}</span>
+        <span class="ch__n">Reply within {SITE.responseWindow}</span>
+      </a>
+      <div class="ch ch--static">
+        <span class="ch__k">Based in</span>
+        <span class="ch__v">{SITE.address.locality}</span>
+        <span class="ch__n">{SITE.address.region}, India</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ Booking calendar ============ -->
+  <section class="section-sm" id="book">
+    <div class="wrap">
+      <h2 class="t-display" style="max-width:20ch;">Pick a time that suits you.</h2>
+      <p class="t-lede" style="margin:1.15rem 0 2rem;max-width:44ch;">
+        Take a slot directly — no waiting for a reply first.
+      </p>
+
+      {SITE.calLink ? (
+        <div
+          data-cal-link={SITE.calLink}
+          data-cal-config='{"layout":"month_view"}'
+          id="calEmbed"
+          class="cal"
+        ></div>
+        <script is:inline define:vars={{ calLink: SITE.calLink }}>
+          (function (C, A, L) {
+            let p = function (a, ar) { a.q.push(ar); };
+            let d = C.document;
+            C.Cal = C.Cal || function () {
+              let cal = C.Cal; let ar = arguments;
+              if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; }
+              if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || [];
+                typeof namespace === "string" ? (cal.ns[namespace] = api) && p(api, ar) : p(cal, ar); return; }
+              p(cal, ar);
+            };
+          })(window, "https://app.cal.com/embed/embed.js", "init");
+          Cal("init", { origin: "https://cal.com" });
+          Cal("inline", {
+            elementOrSelector: "#calEmbed",
+            calLink: calLink,
+            layout: "month_view",
+          });
+          Cal("on", {
+            action: "bookingSuccessful",
+            callback: () => { if (window.plausible) window.plausible("calendar-booking"); },
+          });
+        </script>
+      ) : (
+        <div class="cal cal--off">
+          <p class="cal__title">The booking calendar is not connected yet.</p>
+          <p class="cal__body">
+            Use the form below or WhatsApp and we will offer you times directly.
+          </p>
+          <p class="cal__dev">
+            <strong>To switch it on:</strong> create a free Cal.com account, then set
+            <code>calLink</code> in <code>src/data/site.js</code> to your booking path
+            (for example <code>kulvir/30min</code>). The embed appears here
+            automatically, on this page and behind every “Book a call” button.
+          </p>
+        </div>
+      )}
+    </div>
+  </section>
+
+  <hr class="rule" />
+
+  <!-- ============ Form ============ -->
+  <section class="section">
+    <div class="wrap form-wrap">
+      <div>
+        <h2 class="t-display" style="max-width:16ch;">Or send the details.</h2>
+        <p class="t-lede" style="margin:1.15rem 0 0;max-width:38ch;">
+          The more you tell us here, the more useful the first call is. Nothing goes
+          to a mailing list.
+        </p>
+        <div class="assure">
+          <p><strong>What happens next</strong></p>
+          <ol>
+            <li>You get an automatic acknowledgement by email straight away.</li>
+            <li>Kulvir reads it and replies within {SITE.responseWindow}.</li>
+            <li>If it looks like a fit, we book a 30-minute call. If not, we say so and suggest who is better placed.</li>
+          </ol>
+        </div>
+      </div>
+      <div>
+        <EnquiryForm />
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .channels { display: grid; gap: 1px; background: var(--border); border: 1px solid var(--border); }
+  @media (min-width: 640px) { .channels { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 1000px) { .channels { grid-template-columns: repeat(4, 1fr); } }
+
+  .ch {
+    display: block;
+    background: var(--panel);
+    padding: clamp(1.25rem, 2.5vw, 1.75rem);
+    min-height: 44px;
+    transition: background-color 0.25s ease;
+  }
+  .ch:hover { background: var(--accent-soft); }
+  .ch--static:hover { background: var(--panel); }
+  .ch--wa { background: rgba(18, 140, 62, 0.06); }
+  .ch__k { display: block; font-size: 0.875rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-faint); }
+  .ch__v { display: block; margin-top: 0.6rem; font-family: var(--font-display); font-size: 1.5rem; line-height: 1.1; word-break: break-word; }
+  .ch__n { display: block; margin-top: 0.4rem; font-size: 0.9375rem; color: var(--ink-dim); }
+
+  .cal { min-height: 200px; border: 1px solid var(--border); background: var(--panel); }
+  .cal--off { padding: clamp(1.5rem, 3vw, 2.25rem); border-left: 3px solid var(--accent); }
+  .cal__title { margin: 0; font-family: var(--font-display); font-size: 1.35rem; }
+  .cal__body { margin: 0.6rem 0 0; color: var(--ink-dim); }
+  .cal__dev {
+    margin: 1.25rem 0 0;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--border);
+    font-size: 0.9375rem;
+    color: var(--ink-dim);
+  }
+  .cal__dev code { background: var(--paper-2); padding: 0.1rem 0.35rem; font-size: 0.9em; }
+
+  .form-wrap { display: grid; gap: clamp(2rem, 5vw, 4rem); }
+  @media (min-width: 940px) { .form-wrap { grid-template-columns: 1fr 1.3fr; } }
+
+  .assure { margin-top: 2.5rem; border-top: 1px solid var(--border); padding-top: 1.5rem; max-width: 34rem; }
+  .assure p { margin: 0 0 0.75rem; font-size: 0.875rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-faint); }
+  .assure strong { font-weight: 500; }
+  .assure ol { margin: 0; padding-left: 1.15rem; }
+  .assure li { margin-bottom: 0.6rem; color: var(--ink-dim); font-size: 0.9875rem; }
+</style>

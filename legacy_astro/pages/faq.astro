@@ -1,0 +1,48 @@
+---
+import Base from "../layouts/Base.astro";
+import Cta from "../components/Cta.astro";
+import FaqList from "../components/FaqList.astro";
+import { FAQ_GROUPS, ALL_FAQS } from "../data/faqs.js";
+---
+
+<Base
+  title="Frequently Asked Questions | Kool Konsulting Nagpur"
+  description="Costs, timelines, ownership, guarantees and how we work. Straight answers on pricing, local SEO timelines, AI safeguards and what happens if you leave."
+  path="/faq"
+  ogSlug="faq"
+  breadcrumbs={[{ name: "FAQ", href: "/faq" }]}
+  schema={[
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      mainEntity: ALL_FAQS.map((f) => ({
+        "@type": "Question",
+        name: f.q,
+        acceptedAnswer: { "@type": "Answer", text: f.a },
+      })),
+    },
+  ]}
+>
+  <section class="section-sm">
+    <div class="wrap">
+      <p class="label label-accent">FAQ</p>
+      <h1 class="t-hero" style="max-width:14ch;margin-top:1rem;">Questions, answered plainly.</h1>
+      <p class="t-lede" style="margin-top:1.35rem;max-width:48ch;">
+        Including the ones with answers you may not want — what we cannot guarantee,
+        and when we are the wrong firm.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap" style="max-width:62rem;">
+      {FAQ_GROUPS.map((g, i) => (
+        <div style={i > 0 ? "margin-top:clamp(3rem,5vw,4.5rem);" : ""}>
+          <FaqList items={g.items} heading={g.group} />
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <Cta heading="Still have a question?" body="Ask it on a free 30-minute call, or send it over on WhatsApp. You will get an answer either way, whether or not it leads to work." />
+</Base>

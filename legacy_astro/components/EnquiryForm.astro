@@ -1,0 +1,236 @@
+---
+import { SITE, whatsappHref } from "../data/site.js";
+import { SERVICES } from "../data/services.js";
+
+const { preselect = "" } = Astro.props;
+---
+
+<form
+  name="enquiry"
+  method="POST"
+  action="/api/enquiry"
+  id="enquiryForm"
+  novalidate
+>
+  <!-- Tells the endpoint which form this is. -->
+  <input type="hidden" name="form-name" value="enquiry" />
+  <!-- Honeypot: hidden from people, filled by bots. -->
+  <p class="hp" aria-hidden="true">
+    <label>Do not fill this in <input name="company-website" tabindex="-1" autocomplete="off" /></label>
+  </p>
+  <!-- Time-to-submit check for rate limiting; set by script, read on submit. -->
+  <input type="hidden" name="render-time" id="renderTime" value="" />
+
+  <div class="two">
+    <label class="field">
+      <span class="label">Name <span aria-hidden="true" style="color:var(--accent)">*</span></span>
+      <input class="input" type="text" name="name" required autocomplete="name" placeholder="Your full name" />
+    </label>
+
+    <label class="field">
+      <span class="label">Email <span aria-hidden="true" style="color:var(--accent)">*</span></span>
+      <input class="input" type="email" name="email" required autocomplete="email" placeholder="you@business.com" />
+    </label>
+  </div>
+
+  <div class="two">
+    <label class="field">
+      <span class="label">Phone</span>
+      <input
+        class="input"
+        type="tel"
+        name="phone"
+        autocomplete="tel"
+        value="+91 "
+        inputmode="tel"
+        placeholder="+91 98765 43210"
+      />
+    </label>
+
+    <label class="field">
+      <span class="label">Business name</span>
+      <input class="input" type="text" name="business" autocomplete="organization" placeholder="Your business" />
+    </label>
+  </div>
+
+  <div class="two">
+    <label class="field">
+      <span class="label">Service of interest</span>
+      <select class="input" name="service">
+        <option value="">Not sure yet</option>
+        {SERVICES.filter((s) => s.tier === "core").map((s) => (
+          <option value={s.name} selected={preselect === s.slug}>{s.name}</option>
+        ))}
+      </select>
+    </label>
+
+    <label class="field">
+      <span class="label">How soon?</span>
+      <select class="input" name="timeline">
+        <option value="Now">Now</option>
+        <option value="1-3 months">1–3 months</option>
+        <option value="Just researching">Just researching</option>
+      </select>
+    </label>
+  </div>
+
+  <label class="field">
+    <span class="label">What are you trying to fix? <span aria-hidden="true" style="color:var(--accent)">*</span></span>
+    <textarea
+      class="input"
+      name="problem"
+      required
+      placeholder="A few lines on the business and what is not working."
+    ></textarea>
+  </label>
+
+  <div id="formMsg" role="status" aria-live="polite"></div>
+
+  <div class="actions">
+    <button type="submit" class="btn" data-track="form-submit">Send enquiry</button>
+    <p class="form-note" style="margin:0;max-width:24rem;">
+      We reply within {SITE.responseWindow}. Your details are used only to answer
+      this enquiry — see our <a href="/privacy" style="text-decoration:underline;">privacy notice</a>.
+    </p>
+  </div>
+</form>
+
+<style>
+  .two { display: grid; gap: 0 1.5rem; grid-template-columns: 1fr; }
+  @media (min-width: 620px) { .two { grid-template-columns: 1fr 1fr; } }
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1.25rem;
+    margin-top: 0.5rem;
+  }
+  .field.is-bad .input { border-color: #a3261a; }
+  .field-error { display: block; margin-top: 0.4rem; font-size: 0.875rem; color: #7d1d14; }
+</style>
+
+<script is:inline define:vars={{ whatsappHref, phone: SITE.phoneDisplay }}>
+  (function () {
+    const form = document.getElementById("enquiryForm");
+    if (!form) return;
+
+    const msg = document.getElementById("formMsg");
+    const renderedAt = Date.now();
+    const rt = document.getElementById("renderTime");
+    if (rt) rt.value = String(renderedAt);
+
+    const setError = (field, text) => {
+      const wrap = field.closest(".field");
+      if (!wrap) return;
+      wrap.classList.add("is-bad");
+      let e = wrap.querySelector(".field-error");
+      if (!e) {
+        e = document.createElement("span");
+        e.className = "field-error";
+        wrap.appendChild(e);
+      }
+      e.textContent = text;
+      field.setAttribute("aria-invalid", "true");
+    };
+
+    const clearError = (field) => {
+      const wrap = field.closest(".field");
+      if (!wrap) return;
+      wrap.classList.remove("is-bad");
+      const e = wrap.querySelector(".field-error");
+      if (e) e.remove();
+      field.removeAttribute("aria-invalid");
+    };
+
+    form.addEventListener("input", (e) => {
+      if (e.target.matches(".input")) clearError(e.target);
+    });
+
+    const validate = () => {
+      let firstBad = null;
+      const checks = [
+        ["name", (v) => v.trim().length > 1, "Please enter your name."],
+        ["email", (v) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim()), "Please enter a valid email address."],
+        ["problem", (v) => v.trim().length > 9, "Please tell us a little about the problem."],
+      ];
+      for (const [nm, ok, text] of checks) {
+        const field = form.elements[nm];
+        if (!field) continue;
+        if (!ok(field.value)) {
+          setError(field, text);
+          if (!firstBad) firstBad = field;
+        } else {
+          clearError(field);
+        }
+      }
+      return firstBad;
+    };
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      msg.innerHTML = "";
+
+      const bad = validate();
+      if (bad) {
+        bad.focus();
+        return;
+      }
+
+      // Rate limiting, no CAPTCHA:
+      // 1. anything submitted under 3s after render is automated
+      // 2. one submission per 60s from this browser
+      if (Date.now() - renderedAt < 3000) {
+        msg.innerHTML = '<p class="form-error">That was submitted unusually fast. Please try once more.</p>';
+        return;
+      }
+      try {
+        const last = Number(localStorage.getItem("kk_last_submit") || 0);
+        if (Date.now() - last < 60000) {
+          msg.innerHTML =
+            '<p class="form-error">You have just sent an enquiry. Please wait a minute before sending another, or message us on WhatsApp at ' +
+            phone + ".</p>";
+          return;
+        }
+      } catch (_) {}
+
+      const btn = form.querySelector('button[type="submit"]');
+      const original = btn.textContent;
+      btn.disabled = true;
+      btn.textContent = "Sending…";
+
+      try {
+        const res = await fetch("/api/enquiry", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+            Accept: "application/json",
+          },
+          body: new URLSearchParams(new FormData(form)).toString(),
+        });
+        const data = await res.json().catch(() => ({}));
+
+        // The endpoint returns a specific, human-readable reason on failure —
+        // show that rather than a generic message.
+        if (!res.ok || !data.ok) {
+          throw new Error(data.error || "Bad status " + res.status);
+        }
+
+        try { localStorage.setItem("kk_last_submit", String(Date.now())); } catch (_) {}
+        if (window.plausible) window.plausible("form-submit");
+
+        form.innerHTML =
+          '<div class="form-ok"><p style="margin:0 0 0.5rem;font-weight:500;">Thank you — your enquiry has reached us.</p>' +
+          "<p style=\"margin:0;\">You will get an acknowledgement by email shortly, and a reply from Kulvir within one working day. " +
+          'If it is urgent, message <a href="' + whatsappHref + '" style="text-decoration:underline;">' + phone + ' on WhatsApp</a>.</p></div>';
+        form.scrollIntoView({ behavior: "smooth", block: "center" });
+      } catch (err) {
+        btn.disabled = false;
+        btn.textContent = original;
+        msg.innerHTML =
+          '<p class="form-error"><strong>That did not send.</strong> ' +
+          (err && err.message ? String(err.message) : "Something went wrong at our end — nothing was lost at yours.") +
+          ' You can also message us on WhatsApp at <a href="' + whatsappHref + '" style="text-decoration:underline;">' + phone + "</a>.</p>";
+      }
+    });
+  })();
+</script>

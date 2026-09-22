@@ -1,0 +1,42 @@
+---
+import { SITE, whatsappHref } from "../data/site.js";
+const {
+  heading = "Ready to talk about your business?",
+  body = "Tell us what is not working. You will get a straight answer on whether we can help, and what it would cost.",
+  invert = false,
+} = Astro.props;
+---
+
+<section class:list={["section", { invert }]}>
+  <div class="wrap">
+    <div class="cta">
+      <div>
+        <h2 class="t-display" style="max-width:20ch;">{heading}</h2>
+        <p class="t-lede" style="margin:1.25rem 0 0;max-width:40ch;">{body}</p>
+      </div>
+      <div class="cta__actions">
+        <a href="/contact" class="btn" data-track="cta-contact">Book a free 30-minute call</a>
+        <a
+          href={whatsappHref}
+          class="btn btn-ghost"
+          target="_blank"
+          rel="noopener"
+          data-track="whatsapp-click">WhatsApp {SITE.phoneDisplay}</a
+        >
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .cta {
+    display: grid;
+    gap: 2rem;
+    align-items: end;
+    border-top: 1px solid var(--border);
+    padding-top: clamp(2rem, 4vw, 3rem);
+  }
+  .invert .cta { border-color: rgba(20, 19, 15, 0.22); }
+  @media (min-width: 860px) { .cta { grid-template-columns: 1.3fr 1fr; } }
+  .cta__actions { display: flex; flex-wrap: wrap; gap: 0.85rem; }
+</style>

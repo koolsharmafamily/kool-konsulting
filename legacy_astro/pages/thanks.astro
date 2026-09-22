@@ -1,0 +1,66 @@
+---
+import Base from "../layouts/Base.astro";
+import { SITE, whatsappHref } from "../data/site.js";
+
+// Non-JS fallback target for both forms. Excluded from the sitemap and noindexed.
+---
+
+<Base
+  title="Thank you — your enquiry has reached us | Kool Konsulting"
+  description="Your enquiry has been received by Kool Konsulting. You will get an emailed acknowledgement shortly and a personal reply from Kulvir within one working day."
+  path="/thanks"
+  ogSlug="contact"
+  noIndex={true}
+>
+  <section class="section">
+    <div class="wrap" style="max-width:44rem;">
+      <p class="label label-accent">Received</p>
+      <h1 class="t-display" style="margin-top:1rem;">Thank you — that has reached us.</h1>
+
+      <div class="prose" style="margin-top:1.75rem;">
+        <p>
+          You will get an automatic acknowledgement by email in the next few minutes.
+          If it is not there, check the spam folder and mark it as safe so our reply
+          reaches you.
+        </p>
+        <p>
+          Kulvir reads every enquiry personally and replies within
+          {" "}{SITE.responseWindow}. If it turns out we are not the right firm for
+          the job, you will get that answer too, along with a suggestion of who is.
+        </p>
+      </div>
+
+      <div class="urgent">
+        <p class="label" style="margin:0 0 0.75rem;">In a hurry?</p>
+        <p style="margin:0 0 1.25rem;color:var(--ink-dim);">
+          WhatsApp reaches us fastest — usually within the hour during working hours.
+        </p>
+        <div style="display:flex;flex-wrap:wrap;gap:0.75rem;">
+          <a href={whatsappHref} target="_blank" rel="noopener" data-track="whatsapp-click" class="btn btn-wa">
+            WhatsApp {SITE.phoneDisplay}
+          </a>
+          <a href="/" class="btn btn-ghost">Back to the site</a>
+        </div>
+      </div>
+
+      <div style="margin-top:2.5rem;">
+        <p class="label" style="margin-bottom:1rem;">While you wait</p>
+        <ul class="links">
+          <li><a href="/services">The five things we do, with prices</a></li>
+          <li><a href="/pricing">What each engagement includes</a></li>
+          <li><a href="/faq">Questions we get asked most</a></li>
+          <li><a href="/scorecard">Free Google Business Profile scorecard</a></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .urgent { margin-top: 2.5rem; border-left: 3px solid var(--accent); background: var(--accent-soft); padding: 1.5rem 1.75rem; }
+  .links { list-style: none; margin: 0; padding: 0; }
+  .links li { border-top: 1px solid var(--border); }
+  .links li:last-child { border-bottom: 1px solid var(--border); }
+  .links a { display: block; padding: 0.9rem 0; min-height: 44px; font-family: var(--font-display); font-size: 1.25rem; }
+  .links a:hover { color: var(--accent); }
+</style>

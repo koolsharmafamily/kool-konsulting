@@ -1,0 +1,165 @@
+---
+import "../styles/global.css";
+import { SITE } from "../data/site.js";
+import Nav from "../components/Nav.astro";
+import Footer from "../components/Footer.astro";
+import StickyCta from "../components/StickyCta.astro";
+
+const {
+  title,
+  description,
+  path,
+  ogSlug,
+  ogImageTitle,
+  breadcrumbs = [],
+  schema = [],
+  noIndex = false,
+} = Astro.props;
+
+const canonical = new URL(path, SITE.origin).href;
+
+// Build-time 1200x630 PNG from /src/pages/og/[...route].ts — every page gets a
+// card showing its own title. Key must match a key in that file's `pages` map.
+const ogKey = ogSlug ?? (path === "/" ? "index" : path.replace(/^\/|\/$/g, ""));
+const ogImage = new URL(`/og/${ogKey}.png`, SITE.origin).href;
+
+const breadcrumbSchema =
+  breadcrumbs.length > 0
+    ? {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { name: "Home", href: "/" },
+          ...breadcrumbs,
+        ].map((b, i) => ({
+          "@type": "ListItem",
+          position: i + 1,
+          name: b.name,
+          item: new URL(b.href, SITE.origin).href,
+        })),
+      }
+    : null;
+
+const hasAddress = Boolean(SITE.address.street && SITE.address.postalCode);
+
+const organisation = {
+  "@context": "https://schema.org",
+  "@type": ["Organization", "ProfessionalService"],
+  "@id": `${SITE.origin}/#organisation`,
+  name: SITE.name,
+  legalName: SITE.legalName,
+  url: SITE.origin,
+  description:
+    "Founder-led consulting firm in Nagpur combining strategy with hands-on execution across local visibility, business planning, automation, software and marketing.",
+  email: SITE.email,
+  telephone: SITE.phoneE164,
+  priceRange: SITE.priceRange,
+  areaServed: [
+    { "@type": "City", name: "Nagpur" },
+    { "@type": "State", name: "Maharashtra" },
+  ],
+  address: {
+    "@type": "PostalAddress",
+    ...(SITE.address.street ? { streetAddress: SITE.address.street } : {}),
+    addressLocality: SITE.address.locality,
+    addressRegion: SITE.address.region,
+    ...(SITE.address.postalCode ? { postalCode: SITE.address.postalCode } : {}),
+    addressCountry: SITE.address.country,
+  },
+  founder: { "@type": "Person", name: SITE.founder.name },
+  ...(SITE.sameAs.length ? { sameAs: SITE.sameAs } : {}),
+};
+
+// LocalBusiness requires a real postal address and geo to be valid. Emitting it
+// with placeholder values would fail the Rich Results Test, so it only appears
+// once the address is filled in in site.js.
+const localBusiness = hasAddress
+  ? {
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      "@id": `${SITE.origin}/#localbusiness`,
+      name: SITE.name,
+      url: SITE.origin,
+      email: SITE.email,
+      telephone: SITE.phoneE164,
+      priceRange: SITE.priceRange,
+      openingHours: SITE.openingHours,
+      address: {
+        "@type": "PostalAddress",
+        streetAddress: SITE.address.street,
+        addressLocality: SITE.address.locality,
+        addressRegion: SITE.address.region,
+        postalCode: SITE.address.postalCode,
+        addressCountry: SITE.address.country,
+      },
+      geo: {
+        "@type": "GeoCoordinates",
+        latitude: SITE.geo.latitude,
+        longitude: SITE.geo.longitude,
+      },
+      ...(SITE.sameAs.length ? { sameAs: SITE.sameAs } : {}),
+    }
+  : null;
+
+const jsonLd = [organisation, localBusiness, breadcrumbSchema, ...schema].filter(Boolean);
+---
+
+<!doctype html>
+<html lang="en-IN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {noIndex && <meta name="robots" content="noindex, follow" />}
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="theme-color" content="#0d0c0a" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={SITE.name} />
+    <meta property="og:locale" content="en_IN" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={ogImageTitle ?? title} />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500&display=swap"
+    />
+
+    {SITE.plausible && (
+      <script
+        defer
+        data-domain={new URL(SITE.origin).hostname}
+        src="https://plausible.io/js/script.outbound-links.tagged-events.js"
+      ></script>
+    )}
+
+    {jsonLd.map((block) => (
+      <script type="application/ld+json" set:html={JSON.stringify(block)} />
+    ))}
+  </head>
+
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <Nav />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer />
+    <StickyCta />
+  </body>
+</html>
