@@ -1,202 +1,239 @@
 import React from "react";
 import Link from "next/link";
-import { 
-  GraduationCap, 
-  Briefcase, 
-  Code2, 
-  LineChart,
-  ArrowRight,
-  MapPin,
-  CheckCircle2,
-  ShieldCheck
-} from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import ScrollReveal from "@/components/ScrollReveal";
-
-export const metadata = {
-  title: "About Kulvir Sharma | Kool Konsulting",
-  description:
-    "Founder of Kool Konsulting. Tech Architect, University of Melbourne Alumni, bringing Tier-1 corporate systems to MSMEs in Central India.",
-};
-
-const TIMELINE = [
-  {
-    year: "2018 - 2020",
-    title: "University of Melbourne",
-    desc: "Master of Management (Finance) & Bachelor of Commerce. Trained in rigorous financial modeling and Tier-1 corporate strategy in Australia.",
-    icon: GraduationCap
-  },
-  {
-    year: "2020 - 2022",
-    title: "Corporate Advisory & M&A",
-    desc: "Built complex financial models, handled mergers, and analyzed business bottlenecks for large enterprises, seeing exactly where cash gets trapped in operations.",
-    icon: LineChart
-  },
-  {
-    year: "2022 - Present",
-    title: "Full-Stack Software Engineering",
-    desc: "Mastered modern cloud architecture, AI APIs, React/Next.js, and backend automation to execute the strategies practically.",
-    icon: Code2
-  },
-  {
-    year: "Today",
-    title: "Kool Konsulting Nagpur",
-    desc: "Combining financial discipline with custom engineering to help MSMEs in Central India grow without scaling their manual headcount.",
-    icon: Briefcase
-  }
-];
-
-const PRINCIPLES = [
-  {
-    title: "We only sell ROI.",
-    desc: "If we can't save you more money in time than what you pay us, we won't take the project. Simple as that."
-  },
-  {
-    title: "You own the system.",
-    desc: "No sneaky 'per seat' monthly licenses. We charge a one-time build fee, and the intellectual property is 100% yours forever."
-  },
-  {
-    title: "No PowerPoint consultants.",
-    desc: "We don't hand you a deck of 'recommendations' and walk away. We build the actual code, deploy it, and train your staff."
-  }
-];
 
 export default function AboutPage() {
   return (
-    <div className="flex flex-col w-full py-12">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-        
-        {/* HERO SECTION */}
-        <section className="pt-12 pb-24 border-b border-white/5">
-          <ScrollReveal>
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-12 items-center">
+    <div className="flex flex-col w-full bg-black min-h-screen">
+      
+      {/* 1. Header & Bio */}
+      <section className="pt-24 pb-16 md:pt-32 md:pb-24 border-b border-white/15">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-8 items-center">
+            
+            <div className="lg:col-span-7 space-y-8">
+              <div className="text-[10px] font-mono text-neutral-400 uppercase tracking-widest border border-white/15 px-3 py-1 bg-white/5 inline-block">
+                Founder & Tech Architect
+              </div>
               
-              {/* Photo */}
-              <div className="relative">
-                <div className="absolute inset-0 bg-amber-500/20 blur-[100px] rounded-full pointer-events-none" />
-                <div className="relative rounded-3xl overflow-hidden border border-white/10 shadow-2xl bg-surface aspect-[4/5] sm:aspect-square lg:aspect-[3/4] max-w-md mx-auto lg:mx-0">
-                  <img
-                    src="/kulvir-sharma.webp"
-                    alt="Kulvir Sharma - Founder"
-                    className="object-cover object-top w-full h-full grayscale hover:grayscale-0 transition-all duration-700"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-obsidian via-transparent to-transparent opacity-60" />
-                  <div className="absolute bottom-6 left-6 right-6">
-                    <div className="flex items-center gap-2 text-white/80 text-sm font-mono bg-obsidian/40 backdrop-blur-md w-fit px-3 py-1.5 rounded-lg border border-white/10">
-                      <MapPin className="w-4 h-4 text-amber-500" />
-                      Nagpur, Maharashtra
-                    </div>
-                  </div>
-                </div>
+              <h1 className="text-4xl sm:text-5xl md:text-7xl font-sans font-bold text-white tracking-tighter leading-[1.05]">
+                Bridging Finance, Strategy & Software.
+              </h1>
+              
+              <div className="space-y-6 text-sm md:text-base font-mono text-neutral-400 leading-relaxed max-w-2xl">
+                <p>
+                  Most software agencies in India fail because of a communication gap: the business owner talks to a non-technical sales rep, who translates it to a project manager, who outsources it to a junior coder who doesn't know what gross profit margin means.
+                </p>
+                <p>
+                  At Kool Konsulting, we bridge finance, strategy, and modern software engineering. We understand balance sheets, working capital cycles, and Indian GST rules as deeply as we understand Python, WhatsApp APIs, and Next.js.
+                </p>
               </div>
 
-              {/* Bio Content */}
-              <div className="space-y-6">
-                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-md bg-amber-950/30 border border-amber-500/20 text-amber-400 text-xs font-mono uppercase tracking-wider">
-                  Tech Architect & Founder
-                </div>
-                
-                <h1 className="text-4xl sm:text-5xl font-heading font-extrabold text-white tracking-tight">
-                  Kulvir Sharma
-                </h1>
-                
-                <div className="space-y-4 text-slate-300 text-lg leading-relaxed">
-                  <p>
-                    I built Kool Konsulting because I saw a massive gap in how business is done in Central India.
-                  </p>
-                  <p>
-                    Manufacturers, distributors, and clinic owners in Nagpur are running ₹5 Cr+ businesses using systems from 2005. They are buried in WhatsApp messages, manual Tally data entry, and lost physical muster sheets.
-                  </p>
-                  <p>
-                    Most "IT agencies" just build brochure websites. Traditional consultants just make slideshows.
-                  </p>
-                  <p className="text-white font-medium border-l-2 border-amber-500/50 pl-4">
-                    I bring Tier-1 corporate financial rigor and modern full-stack software engineering directly into your operations, building custom automation that buys back your time.
-                  </p>
-                </div>
+              <div className="flex flex-col sm:flex-row items-center gap-4 pt-4 w-full sm:w-auto">
+                <Link
+                  href="/contact"
+                  className="w-full sm:w-auto brutalist-button px-8 py-4 text-sm flex items-center justify-center"
+                >
+                  Book a 20-Min Call with Kulvir
+                </Link>
 
-                <div className="pt-6">
-                  <Link
-                    href="/contact"
-                    className="inline-flex items-center gap-2 px-8 py-3.5 rounded-lg text-sm font-heading font-bold text-obsidian bg-amber-500 hover:bg-amber-400 transition-colors shadow-[0_0_20px_rgba(245,158,11,0.25)]"
-                  >
-                    <span>Book a Call with Kulvir</span>
-                    <ArrowRight className="w-4 h-4" />
-                  </Link>
-                </div>
+                <a
+                  href="https://wa.me/918888821351"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full sm:w-auto brutalist-button-outline px-8 py-4 text-sm flex items-center justify-center gap-2"
+                >
+                  <span>WhatsApp (+91 88888 21351)</span>
+                </a>
               </div>
-
             </div>
-          </ScrollReveal>
-        </section>
 
-        {/* TIMELINE SECTION */}
-        <section className="py-24 border-b border-white/5">
-          <ScrollReveal>
-            <div className="text-center max-w-2xl mx-auto mb-16">
-              <h2 className="text-3xl font-heading font-extrabold text-white">
-                The Architecture of the Firm
-              </h2>
-              <p className="mt-4 text-slate-400">
-                A rare combination of rigorous financial training and elite software engineering.
+            <div className="lg:col-span-5 flex justify-center lg:justify-end">
+              <div className="w-full max-w-sm border border-white/15 bg-[#050505] p-4">
+                <img
+                  src="/kulvir-sharma.webp"
+                  alt="Kulvir Sharma - Tech Architect"
+                  className="w-full h-auto grayscale filter contrast-125"
+                />
+                <div className="mt-4 text-[10px] font-mono text-neutral-500 uppercase tracking-widest flex justify-between">
+                  <span>Kulvir Sharma</span>
+                  <span>Nagpur, IN</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      {/* 2. Background & Credentials */}
+      <section className="py-24 bg-[#050505] border-b border-white/15">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
+          <div className="space-y-4">
+            <h2 className="text-[10px] font-mono text-neutral-500 uppercase tracking-widest">
+              Professional Background
+            </h2>
+            <h3 className="text-3xl md:text-5xl font-sans font-bold text-white tracking-tighter">
+              Credentials & Training.
+            </h3>
+            <p className="text-sm font-mono text-neutral-400">
+              Rigorous corporate finance education combined with practical engineering.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-0 border border-white/15 bg-black">
+            
+            <div className="p-8 md:p-12 border-b md:border-r border-white/15 space-y-6">
+              <div className="flex justify-between items-start border-b border-white/10 pb-4">
+                <span className="text-[10px] font-mono text-terminal-green uppercase tracking-widest">
+                  2022 – 2026
+                </span>
+                <span className="text-[10px] font-mono text-neutral-500 uppercase tracking-widest">
+                  Education
+                </span>
+              </div>
+              <h4 className="font-sans font-bold text-2xl text-white">
+                Bachelor of Commerce (Finance & Management)
+              </h4>
+              <div className="text-sm font-mono text-neutral-300">The University of Melbourne, Australia</div>
+              <p className="text-xs font-mono text-neutral-400 leading-relaxed">
+                Trained in financial econometrics, operational capital planning, and corporate strategy at Australia's leading commerce institution.
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {TIMELINE.map((item, idx) => {
-                const Icon = item.icon;
-                return (
-                  <div key={idx} className="surface-card p-6 rounded-2xl relative overflow-hidden group">
-                    <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
-                      <Icon className="w-24 h-24 text-amber-500" />
-                    </div>
-                    
-                    <div className="flex flex-col h-full relative z-10">
-                      <div className="text-xs font-mono text-amber-500 mb-4 bg-amber-950/20 w-fit px-2 py-1 rounded border border-amber-500/10">
-                        {item.year}
-                      </div>
-                      <h3 className="text-xl font-heading font-bold text-white mb-3">
-                        {item.title}
-                      </h3>
-                      <p className="text-sm text-slate-400 leading-relaxed mt-auto">
-                        {item.desc}
-                      </p>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </ScrollReveal>
-        </section>
-
-        {/* WORKING PRINCIPLES */}
-        <section className="py-24">
-          <ScrollReveal>
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
-              <div className="lg:col-span-1">
-                <h2 className="text-3xl font-heading font-extrabold text-white sticky top-24">
-                  Our Non-Negotiable Principles.
-                </h2>
+            <div className="p-8 md:p-12 border-b border-white/15 space-y-6">
+              <div className="flex justify-between items-start border-b border-white/10 pb-4">
+                <span className="text-[10px] font-mono text-terminal-green uppercase tracking-widest">
+                  Professional Experience
+                </span>
+                <span className="text-[10px] font-mono text-neutral-500 uppercase tracking-widest">
+                  Corporate Advisory
+                </span>
               </div>
-              <div className="lg:col-span-2 space-y-6">
-                {PRINCIPLES.map((prin, idx) => (
-                  <div key={idx} className="bg-obsidian-light p-8 rounded-2xl border border-white/5 flex gap-4">
-                    <ShieldCheck className="w-6 h-6 text-amber-500 shrink-0" />
-                    <div>
-                      <h3 className="text-xl font-heading font-bold text-white mb-2">
-                        {prin.title}
-                      </h3>
-                      <p className="text-slate-400 leading-relaxed">
-                        {prin.desc}
-                      </p>
-                    </div>
-                  </div>
-                ))}
-              </div>
+              <h4 className="font-sans font-bold text-2xl text-white">
+                M&A and Corporate Advisory
+              </h4>
+              <div className="text-sm font-mono text-neutral-300">Financial Modelling & Valuations</div>
+              <p className="text-xs font-mono text-neutral-400 leading-relaxed">
+                Conducted valuations, business plans, and due-diligence data rooms for acquisitions. Knows what banks and investors look for in financial figures.
+              </p>
             </div>
-          </ScrollReveal>
-        </section>
 
-      </div>
+            <div className="p-8 md:p-12 border-b md:border-b-0 md:border-r border-white/15 space-y-6">
+              <div className="flex justify-between items-start border-b border-white/10 pb-4">
+                <span className="text-[10px] font-mono text-terminal-green uppercase tracking-widest">
+                  Education
+                </span>
+                <span className="text-[10px] font-mono text-neutral-500 uppercase tracking-widest">
+                  Systems
+                </span>
+              </div>
+              <h4 className="font-sans font-bold text-2xl text-white">
+                Digital Systems & Marketing Architecture
+              </h4>
+              <div className="text-sm font-mono text-neutral-300">SSCBS, University of Delhi</div>
+              <p className="text-xs font-mono text-neutral-400 leading-relaxed">
+                Specialized in search algorithms, local digital presence, and high-conversion client acquisition funnels.
+              </p>
+            </div>
+
+            <div className="p-8 md:p-12 space-y-6">
+              <div className="flex justify-between items-start border-b border-white/10 pb-4">
+                <span className="text-[10px] font-mono text-terminal-green uppercase tracking-widest">
+                  Current
+                </span>
+                <span className="text-[10px] font-mono text-neutral-500 uppercase tracking-widest">
+                  Operations
+                </span>
+              </div>
+              <h4 className="font-sans font-bold text-2xl text-white">
+                Founder & Tech Architect
+              </h4>
+              <div className="text-sm font-mono text-neutral-300">Kool Konsulting, Nagpur</div>
+              <p className="text-xs font-mono text-neutral-400 leading-relaxed">
+                Personally builds and deploys production AI workflows, Tally automations, and custom dashboards for Central India businesses.
+              </p>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      {/* 3. 4 Guarantees */}
+      <section className="py-24 border-b border-white/15">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
+          <div className="space-y-4">
+            <h2 className="text-[10px] font-mono text-neutral-500 uppercase tracking-widest">
+              Standard Operating Procedure
+            </h2>
+            <h3 className="text-3xl md:text-5xl font-sans font-bold text-white tracking-tighter">
+              Our 4 Promises to You.
+            </h3>
+            <p className="text-sm font-mono text-neutral-400">
+              How we protect your business, your data, and your money.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-0 border border-white/15 bg-black">
+            {[
+              {
+                title: "You Own Everything",
+                desc: "Every line of software code, database, and marketing profile belongs to you. Zero vendor lock-in.",
+              },
+              {
+                title: "Fixed Price Quotes",
+                desc: "No open-ended hourly billing or runaway costs. We define the scope, give you a fixed quote, and stick to it.",
+              },
+              {
+                title: "Fast Delivery",
+                desc: "Most automation systems and marketing setups are delivered within 10 to 14 business days.",
+              },
+              {
+                title: "Direct Access",
+                desc: "You have direct access to Kulvir via phone and WhatsApp throughout the project and afterwards.",
+              },
+            ].map((item, idx) => (
+              <div
+                key={idx}
+                className={`p-8 space-y-6 ${idx !== 3 ? 'border-b lg:border-b-0 lg:border-r border-white/15' : ''} ${idx === 0 || idx === 1 ? 'md:border-b' : ''} ${idx === 1 ? 'md:border-r-0 lg:border-r' : ''}`}
+              >
+                <div className="text-3xl font-mono text-neutral-600 font-bold">0{idx + 1}</div>
+                <h4 className="font-sans font-bold text-xl text-white">
+                  {item.title}
+                </h4>
+                <p className="text-xs font-mono text-neutral-400 leading-relaxed">
+                  {item.desc}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+      
+      {/* 4. Call to action */}
+      <section className="py-32 text-center max-w-4xl mx-auto px-4 space-y-10">
+        <h2 className="text-4xl md:text-5xl lg:text-6xl font-sans font-bold text-white tracking-tighter leading-tight">
+          Ready to Automate or Grow Your Business?
+        </h2>
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-6">
+          <Link
+            href="/contact"
+            className="w-full sm:w-auto brutalist-button px-10 py-4 text-sm"
+          >
+            Deploy Systems
+          </Link>
+          <a
+            href="https://wa.me/918888821351"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-full sm:w-auto brutalist-button-outline px-10 py-4 text-sm"
+          >
+            WhatsApp Us (+91 88888 21351)
+          </a>
+        </div>
+      </section>
+
     </div>
   );
 }

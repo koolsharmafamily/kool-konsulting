@@ -1,130 +1,128 @@
-import React from "react";
+import React, { Suspense } from "react";
 import ContactForm from "@/components/contact/ContactForm";
-import { MessageSquare, Mail, MapPin, Clock, ArrowRight } from "lucide-react";
-import ScrollReveal from "@/components/ScrollReveal";
+import { MessageSquare, Phone, Mail, MapPin, Clock } from "lucide-react";
 
 export const metadata = {
-  title: "Book a Discovery Call | Kool Konsulting",
+  title: "Contact & Free AI Audit | Kool Konsulting Nagpur",
   description:
-    "Schedule a free 30-minute operational audit with Kulvir Sharma to identify bottlenecks and automation opportunities in your business.",
+    "Ready to get your time back? Submit your operational bottleneck or skip the form and WhatsApp us directly at +91 88888 21351.",
 };
 
 export default function ContactPage() {
   return (
-    <div className="flex flex-col w-full py-12">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-        
-        {/* Header */}
-        <section className="pt-12 pb-16 text-center max-w-3xl mx-auto">
-          <ScrollReveal>
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-heading font-extrabold text-white tracking-tight">
-              Let's map your <span className="text-amber-500">bottlenecks.</span>
+    <div className="flex flex-col w-full bg-black min-h-screen">
+      
+      {/* Header */}
+      <section className="pt-24 pb-16 md:pt-32 md:pb-24 border-b border-white/15">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-3xl space-y-6">
+            <div className="text-[10px] font-mono text-neutral-400 uppercase tracking-widest border border-white/15 px-3 py-1 bg-white/5 inline-block">
+              Intake & Audit
+            </div>
+            <h1 className="text-4xl sm:text-5xl md:text-7xl font-sans font-bold text-white tracking-tighter leading-tight">
+              Ready to get your time back?
             </h1>
-            <p className="mt-6 text-slate-400 text-lg">
-              Book a free 30-minute diagnostic call. We'll find the exact spots where your team is wasting time on manual work and tell you plainly if we can fix it.
+            <p className="text-lg md:text-xl text-neutral-400 leading-relaxed font-mono">
+              Tell us where your team is bleeding hours. You will receive a direct diagnosis and a working prototype architecture within 48 hours.
             </p>
-          </ScrollReveal>
-        </section>
 
-        {/* Contact Grid */}
-        <section className="pb-24">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8">
+            <div className="pt-4">
+              <a
+                href="https://wa.me/918888821351"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-3 px-8 py-4 bg-terminal-green text-black font-mono uppercase tracking-widest text-sm font-bold hover:bg-white transition-colors"
+              >
+                <MessageSquare className="w-5 h-5" />
+                <span>Skip the form. WhatsApp directly.</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Form and Contact Detail Split */}
+      <section className="py-24">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-0 border border-white/15 bg-[#050505]">
             
-            {/* Left Col: Contact Info & WhatsApp */}
-            <div className="lg:col-span-5 space-y-8">
-              <ScrollReveal direction="left">
-                {/* Primary CTA: WhatsApp */}
-                <div className="surface-card p-8 rounded-2xl border border-emerald-500/20 relative overflow-hidden group">
-                  <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/10 to-transparent pointer-events-none" />
-                  
-                  <div className="relative z-10 space-y-4">
-                    <div className="w-12 h-12 rounded-xl bg-emerald-500/20 flex items-center justify-center text-emerald-400 mb-6">
-                      <MessageSquare className="w-6 h-6" />
-                    </div>
-                    <h3 className="text-2xl font-heading font-bold text-white">
-                      Fastest Way: WhatsApp
-                    </h3>
-                    <p className="text-slate-400 text-sm">
-                      Skip the form. Message Kulvir directly. We usually reply within 15 minutes during business hours.
-                    </p>
-                    <a
-                      href="https://wa.me/918888821351?text=Hi%20Kulvir,%20I'd%20like%20to%20discuss%20an%20automation%20project%20for%20my%20business."
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="mt-4 w-full py-3.5 rounded-lg font-heading font-bold text-obsidian bg-emerald-500 hover:bg-emerald-400 transition-colors flex items-center justify-center gap-2"
-                    >
-                      <span>Message +91 88888 21351</span>
-                      <ArrowRight className="w-4 h-4" />
-                    </a>
-                  </div>
-                </div>
-
-                {/* Secondary Info */}
-                <div className="mt-8 space-y-6 px-4">
-                  <div className="flex gap-4 items-start">
-                    <div className="p-2.5 rounded-lg bg-surface border border-white/10 text-slate-400 mt-1">
-                      <Mail className="w-5 h-5" />
-                    </div>
-                    <div>
-                      <h4 className="text-white font-semibold mb-1">Email</h4>
-                      <a href="mailto:hello@koolkonsulting.com" className="text-slate-400 text-sm hover:text-amber-400 transition-colors">
-                        hello@koolkonsulting.com
-                      </a>
-                    </div>
-                  </div>
-
-                  <div className="flex gap-4 items-start">
-                    <div className="p-2.5 rounded-lg bg-surface border border-white/10 text-slate-400 mt-1">
-                      <MapPin className="w-5 h-5" />
-                    </div>
-                    <div>
-                      <h4 className="text-white font-semibold mb-1">Office (By Appointment)</h4>
-                      <p className="text-slate-400 text-sm">
-                        Nagpur, Maharashtra, India
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="flex gap-4 items-start">
-                    <div className="p-2.5 rounded-lg bg-surface border border-white/10 text-slate-400 mt-1">
-                      <Clock className="w-5 h-5" />
-                    </div>
-                    <div>
-                      <h4 className="text-white font-semibold mb-1">Response Time</h4>
-                      <p className="text-slate-400 text-sm">
-                        All inquiries are reviewed directly by the Founder within 24 hours.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </ScrollReveal>
+            {/* Ultra Minimalist Form (Brutalist style applied via ContactForm internally if possible, or we wrap it) */}
+            <div className="lg:col-span-7 p-8 md:p-12 border-b lg:border-b-0 lg:border-r border-white/15">
+              <Suspense fallback={<div className="text-neutral-500 font-mono text-sm">Loading form...</div>}>
+                <ContactForm />
+              </Suspense>
             </div>
 
-            {/* Right Col: The Form */}
-            <div className="lg:col-span-7">
-              <ScrollReveal direction="right">
-                <div className="surface-card p-6 sm:p-10 rounded-2xl relative">
-                  <div className="absolute top-0 right-0 w-64 h-64 bg-amber-500/5 blur-[80px] pointer-events-none rounded-full" />
-                  
-                  <div className="relative z-10 mb-8 border-b border-white/5 pb-6">
-                    <h3 className="text-2xl font-heading font-bold text-white mb-2">
-                      Request an Audit
-                    </h3>
-                    <p className="text-slate-400 text-sm">
-                      Fill out the details below. We'll review your current setup before the call.
-                    </p>
-                  </div>
+            {/* Direct Details & Trust Card */}
+            <div className="lg:col-span-5 p-8 md:p-12 flex flex-col justify-between">
+              <div className="space-y-8">
+                <div>
+                  <h3 className="font-sans font-bold text-2xl text-white mb-2">
+                    The Direct Architect SLA
+                  </h3>
+                  <p className="text-sm font-mono text-neutral-400 leading-relaxed">
+                    When you reach out, your message doesn’t get assigned to a call center or junior rep. Kulvir Sharma personally reads every submission and responds with architectural feasibility and budget range.
+                  </p>
+                </div>
 
-                  <div className="relative z-10">
-                    <ContactForm />
+                <div className="space-y-4 font-mono text-xs">
+                  <a
+                    href="https://wa.me/918888821351"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-between p-4 border border-white/15 bg-black hover:bg-white/5 transition-colors group"
+                  >
+                    <div className="flex items-center gap-3">
+                      <MessageSquare className="w-4 h-4 text-terminal-green" />
+                      <span className="text-neutral-400 uppercase tracking-widest">WhatsApp Hotline</span>
+                    </div>
+                    <span className="text-white font-bold group-hover:text-terminal-green transition-colors">+91 88888 21351</span>
+                  </a>
+
+                  <a
+                    href="tel:+918888821351"
+                    className="flex items-center justify-between p-4 border border-white/15 bg-black hover:bg-white/5 transition-colors group"
+                  >
+                    <div className="flex items-center gap-3">
+                      <Phone className="w-4 h-4 text-white" />
+                      <span className="text-neutral-400 uppercase tracking-widest">Direct Phone</span>
+                    </div>
+                    <span className="text-white font-bold">+91 88888 21351</span>
+                  </a>
+
+                  <a
+                    href="mailto:hello@koolkonsulting.com"
+                    className="flex items-center justify-between p-4 border border-white/15 bg-black hover:bg-white/5 transition-colors group"
+                  >
+                    <div className="flex items-center gap-3">
+                      <Mail className="w-4 h-4 text-white" />
+                      <span className="text-neutral-400 uppercase tracking-widest">Email</span>
+                    </div>
+                    <span className="text-white font-bold">hello@koolkonsulting.com</span>
+                  </a>
+
+                  <div className="flex items-center justify-between p-4 border border-white/15 bg-black">
+                    <div className="flex items-center gap-3">
+                      <MapPin className="w-4 h-4 text-white" />
+                      <span className="text-neutral-400 uppercase tracking-widest">Location</span>
+                    </div>
+                    <span className="text-white font-bold text-right max-w-[150px]">Nagpur, IN</span>
                   </div>
                 </div>
-              </ScrollReveal>
+              </div>
+
+              <div className="pt-8 mt-8 border-t border-white/15 flex items-center justify-between text-[10px] font-mono uppercase tracking-widest text-neutral-500">
+                <span className="flex items-center gap-2 text-terminal-green">
+                  <Clock className="w-3.5 h-3.5" /> Resp: &lt; 2 Hours
+                </span>
+                <span>Encrypted</span>
+              </div>
             </div>
 
           </div>
-        </section>
-      </div>
+        </div>
+      </section>
+
     </div>
   );
 }

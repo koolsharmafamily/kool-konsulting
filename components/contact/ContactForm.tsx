@@ -1,156 +1,215 @@
 "use client";
 
-import React, { useState } from "react";
-import { Send, CheckCircle2, AlertCircle } from "lucide-react";
+import React, { useState, useEffect } from "react";
+import { MessageSquare, ArrowRight } from "lucide-react";
 
 export default function ContactForm() {
-  const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
+  const [name, setName] = useState("");
+  const [serviceNeeded, setServiceNeeded] = useState(
+    "AI & Workflow Automation (WhatsApp bots, Tally sync)"
+  );
+  const [businessType, setBusinessType] = useState(
+    "Manufacturing / MIDC Industrial (Hingna / Butibori)"
+  );
+  const [bottleneck, setBottleneck] = useState("");
+  const [phone, setPhone] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const urlParams = new URLSearchParams(window.location.search);
+      const prefilledService = urlParams.get("service");
+      if (prefilledService) {
+        setServiceNeeded(decodeURIComponent(prefilledService));
+      }
+      const prefilledBottleneck = urlParams.get("bottleneck");
+      if (prefilledBottleneck) {
+        setBottleneck(decodeURIComponent(prefilledBottleneck));
+      }
+    }
+  }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setStatus("submitting");
-
-    // Simulate API call
+    setIsSubmitting(true);
     setTimeout(() => {
-      setStatus("success");
-    }, 1500);
+      setIsSubmitting(false);
+      setSubmitted(true);
+    }, 500);
   };
 
-  if (status === "success") {
+  const serviceOptions = [
+    "AI & Workflow Automation (WhatsApp bots, Tally sync)",
+    "Digital Marketing & Google Maps 3-Pack Ranking",
+    "Business Plans & Financial Modelling (Bank/Investor)",
+    "Custom Software & Multi-Godown Portals",
+    "General Consultation / Multiple Needs",
+  ];
+
+  const businessTypes = [
+    "Manufacturing / MIDC Industrial (Hingna / Butibori)",
+    "FMCG / Wholesale Trading (Wardhaman Nagar / Sitabuldi)",
+    "Real Estate / Civil Construction & Infrastructure",
+    "Healthcare / Diagnostic Clinic / Hospital",
+    "Retail Showroom / Hospitality / Restaurant",
+    "Professional Services / Other",
+  ];
+
+  if (submitted) {
     return (
-      <div className="bg-emerald-950/20 border border-emerald-500/30 rounded-xl p-8 text-center space-y-4">
-        <div className="mx-auto w-16 h-16 bg-emerald-500/20 rounded-full flex items-center justify-center">
-          <CheckCircle2 className="w-8 h-8 text-emerald-400" />
+      <div className="border border-white/15 bg-[#050505] p-8 md:p-12 space-y-8 font-mono">
+        <div className="flex items-center gap-3 text-terminal-green">
+          <div className="w-2 h-2 bg-terminal-green animate-blink"></div>
+          <span className="uppercase tracking-widest text-xs font-bold">STATUS: RECEIVED</span>
         </div>
-        <h3 className="text-xl font-heading font-bold text-white">Inquiry Received</h3>
-        <p className="text-slate-400 text-sm max-w-md mx-auto">
-          Thanks for reaching out. Kulvir will review your details and get back to you within 24 hours to schedule the diagnostic call.
-        </p>
-        <button
-          onClick={() => setStatus("idle")}
-          className="mt-4 px-6 py-2 rounded-lg text-sm font-semibold text-emerald-400 border border-emerald-500/30 hover:bg-emerald-500/10 transition-colors"
-        >
-          Send another message
-        </button>
+
+        <div className="space-y-4">
+          <h3 className="text-2xl font-sans font-bold text-white">
+            Thank you, {name || "Friend"}.
+          </h3>
+          <p className="text-sm text-neutral-400 leading-relaxed max-w-md">
+            Kulvir Sharma has received your details. He will review your operational requirements and message you directly on WhatsApp at <strong className="text-white">{phone}</strong> within 2 hours.
+          </p>
+        </div>
+
+        <div className="pt-6 flex flex-col sm:flex-row items-center gap-4">
+          <a
+            href={`https://wa.me/918888821351?text=Hi%20Kulvir,%20I%20just%20submitted%20the%20form%20for%20${encodeURIComponent(
+              name || "my business"
+            )}%20(${encodeURIComponent(serviceNeeded)}).%20Notes:%20${encodeURIComponent(
+              bottleneck || "Free consultation"
+            )}.`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-full sm:w-auto px-6 py-4 bg-terminal-green text-black uppercase tracking-widest text-xs font-bold hover:bg-white transition-colors flex items-center justify-center gap-2"
+          >
+            <MessageSquare className="w-4 h-4" />
+            <span>Chat on WhatsApp Now</span>
+          </a>
+
+          <button
+            onClick={() => setSubmitted(false)}
+            className="w-full sm:w-auto px-6 py-4 border border-white/15 text-neutral-400 uppercase tracking-widest text-xs hover:text-white transition-colors"
+          >
+            Reset Form
+          </button>
+        </div>
       </div>
     );
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-        <div className="space-y-2">
-          <label htmlFor="name" className="block text-sm font-medium text-slate-300">
-            Full Name <span className="text-amber-500">*</span>
-          </label>
-          <input
-            type="text"
-            id="name"
-            required
-            className="w-full bg-obsidian border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500 transition-colors placeholder:text-slate-600"
-            placeholder="John Doe"
-          />
-        </div>
-
-        <div className="space-y-2">
-          <label htmlFor="company" className="block text-sm font-medium text-slate-300">
-            Company Name
-          </label>
-          <input
-            type="text"
-            id="company"
-            className="w-full bg-obsidian border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500 transition-colors placeholder:text-slate-600"
-            placeholder="Acme Corp Ltd."
-          />
-        </div>
-      </div>
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-        <div className="space-y-2">
-          <label htmlFor="email" className="block text-sm font-medium text-slate-300">
-            Email Address <span className="text-amber-500">*</span>
-          </label>
-          <input
-            type="email"
-            id="email"
-            required
-            className="w-full bg-obsidian border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500 transition-colors placeholder:text-slate-600"
-            placeholder="john@example.com"
-          />
-        </div>
-
-        <div className="space-y-2">
-          <label htmlFor="phone" className="block text-sm font-medium text-slate-300">
-            WhatsApp / Phone
-          </label>
-          <input
-            type="tel"
-            id="phone"
-            className="w-full bg-obsidian border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500 transition-colors placeholder:text-slate-600"
-            placeholder="+91 98765 43210"
-          />
-        </div>
+    <form
+      onSubmit={handleSubmit}
+      className="space-y-8 font-mono"
+    >
+      <div className="border-b border-white/15 pb-6">
+        <h2 className="font-sans font-bold text-2xl text-white">
+          Direct Project Inquiry
+        </h2>
+        <p className="text-xs text-neutral-500 mt-2 uppercase tracking-widest">
+          Simple 4-question intake. Zero marketing spam.
+        </p>
       </div>
 
       <div className="space-y-2">
-        <label htmlFor="interest" className="block text-sm font-medium text-slate-300">
-          Primary Interest
+        <label htmlFor="name" className="block text-xs uppercase tracking-widest text-neutral-400">
+          1. Your Name & Business Name <span className="text-terminal-green">*</span>
+        </label>
+        <input
+          id="name"
+          type="text"
+          required
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          placeholder="e.g. Anand Agrawal, Vidarbha Agro"
+          className="w-full px-4 py-3 bg-[#050505] border border-white/15 focus:border-white focus:outline-none text-white text-sm placeholder:text-neutral-700 transition-colors"
+        />
+      </div>
+
+      <div className="space-y-2">
+        <label htmlFor="serviceNeeded" className="block text-xs uppercase tracking-widest text-neutral-400">
+          2. What Service Are You Most Interested In? <span className="text-terminal-green">*</span>
         </label>
         <select
-          id="interest"
-          className="w-full bg-obsidian border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500 transition-colors appearance-none"
-          style={{ backgroundImage: `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%2364748b' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e")`, backgroundPosition: 'right 0.5rem center', backgroundRepeat: 'no-repeat', backgroundSize: '1.5em 1.5em' }}
+          id="serviceNeeded"
+          value={serviceNeeded}
+          onChange={(e) => setServiceNeeded(e.target.value)}
+          className="w-full px-4 py-3 bg-[#050505] border border-white/15 focus:border-white focus:outline-none text-white text-sm transition-colors cursor-pointer appearance-none"
         >
-          <option value="automation">AI & Workflow Automation</option>
-          <option value="marketing">Local SEO & Marketing</option>
-          <option value="strategy">Financial & Business Plans</option>
-          <option value="software">Custom Software Development</option>
-          <option value="other">General Inquiry / Other</option>
+          {serviceOptions.map((opt, idx) => (
+            <option key={idx} value={opt} className="bg-black text-white">
+              {opt}
+            </option>
+          ))}
         </select>
       </div>
 
       <div className="space-y-2">
-        <label htmlFor="message" className="block text-sm font-medium text-slate-300">
-          Briefly describe your current bottleneck <span className="text-amber-500">*</span>
+        <label htmlFor="businessType" className="block text-xs uppercase tracking-widest text-neutral-400">
+          3. Your Industry / Business Type <span className="text-terminal-green">*</span>
+        </label>
+        <select
+          id="businessType"
+          value={businessType}
+          onChange={(e) => setBusinessType(e.target.value)}
+          className="w-full px-4 py-3 bg-[#050505] border border-white/15 focus:border-white focus:outline-none text-white text-sm transition-colors cursor-pointer appearance-none"
+        >
+          {businessTypes.map((type, idx) => (
+            <option key={idx} value={type} className="bg-black text-white">
+              {type}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      <div className="space-y-2">
+        <label htmlFor="bottleneck" className="block text-xs uppercase tracking-widest text-neutral-400">
+          4. What Is Slowing Down Your Operations? <span className="text-terminal-green">*</span>
         </label>
         <textarea
-          id="message"
+          id="bottleneck"
           required
           rows={4}
-          className="w-full bg-obsidian border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500 transition-colors placeholder:text-slate-600 resize-none"
-          placeholder="E.g. We spend 3 hours a day manually copying WhatsApp orders into Tally..."
+          value={bottleneck}
+          onChange={(e) => setBottleneck(e.target.value)}
+          placeholder="e.g. Retyping WhatsApp orders into Tally takes 3 hours a day..."
+          className="w-full px-4 py-3 bg-[#050505] border border-white/15 focus:border-white focus:outline-none text-white text-sm placeholder:text-neutral-700 transition-colors resize-none"
         />
       </div>
 
-      {status === "error" && (
-        <div className="p-4 rounded-lg bg-rose-950/30 border border-rose-500/20 flex items-start gap-3">
-          <AlertCircle className="w-5 h-5 text-rose-500 shrink-0 mt-0.5" />
-          <p className="text-sm text-rose-200">
-            Something went wrong submitting the form. Please try again or contact us directly on WhatsApp.
-          </p>
-        </div>
-      )}
+      <div className="space-y-2">
+        <label htmlFor="phone" className="block text-xs uppercase tracking-widest text-neutral-400">
+          5. WhatsApp Number <span className="text-terminal-green">*</span>
+        </label>
+        <input
+          id="phone"
+          type="tel"
+          required
+          value={phone}
+          onChange={(e) => setPhone(e.target.value)}
+          placeholder="e.g. +91 98230 XXXXX"
+          className="w-full px-4 py-3 bg-[#050505] border border-white/15 focus:border-white focus:outline-none text-white text-sm placeholder:text-neutral-700 transition-colors"
+        />
+      </div>
 
-      <button
-        type="submit"
-        disabled={status === "submitting"}
-        className="w-full py-4 rounded-lg font-heading font-bold text-obsidian bg-amber-500 hover:bg-amber-400 disabled:opacity-70 disabled:cursor-not-allowed transition-all shadow-[0_0_20px_rgba(245,158,11,0.2)] flex items-center justify-center gap-2"
-      >
-        {status === "submitting" ? (
-          <span className="flex items-center gap-2">
-            <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-obsidian" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-            </svg>
-            Submitting...
-          </span>
-        ) : (
-          <>
-            <span>Submit Request</span>
-            <Send className="w-4 h-4" />
-          </>
-        )}
-      </button>
+      <div className="pt-4 border-t border-white/15">
+        <button
+          type="submit"
+          disabled={isSubmitting}
+          className="w-full py-4 bg-white text-black hover:bg-neutral-300 font-mono uppercase tracking-widest text-sm font-bold transition-colors flex items-center justify-center gap-2 disabled:opacity-50 cursor-pointer"
+        >
+          <span>{isSubmitting ? "TRANSMITTING..." : "SUBMIT INQUIRY"}</span>
+          <ArrowRight className="w-4 h-4" />
+        </button>
+      </div>
+
+      <div className="text-center pt-2">
+        <p className="text-[10px] font-mono uppercase tracking-widest text-neutral-600">
+          Direct response guaranteed from Kulvir Sharma within 2 hours.
+        </p>
+      </div>
     </form>
   );
 }
