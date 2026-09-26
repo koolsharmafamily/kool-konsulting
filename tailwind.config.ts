@@ -12,47 +12,34 @@ const config: Config = {
     extend: {
       colors: {
         obsidian: {
-          DEFAULT: "#07080A",
-          light: "#0B0E14",
+          DEFAULT: "#000000",
+          light: "#0A0A0A",
         },
         surface: {
-          DEFAULT: "#111419",
-          hover: "#171A21",
+          DEFAULT: "#0A0A0A",
+          hover: "#111111",
         },
-        amber: {
-          400: "#FBBF24",
-          500: "#F59E0B",
-          600: "#D97706",
-        },
-        brand: {
-          purple: "#8B5CF6", // Secondary accent only
+        terminal: {
+          green: "#00FF41",
+          dim: "#008F11",
         }
       },
       fontFamily: {
-        heading: ["var(--font-space-grotesk)", "sans-serif"],
-        body: ["var(--font-inter)", "sans-serif"],
-      },
-      boxShadow: {
-        "amber-glow": "0 0 20px -5px rgba(245, 158, 11, 0.4)",
-        "amber-glow-lg": "0 0 40px -10px rgba(245, 158, 11, 0.5)",
+        sans: ["var(--font-inter)", "sans-serif"],
+        mono: ["var(--font-jetbrains)", "monospace"],
       },
       animation: {
-        "float-slow": "floatSlow 6s ease-in-out infinite",
-        "fade-in-up": "fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards",
         "ticker": "ticker 40s linear infinite",
+        "blink": "blink 1s step-end infinite",
       },
       keyframes: {
-        floatSlow: {
-          "0%, 100%": { transform: "translateY(0px)" },
-          "50%": { transform: "translateY(-10px)" },
-        },
-        fadeInUp: {
-          "0%": { opacity: "0", transform: "translateY(20px)" },
-          "100%": { opacity: "1", transform: "translateY(0)" },
-        },
         ticker: {
           "0%": { transform: "translateX(0)" },
           "100%": { transform: "translateX(-50%)" },
+        },
+        blink: {
+          "0%, 100%": { opacity: "1" },
+          "50%": { opacity: "0" },
         }
       },
     },

@@ -3,63 +3,47 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu, X, ArrowUpRight, MessageSquare } from "lucide-react";
+import { Menu, X, ArrowUpRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const NAV_LINKS = [
-  { label: "Home", href: "/" },
-  { label: "Services", href: "/services" },
-  { label: "Case Studies", href: "/work" },
-  { label: "About", href: "/about" },
+  { label: "Systems", href: "/services" },
+  { label: "Deployments", href: "/work" },
+  { label: "Architecture", href: "/about" },
 ];
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
 
   useEffect(() => {
     setIsOpen(false);
   }, [pathname]);
 
   return (
-    <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled ? "glass-nav shadow-lg" : "bg-transparent border-transparent"
-      }`}
-    >
+    <header className="fixed top-0 left-0 right-0 z-50 bg-black border-b border-white/15">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-20">
+        <div className="flex items-center justify-between h-16">
           {/* Brand Logo */}
-          <Link href="/" className="flex items-center gap-2.5 group outline-none">
-            <div className="flex items-center justify-center w-9 h-9 rounded-lg bg-surface border border-white/10 group-hover:border-amber-500/50 transition-colors">
-              <span className="font-heading font-bold text-white group-hover:text-amber-400 transition-colors">K</span>
+          <Link href="/" className="flex items-center gap-3 outline-none group">
+            <div className="w-6 h-6 bg-white flex items-center justify-center group-hover:bg-neutral-300 transition-colors">
+              <span className="font-mono font-bold text-black text-xs">KK</span>
             </div>
-            <span className="font-heading font-bold text-lg tracking-tight text-white transition-colors">
-              Kool Konsulting
+            <span className="font-sans font-medium tracking-tight text-white">
+              Kool Konsulting.
             </span>
           </Link>
 
           {/* Desktop Navigation Links */}
-          <nav className="hidden md:flex items-center gap-6">
+          <nav className="hidden md:flex items-center gap-8">
             {NAV_LINKS.map((link) => {
               const isActive = pathname === link.href;
               return (
                 <Link
                   key={link.href}
                   href={link.href}
-                  className={`text-sm font-medium transition-colors outline-none ${
-                    isActive
-                      ? "text-white"
-                      : "text-slate-400 hover:text-slate-200"
+                  className={`text-xs font-mono uppercase tracking-widest transition-colors ${
+                    isActive ? "text-white" : "text-neutral-500 hover:text-white"
                   }`}
                 >
                   {link.label}
@@ -72,25 +56,18 @@ export default function Navbar() {
           <div className="hidden md:flex items-center gap-4">
             <Link
               href="/contact"
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-semibold text-obsidian bg-amber-500 hover:bg-amber-400 transition-all outline-none"
+              className="brutalist-button text-xs px-5 py-2.5 flex items-center gap-2"
             >
-              <span>Book Discovery Call</span>
-              <ArrowUpRight className="w-4 h-4" />
+              <span>Initialize Audit</span>
+              <ArrowUpRight className="w-3.5 h-3.5" />
             </Link>
           </div>
 
           {/* Mobile Hamburger Button */}
-          <div className="flex md:hidden items-center gap-3">
-            <Link
-              href="/contact"
-              className="px-4 py-2 rounded-lg text-xs font-semibold text-obsidian bg-amber-500"
-            >
-              Book Call
-            </Link>
+          <div className="flex md:hidden items-center gap-4">
             <button
               onClick={() => setIsOpen(!isOpen)}
-              aria-label="Toggle Menu"
-              className="p-2 rounded-md text-slate-300 hover:text-white outline-none"
+              className="text-white"
             >
               {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
@@ -102,21 +79,21 @@ export default function Navbar() {
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            className="md:hidden glass-nav border-b border-white/10 overflow-hidden"
+            initial={{ height: 0 }}
+            animate={{ height: "auto" }}
+            exit={{ height: 0 }}
+            className="md:hidden bg-black border-b border-white/15 overflow-hidden"
           >
-            <div className="px-6 py-6 space-y-4">
-              <div className="flex flex-col gap-4">
+            <div className="px-6 py-6 space-y-6">
+              <div className="flex flex-col gap-6">
                 {NAV_LINKS.map((link) => {
                   const isActive = pathname === link.href;
                   return (
                     <Link
                       key={link.href}
                       href={link.href}
-                      className={`text-lg font-medium transition-colors ${
-                        isActive ? "text-amber-400" : "text-slate-300"
+                      className={`text-sm font-mono uppercase tracking-widest ${
+                        isActive ? "text-white" : "text-neutral-500"
                       }`}
                     >
                       {link.label}
@@ -124,17 +101,13 @@ export default function Navbar() {
                   );
                 })}
               </div>
-              
-              <div className="pt-6 border-t border-white/10">
-                <a
-                  href="https://wa.me/918888821351"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-full flex items-center justify-center gap-2 py-3.5 rounded-lg font-medium text-emerald-400 bg-emerald-950/40 border border-emerald-500/30"
+              <div className="pt-6 border-t border-white/15">
+                <Link
+                  href="/contact"
+                  className="w-full brutalist-button text-sm px-5 py-3 flex items-center justify-center gap-2"
                 >
-                  <MessageSquare className="w-4 h-4" />
-                  <span>WhatsApp (+91 88888 21351)</span>
-                </a>
+                  <span>Initialize Audit</span>
+                </Link>
               </div>
             </div>
           </motion.div>

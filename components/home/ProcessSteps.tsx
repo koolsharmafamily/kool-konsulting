@@ -2,76 +2,59 @@
 
 import React from "react";
 import ScrollReveal from "@/components/ScrollReveal";
-import { Search, Code2, Users } from "lucide-react";
 
 const STEPS = [
   {
-    number: "01",
-    icon: Search,
+    id: "01",
     title: "Opportunity Audit",
-    desc: "We analyze your operations on a 30-min call. We pinpoint exact areas where automation or marketing can drive immediate ROI.",
+    desc: "A 30-min deep dive. We map exact processes where manual labor is leaking revenue.",
   },
   {
-    number: "02",
-    icon: Code2,
-    title: "2-Week Pilot Build",
-    desc: "We don't build presentation decks. We build a functional, working system deployed into your actual business environment.",
+    id: "02",
+    title: "2-Week Deployment",
+    desc: "No pitch decks. We engineer and deploy a functional automation architecture into your live operations.",
   },
   {
-    number: "03",
-    icon: Users,
-    title: "Handover & Support",
-    desc: "Your team is trained. You own 100% of the code and intellectual property. We provide 60 days of priority support.",
+    id: "03",
+    title: "Handover & Hand-off",
+    desc: "You own 100% of the IP. We train your staff and provide 60 days of priority operational support.",
   },
 ];
 
 export default function ProcessSteps() {
   return (
-    <section className="py-24 bg-obsidian">
+    <section className="py-24 bg-black border-b border-white/15">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <ScrollReveal>
-          <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
-            <h2 className="text-3xl sm:text-4xl font-heading font-extrabold text-white tracking-tight">
-              How We Work
+          <div className="mb-16">
+            <h2 className="text-sm font-mono uppercase tracking-widest text-neutral-500 mb-4">
+              [ Standard Operating Procedure ]
             </h2>
-            <p className="text-slate-400 text-lg">
-              A transparent, sprint-based approach designed to deliver working systems fast.
-            </p>
+            <h3 className="text-3xl md:text-5xl font-sans font-bold text-white tracking-tighter">
+              Deployment Architecture.
+            </h3>
           </div>
         </ScrollReveal>
 
-        <div className="relative">
-          {/* Connecting Line (Desktop) */}
-          <div className="hidden md:block absolute top-12 left-[15%] right-[15%] h-[1px] bg-white/10" />
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-8">
-            {STEPS.map((step, idx) => {
-              const Icon = step.icon;
-              return (
-                <ScrollReveal key={idx} delay={idx * 0.15}>
-                  <div className="relative flex flex-col items-center text-center space-y-6 group">
-                    {/* Icon Circle */}
-                    <div className="w-24 h-24 rounded-full bg-surface border-2 border-white/10 group-hover:border-amber-500/50 flex items-center justify-center relative z-10 transition-colors shadow-lg">
-                      <Icon className="w-8 h-8 text-amber-500" />
-                      <div className="absolute -top-3 -right-3 w-8 h-8 rounded-full bg-amber-500 text-obsidian font-bold text-sm flex items-center justify-center">
-                        {step.number}
-                      </div>
-                    </div>
-                    
-                    {/* Text */}
-                    <div className="space-y-3 px-4">
-                      <h3 className="font-heading font-bold text-xl text-white">
-                        {step.title}
-                      </h3>
-                      <p className="text-sm text-slate-400 leading-relaxed">
-                        {step.desc}
-                      </p>
-                    </div>
-                  </div>
-                </ScrollReveal>
-              );
-            })}
-          </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-0 border border-white/15">
+          {STEPS.map((step, idx) => (
+            <ScrollReveal key={idx} delay={idx * 0.1}>
+              <div className={`p-8 md:p-12 h-full flex flex-col justify-between ${idx !== 2 ? 'border-b md:border-b-0 md:border-r border-white/15' : ''}`}>
+                <div className="text-3xl font-mono text-neutral-600 font-bold mb-12">
+                  {step.id}
+                </div>
+                
+                <div className="space-y-4">
+                  <h4 className="font-sans font-bold text-xl text-white">
+                    {step.title}
+                  </h4>
+                  <p className="text-sm font-mono text-neutral-400 leading-relaxed">
+                    {step.desc}
+                  </p>
+                </div>
+              </div>
+            </ScrollReveal>
+          ))}
         </div>
       </div>
     </section>
