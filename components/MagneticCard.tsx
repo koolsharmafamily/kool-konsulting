@@ -1,33 +1,40 @@
 "use client";
 
-import React from "react";
+import React, { useRef, useState } from "react";
 import { motion } from "framer-motion";
 
 interface MagneticCardProps {
   children: React.ReactNode;
   className?: string;
-  glowOnHover?: boolean;
 }
 
-export default function MagneticCard({
-  children,
-  className = "",
-  glowOnHover = true,
-}: MagneticCardProps) {
+export default function MagneticCard({ children, className = "" }: MagneticCardProps) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [position, setPosition] = useState({ x: 0, y: 0 });
+
+  const handleMouse = (e: React.MouseEvent<HTMLDivElement>) => {
+    const { clientX, clientY } = e;
+    const { height, width, left, top } = ref.current!.getBoundingClientRect();
+    const middleX = clientX - (left + width / 2);
+    const middleY = clientY - (top + height / 2);
+    
+    // Reduced the multiplier for a subtler, more professional effect
+    setPosition({ x: middleX * 0.05, y: middleY * 0.05 });
+  };
+
+  const reset = () => {
+    setPosition({ x: 0, y: 0 });
+  };
+
   return (
     <motion.div
-      whileHover={{
-        y: -6,
-        transition: { duration: 0.25, ease: "easeOut" },
-      }}
-      className={`group relative rounded-2xl bg-[#18181B] border border-white/[0.08] transition-colors duration-300 ${
-        glowOnHover
-          ? "hover:border-cyber-purple/60 hover:shadow-[0_0_30px_-5px_rgba(157,0,255,0.35)]"
-          : ""
-      } ${className}`}
+      ref={ref}
+      onMouseMove={handleMouse}
+      onMouseLeave={reset}
+      animate={{ x: position.x, y: position.y }}
+      transition={{ type: "spring", stiffness: 150, damping: 15, mass: 0.5 }}
+      className={className}
     >
-      {/* Subtle top inner highlight */}
-      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent rounded-t-2xl pointer-events-none" />
       {children}
     </motion.div>
   );

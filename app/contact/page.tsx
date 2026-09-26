@@ -1,138 +1,130 @@
-import React, { Suspense } from "react";
+import React from "react";
 import ContactForm from "@/components/contact/ContactForm";
-import { MessageSquare, Phone, Mail, MapPin, Sparkles, Clock, ShieldCheck } from "lucide-react";
+import { MessageSquare, Mail, MapPin, Clock, ArrowRight } from "lucide-react";
+import ScrollReveal from "@/components/ScrollReveal";
 
 export const metadata = {
-  title: "Contact & Free AI Audit | Kool Konsulting Nagpur",
+  title: "Book a Discovery Call | Kool Konsulting",
   description:
-    "Ready to get your time back? Submit your operational bottleneck or skip the form and WhatsApp us directly at +91 88888 21351.",
+    "Schedule a free 30-minute operational audit with Kulvir Sharma to identify bottlenecks and automation opportunities in your business.",
 };
 
 export default function ContactPage() {
   return (
-    <div className="flex flex-col w-full py-12 tech-grid-pattern">
-      <section className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-20">
-        <div className="text-center max-w-3xl mx-auto mb-12 space-y-4">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-cyber-purple/10 border border-cyber-purple/30 text-cyber-light text-xs font-mono uppercase tracking-wider">
-            <Sparkles className="w-3.5 h-3.5" />
-            Frictionless Lead Intake
-          </div>
+    <div className="flex flex-col w-full py-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+        
+        {/* Header */}
+        <section className="pt-12 pb-16 text-center max-w-3xl mx-auto">
+          <ScrollReveal>
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-heading font-extrabold text-white tracking-tight">
+              Let's map your <span className="text-amber-500">bottlenecks.</span>
+            </h1>
+            <p className="mt-6 text-slate-400 text-lg">
+              Book a free 30-minute diagnostic call. We'll find the exact spots where your team is wasting time on manual work and tell you plainly if we can fix it.
+            </p>
+          </ScrollReveal>
+        </section>
 
-          {/* Exact Required Headline */}
-          <h1 className="text-4xl sm:text-6xl font-heading font-extrabold text-white tracking-tight leading-tight">
-            Ready to get your <span className="cyber-purple-text">time back?</span>
-          </h1>
-
-          <p className="text-base sm:text-lg text-zinc-300 max-w-2xl mx-auto">
-            Tell us where your team is bleeding hours. You will receive a direct diagnosis and a working prototype architecture within 48 hours.
-          </p>
-
-          {/* Prominent Direct WhatsApp Action */}
-          <div className="pt-4 flex justify-center">
-            <a
-              href="https://wa.me/918888821351?text=Hi%20Kulvir,%20I'm%20ready%20to%20get%20my%20time%20back.%20Let's%20talk%20about%20automating%20my%20business."
-              target="_blank"
-              rel="noopener noreferrer"
-              className="light-ray-btn inline-flex items-center gap-3 px-8 py-4 rounded-2xl font-heading font-bold text-base sm:text-lg text-white bg-emerald-600 hover:bg-emerald-500 shadow-[0_0_30px_rgba(16,185,129,0.5)] hover:shadow-[0_0_45px_rgba(16,185,129,0.8)] transition-all transform hover:scale-[1.02] active:scale-[0.98]"
-            >
-              <MessageSquare className="w-6 h-6 text-white" />
-              <span>Skip the form. WhatsApp us directly.</span>
-            </a>
-          </div>
-        </div>
-
-        {/* Form and Contact Detail Split Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 max-w-6xl mx-auto items-start">
-          {/* Ultra Minimalist Form */}
-          <div className="lg:col-span-7">
-            <Suspense fallback={<div className="text-zinc-500 font-mono text-sm p-8">Loading form...</div>}>
-              <ContactForm />
-            </Suspense>
-          </div>
-
-          {/* Direct Details & Trust Card */}
-          <div className="lg:col-span-5 space-y-6">
-            <div className="rounded-2xl bg-[#141416] border border-white/10 p-6 sm:p-8 space-y-6 shadow-[0_0_40px_-10px_rgba(0,0,0,0.5)]">
-              <h3 className="font-heading font-bold text-xl text-white flex items-center gap-2">
-                <ShieldCheck className="w-5 h-5 text-cyber-purple" />
-                The Direct Architect SLA
-              </h3>
-
-              <p className="text-xs sm:text-sm text-zinc-400 leading-relaxed">
-                When you reach out, your message doesn’t get assigned to a call center or junior rep. Kulvir Sharma personally reads every submission and responds with architectural feasibility and budget range.
-              </p>
-
-              <div className="space-y-4 pt-2 font-mono text-xs">
-                <a
-                  href="https://wa.me/918888821351"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-3 p-3.5 rounded-xl bg-[#18181B] border border-white/5 hover:border-emerald-500/40 transition-colors group"
-                >
-                  <div className="p-2 rounded-lg bg-emerald-950/60 text-emerald-400 border border-emerald-500/30">
-                    <MessageSquare className="w-4 h-4" />
-                  </div>
-                  <div>
-                    <span className="text-zinc-500 block text-[10px]">WhatsApp Hotline</span>
-                    <span className="text-white group-hover:text-emerald-400 font-bold">
-                      +91 88888 21351
-                    </span>
-                  </div>
-                </a>
-
-                <a
-                  href="tel:+918888821351"
-                  className="flex items-center gap-3 p-3.5 rounded-xl bg-[#18181B] border border-white/5 hover:border-white/20 transition-colors group"
-                >
-                  <div className="p-2 rounded-lg bg-[#212126] text-zinc-300 border border-white/10">
-                    <Phone className="w-4 h-4" />
-                  </div>
-                  <div>
-                    <span className="text-zinc-500 block text-[10px]">Direct Phone Call</span>
-                    <span className="text-white group-hover:text-cyber-light font-bold">
-                      +91 88888 21351
-                    </span>
-                  </div>
-                </a>
-
-                <a
-                  href="mailto:hello@koolkonsulting.com"
-                  className="flex items-center gap-3 p-3.5 rounded-xl bg-[#18181B] border border-white/5 hover:border-cyber-purple/40 transition-colors group"
-                >
-                  <div className="p-2 rounded-lg bg-cyber-purple/10 text-cyber-purple border border-cyber-purple/30">
-                    <Mail className="w-4 h-4" />
-                  </div>
-                  <div>
-                    <span className="text-zinc-500 block text-[10px]">Confidential Email</span>
-                    <span className="text-white group-hover:text-cyber-light font-bold">
-                      hello@koolkonsulting.com
-                    </span>
-                  </div>
-                </a>
-
-                <div className="flex items-center gap-3 p-3.5 rounded-xl bg-[#18181B] border border-white/5">
-                  <div className="p-2 rounded-lg bg-[#212126] text-zinc-300 border border-white/10">
-                    <MapPin className="w-4 h-4" />
-                  </div>
-                  <div>
-                    <span className="text-zinc-500 block text-[10px]">Physical Operations</span>
-                    <span className="text-white font-bold">
-                      Nagpur, Maharashtra (MIDC & Citywide)
-                    </span>
+        {/* Contact Grid */}
+        <section className="pb-24">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8">
+            
+            {/* Left Col: Contact Info & WhatsApp */}
+            <div className="lg:col-span-5 space-y-8">
+              <ScrollReveal direction="left">
+                {/* Primary CTA: WhatsApp */}
+                <div className="surface-card p-8 rounded-2xl border border-emerald-500/20 relative overflow-hidden group">
+                  <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/10 to-transparent pointer-events-none" />
+                  
+                  <div className="relative z-10 space-y-4">
+                    <div className="w-12 h-12 rounded-xl bg-emerald-500/20 flex items-center justify-center text-emerald-400 mb-6">
+                      <MessageSquare className="w-6 h-6" />
+                    </div>
+                    <h3 className="text-2xl font-heading font-bold text-white">
+                      Fastest Way: WhatsApp
+                    </h3>
+                    <p className="text-slate-400 text-sm">
+                      Skip the form. Message Kulvir directly. We usually reply within 15 minutes during business hours.
+                    </p>
+                    <a
+                      href="https://wa.me/918888821351?text=Hi%20Kulvir,%20I'd%20like%20to%20discuss%20an%20automation%20project%20for%20my%20business."
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mt-4 w-full py-3.5 rounded-lg font-heading font-bold text-obsidian bg-emerald-500 hover:bg-emerald-400 transition-colors flex items-center justify-center gap-2"
+                    >
+                      <span>Message +91 88888 21351</span>
+                      <ArrowRight className="w-4 h-4" />
+                    </a>
                   </div>
                 </div>
-              </div>
 
-              <div className="pt-2 border-t border-white/5 flex items-center justify-between text-[11px] font-mono text-zinc-500">
-                <span className="flex items-center gap-1.5 text-emerald-400">
-                  <Clock className="w-3.5 h-3.5" /> Average response: &lt; 2 Hours
-                </span>
-                <span>Encrypted & Private</span>
-              </div>
+                {/* Secondary Info */}
+                <div className="mt-8 space-y-6 px-4">
+                  <div className="flex gap-4 items-start">
+                    <div className="p-2.5 rounded-lg bg-surface border border-white/10 text-slate-400 mt-1">
+                      <Mail className="w-5 h-5" />
+                    </div>
+                    <div>
+                      <h4 className="text-white font-semibold mb-1">Email</h4>
+                      <a href="mailto:hello@koolkonsulting.com" className="text-slate-400 text-sm hover:text-amber-400 transition-colors">
+                        hello@koolkonsulting.com
+                      </a>
+                    </div>
+                  </div>
+
+                  <div className="flex gap-4 items-start">
+                    <div className="p-2.5 rounded-lg bg-surface border border-white/10 text-slate-400 mt-1">
+                      <MapPin className="w-5 h-5" />
+                    </div>
+                    <div>
+                      <h4 className="text-white font-semibold mb-1">Office (By Appointment)</h4>
+                      <p className="text-slate-400 text-sm">
+                        Nagpur, Maharashtra, India
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex gap-4 items-start">
+                    <div className="p-2.5 rounded-lg bg-surface border border-white/10 text-slate-400 mt-1">
+                      <Clock className="w-5 h-5" />
+                    </div>
+                    <div>
+                      <h4 className="text-white font-semibold mb-1">Response Time</h4>
+                      <p className="text-slate-400 text-sm">
+                        All inquiries are reviewed directly by the Founder within 24 hours.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </ScrollReveal>
             </div>
+
+            {/* Right Col: The Form */}
+            <div className="lg:col-span-7">
+              <ScrollReveal direction="right">
+                <div className="surface-card p-6 sm:p-10 rounded-2xl relative">
+                  <div className="absolute top-0 right-0 w-64 h-64 bg-amber-500/5 blur-[80px] pointer-events-none rounded-full" />
+                  
+                  <div className="relative z-10 mb-8 border-b border-white/5 pb-6">
+                    <h3 className="text-2xl font-heading font-bold text-white mb-2">
+                      Request an Audit
+                    </h3>
+                    <p className="text-slate-400 text-sm">
+                      Fill out the details below. We'll review your current setup before the call.
+                    </p>
+                  </div>
+
+                  <div className="relative z-10">
+                    <ContactForm />
+                  </div>
+                </div>
+              </ScrollReveal>
+            </div>
+
           </div>
-        </div>
-      </section>
+        </section>
+      </div>
     </div>
   );
 }

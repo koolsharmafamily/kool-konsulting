@@ -11,65 +11,49 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        space: {
-          950: "#050507",
-          900: "#09090B", // Deep Space Black (Main Canvas)
-          850: "#111114",
+        obsidian: {
+          DEFAULT: "#07080A",
+          light: "#0B0E14",
         },
-        charcoal: {
-          DEFAULT: "#18181B", // Charcoal Matte (Elevated Cards / Bento)
-          light: "#212126",
-          dark: "#141416",
-          border: "#27272A", // Subtle borders
-          "border-hover": "rgba(157, 0, 255, 0.45)",
+        surface: {
+          DEFAULT: "#111419",
+          hover: "#171A21",
         },
-        cyber: {
-          purple: "#9D00FF", // Primary Cyber Purple
-          glow: "#B84DFF",
-          light: "#D884FF",
-          dark: "#6800AC",
+        amber: {
+          400: "#FBBF24",
+          500: "#F59E0B",
+          600: "#D97706",
         },
+        brand: {
+          purple: "#8B5CF6", // Secondary accent only
+        }
       },
       fontFamily: {
         heading: ["var(--font-space-grotesk)", "sans-serif"],
-        body: ["var(--font-plus-jakarta)", "sans-serif"],
+        body: ["var(--font-inter)", "sans-serif"],
       },
       boxShadow: {
-        "cyber-sm": "0 0 15px -3px rgba(157, 0, 255, 0.35)",
-        "cyber-md": "0 0 25px -4px rgba(157, 0, 255, 0.45)",
-        "cyber-lg": "0 0 45px -5px rgba(157, 0, 255, 0.55)",
-        "cyber-glow": "0 0 60px 0px rgba(157, 0, 255, 0.30)",
-        "inner-glow": "inset 0 1px 0 0 rgba(255, 255, 255, 0.08)",
+        "amber-glow": "0 0 20px -5px rgba(245, 158, 11, 0.4)",
+        "amber-glow-lg": "0 0 40px -10px rgba(245, 158, 11, 0.5)",
       },
       animation: {
-        "marquee-left": "marqueeLeft 30s linear infinite",
-        "pulse-glow": "pulseGlow 2.5s cubic-bezier(0.4, 0, 0.6, 1) infinite",
-        "light-sweep": "lightSweep 3s ease-in-out infinite",
         "float-slow": "floatSlow 6s ease-in-out infinite",
+        "fade-in-up": "fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards",
+        "ticker": "ticker 40s linear infinite",
       },
       keyframes: {
-        marqueeLeft: {
-          "0%": { transform: "translateX(0%)" },
-          "100%": { transform: "translateX(-50%)" },
-        },
-        pulseGlow: {
-          "0%, 100%": {
-            boxShadow: "0 0 15px 2px rgba(157, 0, 255, 0.4)",
-            transform: "scale(1)",
-          },
-          "50%": {
-            boxShadow: "0 0 35px 8px rgba(157, 0, 255, 0.75)",
-            transform: "scale(1.02)",
-          },
-        },
-        lightSweep: {
-          "0%": { transform: "translateX(-150%) skewX(-20deg)" },
-          "50%, 100%": { transform: "translateX(250%) skewX(-20deg)" },
-        },
         floatSlow: {
           "0%, 100%": { transform: "translateY(0px)" },
           "50%": { transform: "translateY(-10px)" },
         },
+        fadeInUp: {
+          "0%": { opacity: "0", transform: "translateY(20px)" },
+          "100%": { opacity: "1", transform: "translateY(0)" },
+        },
+        ticker: {
+          "0%": { transform: "translateX(0)" },
+          "100%": { transform: "translateX(-50%)" },
+        }
       },
     },
   },

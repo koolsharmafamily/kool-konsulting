@@ -2,7 +2,9 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { Calculator, Sparkles, ArrowRight, ShieldCheck, Clock, IndianRupee } from "lucide-react";
+import { Calculator, ArrowRight, Clock, IndianRupee } from "lucide-react";
+import ScrollReveal from "@/components/ScrollReveal";
+import { motion } from "framer-motion";
 
 export default function RoiCalculator() {
   const [teamSize, setTeamSize] = useState(4);
@@ -24,162 +26,136 @@ export default function RoiCalculator() {
   };
 
   return (
-    <section className="py-20 bg-[#09090B] border-t border-zinc-900">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-          {/* Left Column: Clear Context */}
-          <div className="lg:col-span-6 space-y-6">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-purple-950/60 border border-purple-500/30 text-purple-300 text-xs font-mono uppercase tracking-wider">
-              <Calculator className="w-3.5 h-3.5 text-purple-400" />
-              Interactive Savings Estimator
-            </div>
-
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-heading font-extrabold text-white tracking-tight leading-tight">
-              How Much Time & Money Is Manual Busywork Costing You?
-            </h2>
-
-            <p className="text-zinc-300 text-base sm:text-lg leading-relaxed">
-              When your team spends half their day copying data into registers, answering the same phone questions, and re-entering GST bills into Tally, you are paying full salaries for mechanical work that software can do in seconds.
-            </p>
-
-            <div className="grid grid-cols-2 gap-4 pt-2 font-mono text-sm">
-              <div className="p-4 rounded-2xl bg-[#141416] border border-zinc-800 space-y-1">
-                <span className="text-xs text-zinc-500 uppercase">Workload Reduced</span>
-                <div className="text-2xl font-bold text-white">75% - 90%</div>
-                <p className="text-xs text-zinc-400">manual admin eliminated</p>
+    <section className="py-24 bg-obsidian-light border-y border-white/5 relative overflow-hidden">
+      <div className="absolute top-1/2 left-0 w-96 h-96 bg-amber-500/5 blur-[120px] rounded-full pointer-events-none -translate-y-1/2" />
+      
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-12 items-center">
+          
+          <div className="lg:col-span-5 space-y-6">
+            <ScrollReveal direction="left">
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-heading font-extrabold text-white tracking-tight leading-tight">
+                Calculate your <span className="text-amber-500">invisible costs.</span>
+              </h2>
+              <p className="mt-6 text-slate-400 text-lg leading-relaxed">
+                When your team spends half their day copying data into registers and re-entering GST bills into Tally, you are paying full salaries for mechanical work that software can do in seconds.
+              </p>
+              
+              <div className="mt-8 space-y-4 font-mono text-sm">
+                <div className="flex items-center justify-between border-b border-white/10 pb-4">
+                  <span className="text-slate-500">Manual Admin Eliminated</span>
+                  <span className="text-emerald-400 font-bold">75% - 90%</span>
+                </div>
+                <div className="flex items-center justify-between border-b border-white/10 pb-4">
+                  <span className="text-slate-500">Average ROI Payback</span>
+                  <span className="text-amber-400 font-bold">&lt; 45 Days</span>
+                </div>
+                <div className="flex items-center justify-between pb-4">
+                  <span className="text-slate-500">Recurring License Fees</span>
+                  <span className="text-white font-bold">Zero (You own it)</span>
+                </div>
               </div>
-              <div className="p-4 rounded-2xl bg-[#141416] border border-zinc-800 space-y-1">
-                <span className="text-xs text-zinc-500 uppercase">Average Payback</span>
-                <div className="text-2xl font-bold text-emerald-400">&lt; 45 Days</div>
-                <p className="text-xs text-zinc-400">pays for itself fast</p>
-              </div>
-            </div>
-
-            <div className="pt-2 flex items-center gap-2 text-xs text-zinc-400">
-              <ShieldCheck className="w-4 h-4 text-purple-400" />
-              <span>Zero recurring monthly software license fees. You own the system outright.</span>
-            </div>
+            </ScrollReveal>
           </div>
 
-          {/* Right Column: Interactive Sliders */}
-          <div className="lg:col-span-6">
-            <div className="rounded-3xl bg-[#141416] border border-zinc-800 p-6 sm:p-8 shadow-xl relative space-y-6">
-              <div className="flex items-center justify-between border-b border-zinc-800 pb-4">
-                <h3 className="font-heading font-bold text-lg text-white">
-                  Estimate Your Savings
-                </h3>
-                <span className="text-xs font-mono text-purple-300 bg-purple-950/60 px-2.5 py-1 rounded-full border border-purple-500/30">
-                  Adjust Sliders Below
-                </span>
-              </div>
-
-              {/* Slider 1: Team Members */}
-              <div className="space-y-2">
-                <div className="flex justify-between items-center text-sm">
-                  <span className="text-zinc-300 font-medium">Office staff doing repetitive data entry / bills:</span>
-                  <span className="font-mono text-white font-bold text-sm bg-zinc-900 px-3 py-1 rounded border border-zinc-700">
-                    {teamSize} people
-                  </span>
-                </div>
-                <input
-                  type="range"
-                  min="1"
-                  max="20"
-                  value={teamSize}
-                  onChange={(e) => setTeamSize(Number(e.target.value))}
-                  className="w-full h-2 bg-zinc-800 rounded-lg appearance-none cursor-pointer accent-purple-500"
-                />
-                <div className="flex justify-between text-[11px] font-mono text-zinc-500">
-                  <span>1 person</span>
-                  <span>10 people</span>
-                  <span>20 people</span>
-                </div>
-              </div>
-
-              {/* Slider 2: Hours Per Week */}
-              <div className="space-y-2">
-                <div className="flex justify-between items-center text-sm">
-                  <span className="text-zinc-300 font-medium">Hours spent per person weekly on manual paperwork:</span>
-                  <span className="font-mono text-white font-bold text-sm bg-zinc-900 px-3 py-1 rounded border border-zinc-700">
-                    {hoursPerWeek} hrs / week
-                  </span>
-                </div>
-                <input
-                  type="range"
-                  min="2"
-                  max="35"
-                  value={hoursPerWeek}
-                  onChange={(e) => setHoursPerWeek(Number(e.target.value))}
-                  className="w-full h-2 bg-zinc-800 rounded-lg appearance-none cursor-pointer accent-purple-500"
-                />
-                <div className="flex justify-between text-[11px] font-mono text-zinc-500">
-                  <span>2 hrs</span>
-                  <span>18 hrs</span>
-                  <span>35 hrs</span>
-                </div>
-              </div>
-
-              {/* Slider 3: Monthly Salary */}
-              <div className="space-y-2">
-                <div className="flex justify-between items-center text-sm">
-                  <span className="text-zinc-300 font-medium">Average monthly salary per staff member:</span>
-                  <span className="font-mono text-white font-bold text-sm bg-zinc-900 px-3 py-1 rounded border border-zinc-700">
-                    ₹{monthlyWage.toLocaleString("en-IN")}
-                  </span>
-                </div>
-                <input
-                  type="range"
-                  min="12000"
-                  max="60000"
-                  step="1000"
-                  value={monthlyWage}
-                  onChange={(e) => setMonthlyWage(Number(e.target.value))}
-                  className="w-full h-2 bg-zinc-800 rounded-lg appearance-none cursor-pointer accent-purple-500"
-                />
-                <div className="flex justify-between text-[11px] font-mono text-zinc-500">
-                  <span>₹12,000</span>
-                  <span>₹35,000</span>
-                  <span>₹60,000</span>
-                </div>
-              </div>
-
-              {/* Results Breakdown */}
-              <div className="p-5 rounded-2xl bg-zinc-900/90 border border-zinc-800 space-y-4">
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <span className="text-xs font-mono text-zinc-400 block mb-1">
-                      Time Given Back
-                    </span>
-                    <div className="text-2xl sm:text-3xl font-heading font-extrabold text-white flex items-center gap-1.5">
-                      <Clock className="w-5 h-5 text-purple-400" />
-                      <span>{hoursFreedPerMonth} hrs</span>
+          <div className="lg:col-span-7">
+            <ScrollReveal direction="right">
+              <div className="surface-card p-8 rounded-2xl">
+                <div className="space-y-8">
+                  
+                  {/* Sliders */}
+                  <div className="space-y-6">
+                    <div className="space-y-3">
+                      <div className="flex justify-between items-center text-sm">
+                        <span className="text-slate-300 font-medium">Team members doing repetitive data entry:</span>
+                        <span className="font-mono text-amber-400 bg-amber-950/30 px-3 py-1 rounded-md border border-amber-500/20">{teamSize}</span>
+                      </div>
+                      <input
+                        type="range"
+                        min="1"
+                        max="20"
+                        value={teamSize}
+                        onChange={(e) => setTeamSize(Number(e.target.value))}
+                        className="w-full h-1.5 bg-obsidian rounded-lg appearance-none cursor-pointer accent-amber-500"
+                      />
                     </div>
-                    <span className="text-[11px] text-zinc-500 font-mono">saved every month</span>
+
+                    <div className="space-y-3">
+                      <div className="flex justify-between items-center text-sm">
+                        <span className="text-slate-300 font-medium">Hours spent per person weekly:</span>
+                        <span className="font-mono text-amber-400 bg-amber-950/30 px-3 py-1 rounded-md border border-amber-500/20">{hoursPerWeek} hrs</span>
+                      </div>
+                      <input
+                        type="range"
+                        min="2"
+                        max="35"
+                        value={hoursPerWeek}
+                        onChange={(e) => setHoursPerWeek(Number(e.target.value))}
+                        className="w-full h-1.5 bg-obsidian rounded-lg appearance-none cursor-pointer accent-amber-500"
+                      />
+                    </div>
+
+                    <div className="space-y-3">
+                      <div className="flex justify-between items-center text-sm">
+                        <span className="text-slate-300 font-medium">Average monthly salary:</span>
+                        <span className="font-mono text-amber-400 bg-amber-950/30 px-3 py-1 rounded-md border border-amber-500/20">₹{monthlyWage.toLocaleString("en-IN")}</span>
+                      </div>
+                      <input
+                        type="range"
+                        min="12000"
+                        max="60000"
+                        step="1000"
+                        value={monthlyWage}
+                        onChange={(e) => setMonthlyWage(Number(e.target.value))}
+                        className="w-full h-1.5 bg-obsidian rounded-lg appearance-none cursor-pointer accent-amber-500"
+                      />
+                    </div>
                   </div>
 
-                  <div>
-                    <span className="text-xs font-mono text-zinc-400 block mb-1">
-                      Wasted Salary Saved
-                    </span>
-                    <div className="text-2xl sm:text-3xl font-heading font-extrabold text-emerald-400 flex items-center gap-1">
-                      <IndianRupee className="w-5 h-5" />
-                      <span>{formatLakhs(annualSavedWithAI)}</span>
+                  {/* Results */}
+                  <div className="p-6 rounded-xl bg-obsidian border border-white/5 grid grid-cols-2 gap-6">
+                    <div>
+                      <span className="text-[11px] font-mono text-slate-500 uppercase tracking-wider block mb-2">
+                        Time Given Back
+                      </span>
+                      <motion.div
+                        key={hoursFreedPerMonth}
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="text-3xl font-heading font-extrabold text-white flex items-center gap-2"
+                      >
+                        <Clock className="w-5 h-5 text-amber-500" />
+                        <span>{hoursFreedPerMonth} <span className="text-lg text-slate-400">hrs/mo</span></span>
+                      </motion.div>
                     </div>
-                    <span className="text-[11px] text-zinc-500 font-mono">recovered each year</span>
+
+                    <div>
+                      <span className="text-[11px] font-mono text-slate-500 uppercase tracking-wider block mb-2">
+                        Wasted Salary Saved
+                      </span>
+                      <motion.div
+                        key={annualSavedWithAI}
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="text-3xl font-heading font-extrabold text-emerald-400 flex items-center gap-2"
+                      >
+                        <IndianRupee className="w-5 h-5" />
+                        <span>{formatLakhs(annualSavedWithAI)} <span className="text-lg text-emerald-600">/yr</span></span>
+                      </motion.div>
+                    </div>
                   </div>
+
+                  <Link
+                    href={`/contact?bottleneck=Save%20${hoursFreedPerMonth}%20hours%20per%20month`}
+                    className="w-full flex items-center justify-between px-6 py-4 rounded-lg bg-white hover:bg-slate-100 transition-colors text-obsidian font-heading font-bold"
+                  >
+                    <span>Claim your automation blueprint</span>
+                    <ArrowRight className="w-5 h-5" />
+                  </Link>
+
                 </div>
               </div>
-
-              {/* Action Button */}
-              <Link
-                href={`/contact?bottleneck=Save%20${hoursFreedPerMonth}%20hours%20per%20month%20for%20${teamSize}%20team%20members`}
-                className="w-full py-4 rounded-xl text-center font-heading font-bold text-sm text-white bg-purple-600 hover:bg-purple-500 transition-colors flex items-center justify-center gap-2"
-              >
-                <Sparkles className="w-4 h-4" />
-                <span>Claim Your Free Automation Plan</span>
-                <ArrowRight className="w-4 h-4" />
-              </Link>
-            </div>
+            </ScrollReveal>
           </div>
         </div>
       </div>

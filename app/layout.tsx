@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
-import { Space_Grotesk, Plus_Jakarta_Sans } from "next/font/google";
+import { Space_Grotesk, Inter } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import WhatsAppFloat from "@/components/WhatsAppFloat";
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
@@ -11,32 +12,33 @@ const spaceGrotesk = Space_Grotesk({
   weight: ["400", "500", "600", "700"],
 });
 
-const plusJakartaSans = Plus_Jakarta_Sans({
+const inter = Inter({
   subsets: ["latin"],
-  variable: "--font-plus-jakarta",
+  variable: "--font-inter",
   display: "swap",
-  weight: ["400", "500", "600", "700", "800"],
 });
 
 export const metadata: Metadata = {
-  title: "Kool Konsulting | AI Automation & Custom Software Agency · Nagpur",
+  title: "Kool Konsulting | AI Automation & Business Growth Strategies · Nagpur",
   description:
-    "Stop running your Nagpur business on WhatsApp and broken Excel sheets. We build AI agents, custom software, and automated workflows that turn 40 hours of manual work into 4 seconds.",
+    "We build AI automations, local marketing engines, and custom software that eliminate manual busywork. Designed for growing businesses in Nagpur & Central India.",
   keywords: [
     "AI Automation Nagpur",
+    "Workflow Automation India",
+    "Digital Marketing Agency Nagpur",
     "Custom Software Nagpur",
-    "MIDC Automation",
+    "Tally Automation",
     "WhatsApp AI Agents",
-    "Tally Automation Nagpur",
-    "Kool Konsulting",
+    "Business Strategy Consulting",
     "Kulvir Sharma",
+    "Kool Konsulting"
   ],
   authors: [{ name: "Kulvir Sharma", url: "https://koolkonsulting.com" }],
   creator: "Kulvir Sharma",
   openGraph: {
-    title: "Kool Konsulting | AI Automation & Custom Software for Central India",
+    title: "Kool Konsulting | Strategic AI & Growth Partner",
     description:
-      "Turn 40 hours of manual work into 4 seconds. Custom AI agents, automated workflows, and dashboards for manufacturers, builders, and distributors.",
+      "Transform manual bottlenecks into automated workflows. We help businesses in Central India scale without increasing overhead.",
     url: "https://koolkonsulting.com",
     siteName: "Kool Konsulting",
     locale: "en_IN",
@@ -53,27 +55,25 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${spaceGrotesk.variable} ${plusJakartaSans.variable} dark scroll-smooth`}>
+    <html lang="en" className={`${spaceGrotesk.variable} ${inter.variable} dark scroll-smooth`}>
       <head>
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
       </head>
-      <body className="min-h-screen bg-[#09090B] text-[#F4F5F7] antialiased selection:bg-cyber-purple selection:text-white relative">
-        {/* Ambient background glow layers */}
-        <div className="fixed top-0 left-1/4 -translate-y-1/2 w-[700px] h-[500px] bg-cyber-purple/[0.08] blur-[150px] pointer-events-none rounded-full z-0" />
-        <div className="fixed top-1/2 right-0 translate-x-1/3 w-[600px] h-[600px] bg-purple-900/[0.05] blur-[170px] pointer-events-none rounded-full z-0" />
+      <body className="min-h-screen bg-obsidian text-slate-200 antialiased relative selection:bg-amber-500 selection:text-black">
+        {/* Subtle Ambient Background Glows */}
+        <div className="fixed top-0 left-1/4 -translate-y-1/2 w-[600px] h-[400px] bg-amber-500/[0.04] blur-[120px] pointer-events-none rounded-full z-0" />
+        <div className="fixed top-1/2 right-0 translate-x-1/3 w-[500px] h-[500px] bg-amber-600/[0.03] blur-[150px] pointer-events-none rounded-full z-0" />
 
-        {/* Global Navigation */}
         <Navbar />
 
-        {/* Main Content Area */}
         <main className="relative z-10 pt-20 flex flex-col min-h-screen">
           {children}
         </main>
 
-        {/* Global Footer */}
         <Footer />
+        <WhatsAppFloat />
 
-        {/* LocalBusiness Schema for Nagpur */}
+        {/* LocalBusiness Schema */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -85,17 +85,12 @@ export default function RootLayout({
               "@id": "https://koolkonsulting.com",
               url: "https://koolkonsulting.com",
               telephone: "+918888821351",
-              priceRange: "₹₹",
+              priceRange: "₹₹₹",
               address: {
                 "@type": "PostalAddress",
                 addressLocality: "Nagpur",
                 addressRegion: "Maharashtra",
                 addressCountry: "IN",
-              },
-              geo: {
-                "@type": "GeoCoordinates",
-                latitude: 21.1458,
-                longitude: 79.0882,
               },
               founder: {
                 "@type": "Person",
@@ -106,9 +101,9 @@ export default function RootLayout({
               knowsAbout: [
                 "Artificial Intelligence",
                 "Workflow Automation",
-                "ERP and Tally Integration",
-                "Custom Software Development",
                 "Business Intelligence",
+                "Local SEO",
+                "Custom Software Development"
               ],
             }),
           }}
