@@ -3,74 +3,52 @@
 import React from "react";
 import Link from "next/link";
 import ScrollReveal from "@/components/ScrollReveal";
+import { Check } from "lucide-react";
 
 const PILLARS = [
   {
     id: "automation",
-    title: "AI & Workflow Automation",
-    price: "From ₹60,000",
-    desc: "Replace manual data entry with bots that extract bills, record attendance, and chase payments automatically.",
-    mockup: (
-      <div className="font-mono text-[10px] text-neutral-400 leading-tight space-y-1">
-        <div className="flex gap-2"><span className="text-white">SYS&gt;</span><span>Awaiting payload...</span></div>
-        <div className="flex gap-2"><span className="text-terminal-green">OK&gt;</span><span>Invoice_882.pdf parsed</span></div>
-        <div className="flex gap-2"><span className="text-white">API&gt;</span><span>Pushing to Tally Prime...</span></div>
-        <div className="flex gap-2"><span className="text-terminal-green">OK&gt;</span><span>Voucher created.</span></div>
-      </div>
-    )
+    title: "AI Automations & Tally Sync",
+    price: "From ₹60,000 one-off",
+    desc: "Stop paying staff to do mechanical data entry. We connect your daily tools—WhatsApp, Excel, and Tally Prime—so data flows instantly without human error.",
+    bullets: [
+      "Extract bills and invoices automatically from emails and WhatsApp.",
+      "Instantly sync WhatsApp orders directly into Tally sales vouchers.",
+      "Automatically chase pending payments without manual follow-ups."
+    ]
   },
   {
     id: "marketing",
-    title: "Local SEO & Marketing",
+    title: "Local Dominance & Google 3-Pack",
     price: "From ₹18,000 / mo",
-    desc: "Rank your Google Maps profile in the top 3 and run search ads that generate real phone calls.",
-    mockup: (
-      <div className="bg-white text-black p-3 font-sans text-xs space-y-2 border border-neutral-300">
-        <div className="flex justify-between items-center font-bold">
-          <span>Kool Konsulting</span>
-          <span>5.0 ★★★★★</span>
-        </div>
-        <div className="text-[10px] text-neutral-600">"They automated our entire warehouse tracking. Saved us 20 hours a week."</div>
-        <div className="text-[9px] uppercase tracking-wider text-neutral-500 font-mono mt-1">12 minutes ago</div>
-      </div>
-    )
+    desc: "When someone in Nagpur searches Google for what you sell, be the first business they see. We rank your profile in the top 3 and generate real calls.",
+    bullets: [
+      "Rank #1 in Google Maps for MIDC, Sitabuldi, Civil Lines, etc.",
+      "Automated WhatsApp review generator after every successful sale.",
+      "Monthly report showing verified incoming phone calls and leads."
+    ]
   },
   {
     id: "strategy",
-    title: "Financial Models",
-    price: "From ₹45,000",
-    desc: "Rigorous financial models, cash-flow forecasts, and CMA project reports for Indian bank managers.",
-    mockup: (
-      <div className="w-full border border-white/10 font-mono text-[9px]">
-        <div className="grid grid-cols-3 bg-white/10 p-1 text-white">
-          <span>Q1 2024</span><span>Rev</span><span>EBITDA</span>
-        </div>
-        <div className="grid grid-cols-3 p-1 text-neutral-400 border-b border-white/5">
-          <span>Jan</span><span>₹1.2M</span><span className="text-terminal-green">+14%</span>
-        </div>
-        <div className="grid grid-cols-3 p-1 text-neutral-400 border-b border-white/5">
-          <span>Feb</span><span>₹1.4M</span><span className="text-terminal-green">+18%</span>
-        </div>
-        <div className="grid grid-cols-3 p-1 text-neutral-400">
-          <span>Mar</span><span>₹1.7M</span><span className="text-terminal-green">+22%</span>
-        </div>
-      </div>
-    )
+    title: "Bank-Ready Business Plans",
+    price: "From ₹45,000 one-off",
+    desc: "Planning to expand, buy new machinery in Butibori, or apply for a bank loan? Get a rigorous financial model and professional CMA project report.",
+    bullets: [
+      "3-scenario financial model (expected, conservative, downside).",
+      "CMA data & project report formatted for Indian bank managers.",
+      "Personal walkthrough so you can answer lender questions easily."
+    ]
   },
   {
     id: "software",
-    title: "Custom Software",
-    price: "From ₹75,000",
-    desc: "Replace spreadsheets with multi-godown stock trackers. You own 100% of the code—no monthly rent.",
-    mockup: (
-      <div className="font-mono text-[10px] text-neutral-500 leading-tight">
-        <span className="text-pink-500">export const</span> <span className="text-blue-400">InventorySync</span> = () =&gt; {"{"}<br/>
-        &nbsp;&nbsp;<span className="text-pink-500">const</span> stock = <span className="text-yellow-200">await</span> fetchTallyAPI();<br/>
-        &nbsp;&nbsp;<span className="text-pink-500">if</span> (stock.low) alertManager();<br/>
-        &nbsp;&nbsp;<span className="text-pink-500">return</span> <span className="text-terminal-green">"SYNC_COMPLETE"</span>;<br/>
-        {"}"}
-      </div>
-    )
+    title: "Custom Software & Portals",
+    price: "From ₹75,000 fixed",
+    desc: "Replace cluttered spreadsheets with simple, fast software built for your business. You own 100% of the code—no recurring monthly software rent.",
+    bullets: [
+      "Multi-godown stock count & dispatch tracking on your mobile phone.",
+      "Fast, conversion-focused business websites that bring inquiries.",
+      "Full source code handover: you own it forever with zero seat fees."
+    ]
   },
 ];
 
@@ -94,13 +72,9 @@ export default function BentoPreview() {
             <ScrollReveal key={pillar.id} delay={idx * 0.1}>
               <div className={`p-8 h-full flex flex-col justify-between ${idx % 2 === 0 ? 'border-b md:border-r border-white/15' : 'border-b border-white/15'}`}>
                 
-                <div className="mb-8">
-                  {/* The "Reality" Mockup Box */}
-                  <div className="h-32 w-full bg-[#050505] border border-white/10 flex items-center justify-center p-4 overflow-hidden mb-6">
-                    {pillar.mockup}
-                  </div>
+                <div className="mb-8 space-y-6">
                   
-                  <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center justify-between border-b border-white/15 pb-4">
                     <h4 className="text-xl font-sans font-bold text-white">
                       {pillar.title}
                     </h4>
@@ -109,9 +83,19 @@ export default function BentoPreview() {
                     </span>
                   </div>
 
-                  <p className="text-sm font-mono text-neutral-400 leading-relaxed">
+                  <p className="text-sm font-sans text-neutral-400 leading-relaxed">
                     {pillar.desc}
                   </p>
+
+                  <div className="space-y-3 pt-2">
+                    {pillar.bullets.map((bullet, bIdx) => (
+                      <div key={bIdx} className="flex items-start gap-3 text-xs font-mono text-neutral-300">
+                        <Check className="w-4 h-4 text-terminal-green shrink-0 mt-0.5" />
+                        <span className="leading-relaxed">{bullet}</span>
+                      </div>
+                    ))}
+                  </div>
+
                 </div>
 
                 <div className="pt-4 border-t border-white/15">
