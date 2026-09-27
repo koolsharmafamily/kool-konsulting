@@ -2,62 +2,9 @@ import React from "react";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import ScrollReveal from "@/components/ScrollReveal";
-import fs from 'fs';
-import path from 'path';
+import { caseStudies } from "@/data/caseStudies";
 
-// Load case studies from the portfolio json
 export default function WorkPage() {
-  const caseStudies = [
-    {
-      "id": "adlens",
-      "title": "AdLens AI",
-      "subtitle": "Turning unstructured ad videos into structured, evidence-based marketing intelligence",
-      "industry": "Marketing technology"
-    },
-    {
-      "id": "dsp",
-      "title": "Distributor workflow research and automation",
-      "subtitle": "Finding where a distribution network actually loses time, then removing it",
-      "industry": "Asset management"
-    },
-    {
-      "id": "agencyAdOps",
-      "title": "Agency ad-operations automation",
-      "subtitle": "Centralised reporting and alerting across many client ad accounts",
-      "industry": "Digital marketing agency"
-    },
-    {
-      "id": "constructionWorkforce",
-      "title": "Construction workforce automation",
-      "subtitle": "From site attendance to wages to invoicing, as one process instead of three",
-      "industry": "Construction"
-    },
-    {
-      "id": "financeAutomation",
-      "title": "Finance data and Excel automation",
-      "subtitle": "Removing the manual assembly between operations data and the finance view",
-      "industry": "Financial services"
-    },
-    {
-      "id": "aiConstructionSite",
-      "title": "AI-powered construction site",
-      "subtitle": "Computer vision for safety and operations: what it could do, and what it would cost",
-      "industry": "Construction"
-    },
-    {
-      "id": "trakit",
-      "title": "TrakIT: Australian market entry",
-      "subtitle": "Taking a B2B logistics SaaS platform into a new market, and rebuilding the site around its buyer",
-      "industry": "B2B SaaS, logistics"
-    },
-    {
-      "id": "tradingAgent",
-      "title": "AI options-trading agent",
-      "subtitle": "An agentic workflow and API integration exercise, built to learn",
-      "industry": "Personal learning build"
-    }
-  ];
-
   return (
     <div className="flex flex-col w-full bg-black min-h-screen">
       
@@ -83,7 +30,7 @@ export default function WorkPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
             {caseStudies.map((caseStudy, idx) => (
-              <ScrollReveal key={caseStudy.id} delay={idx * 0.1}>
+              <ScrollReveal key={caseStudy.slug} delay={idx * 0.1}>
                 <div className="group relative border border-white/15 bg-[#050505] hover:border-white/40 transition-colors h-full flex flex-col justify-between">
                   
                   {/* Top: Metadata */}
@@ -92,7 +39,7 @@ export default function WorkPage() {
                       {caseStudy.industry}
                     </span>
                     <span className="text-[10px] font-mono text-terminal-green uppercase tracking-widest">
-                      CASE {(idx + 1).toString().padStart(2, '0')}
+                      {caseStudy.caseNumber}
                     </span>
                   </div>
 
@@ -109,11 +56,10 @@ export default function WorkPage() {
                   {/* Bottom: Action */}
                   <div className="p-6 md:p-8 border-t border-white/15">
                     <Link
-                      href="https://kulvirsharma-portfolio.vercel.app/work"
-                      target="_blank"
+                      href={`/work/${caseStudy.slug}`}
                       className="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-white group-hover:text-terminal-green transition-colors"
                     >
-                      <span>Read on Portfolio</span>
+                      <span>Examine Architecture</span>
                       <ArrowUpRight className="w-4 h-4" />
                     </Link>
                   </div>
