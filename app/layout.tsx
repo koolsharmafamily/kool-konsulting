@@ -1,28 +1,42 @@
 import type { Metadata } from "next";
-import { Inter, JetBrains_Mono } from "next/font/google";
+import { Anek_Latin, Mukta, Kalam } from "next/font/google";
 import "./globals.css";
-import Navbar from "@/components/Navbar";
+import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import WhatsAppFloat from "@/components/WhatsAppFloat";
+import MobileActionBar from "@/components/MobileActionBar";
+import { site } from "@/data/site";
 
-// Inter for clean, high-end agency typography (tracking tight)
-const inter = Inter({
+// Display: Anek Latin with width axis
+const anekLatin = Anek_Latin({
   subsets: ["latin"],
-  variable: "--font-inter",
+  variable: "--font-anek",
+  display: "swap",
+  axes: ["wdth"],
+});
+
+// Text: Mukta for body, UI, buttons, and forms
+const mukta = Mukta({
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
+  variable: "--font-mukta",
   display: "swap",
 });
 
-// JetBrains Mono for the technical/industrial "reality" data
-const jetbrainsMono = JetBrains_Mono({
+// Handwriting: Kalam for ledger illustrations only
+const kalam = Kalam({
   subsets: ["latin"],
-  variable: "--font-jetbrains",
+  weight: ["400", "700"],
+  variable: "--font-kalam",
   display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "Kool Konsulting | Systems & Automation Architecture",
-  description:
-    "We engineer practical automation and revenue systems for Central Indian businesses. Zero fluff. Pure operational efficiency.",
+  metadataBase: new URL(site.origin),
+  title: "Website, App and Software Development in Nagpur | Kool Konsulting",
+  description: site.oneLiner,
+  icons: {
+    icon: "/favicon.svg",
+  },
 };
 
 export default function RootLayout({
@@ -31,17 +45,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${inter.variable} ${jetbrainsMono.variable} dark scroll-smooth`}>
-      <head>
-        <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-      </head>
-      <body className="min-h-screen bg-black text-white antialiased bg-grid">
-        <Navbar />
-        <main className="relative z-10 pt-20 flex flex-col min-h-screen">
-          {children}
-        </main>
+    <html
+      lang="en"
+      className={`${anekLatin.variable} ${mukta.variable} ${kalam.variable} scroll-smooth`}
+    >
+      <body className="min-h-screen bg-paper text-ink font-sans antialiased flex flex-col selection:bg-carbon-050 selection:text-carbon">
+        <Header />
+        <main className="flex-1 flex flex-col">{children}</main>
         <Footer />
-        <WhatsAppFloat />
+        <MobileActionBar />
       </body>
     </html>
   );

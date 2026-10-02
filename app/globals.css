@@ -4,83 +4,88 @@
 
 @layer base {
   :root {
-    --background: #000000;
-    --foreground: #FFFFFF;
-  }
-
-  * {
-    border-color: rgba(255, 255, 255, 0.15);
-    border-radius: 0 !important; /* Force brutalist sharp corners globally */
+    --paper: #FBFAF6;
+    --surface: #FFFFFF;
+    --ink: #17161C;
+    --ink-2: #55515E;
+    --ink-3: #6F6A78;
+    --line: #E6E2DA;
+    --line-strong: #D6D0C4;
+    --carbon: #35309A;
+    --carbon-600: #2B2783;
+    --carbon-050: #EEEDFA;
+    --bahi: #B3261E;
+    --ledger-red: #C9443A;
+    --ledger-rule: #C8D3EC;
+    --leaf: #1E7A4C;
+    --whatsapp: #25D366;
   }
 
   body {
-    background-color: var(--background);
-    color: var(--foreground);
-    font-family: var(--font-inter), sans-serif;
+    background-color: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-mukta), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    font-size: 18px;
+    line-height: 1.6;
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
 
+  /* Accessible focus ring */
+  *:focus-visible {
+    outline: 2px solid var(--carbon);
+    outline-offset: 2px;
+  }
+
   ::selection {
-    background-color: #FFFFFF;
-    color: #000000;
+    background-color: var(--carbon-050);
+    color: var(--carbon);
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-anek), sans-serif;
+    color: var(--ink);
+    letter-spacing: -0.02em;
+  }
+
+  /* Stretch styles for Anek Latin */
+  .font-stretch-h1 {
+    font-stretch: 106%;
+  }
+
+  .font-stretch-h2 {
+    font-stretch: 104%;
+  }
+
+  .font-stretch-h3 {
+    font-stretch: 100%;
   }
 }
 
-/* Custom Scrollbar - Stark */
+/* Tabular numbers for clean prices & statistics */
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Custom subtle scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #000000;
-  border-left: 1px solid rgba(255, 255, 255, 0.15);
+  background: var(--paper);
 }
 ::-webkit-scrollbar-thumb {
-  background: #333333;
+  background: var(--line-strong);
+  border-radius: 999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #FFFFFF;
+  background: var(--ink-3);
 }
 
-/* Brutalist Utilities */
-.brutalist-border {
-  border: 1px solid rgba(255, 255, 255, 0.15);
-}
-
-.brutalist-button {
-  background: #FFFFFF;
-  color: #000000;
-  font-family: var(--font-jetbrains), monospace;
-  text-transform: uppercase;
-  font-weight: 700;
-  letter-spacing: 0.05em;
-  transition: background-color 0.2s, color 0.2s;
-}
-
-.brutalist-button:hover {
-  background: #CCCCCC;
-}
-
-.brutalist-button-outline {
-  background: transparent;
-  color: #FFFFFF;
-  border: 1px solid #FFFFFF;
-  font-family: var(--font-jetbrains), monospace;
-  text-transform: uppercase;
-  font-weight: 700;
-  letter-spacing: 0.05em;
-}
-
-.brutalist-button-outline:hover {
-  background: #FFFFFF;
-  color: #000000;
-}
-
-/* Grid lines overlay for the body */
-.bg-grid {
-  background-size: 40px 40px;
-  background-image: 
-    linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+/* Ledger paper ruled line pattern */
+.bg-ledger-ruled {
+  background-color: #FAF7EF;
+  background-image: linear-gradient(to bottom, transparent 96%, #C8D3EC 96%);
+  background-size: 100% 28px;
 }

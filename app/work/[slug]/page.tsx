@@ -1,275 +1,243 @@
 import React from "react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft, ArrowUpRight, Check, Activity, AlertTriangle, Lightbulb } from "lucide-react";
-import { getCaseStudy, caseStudies } from "@/data/caseStudies";
+import { projects, getProjectBySlug } from "@/data/work";
+import { StatusBadge } from "@/components/ui/StatusBadge";
+import Button from "@/components/ui/Button";
+import { getWhatsAppUrl } from "@/lib/whatsapp";
+import { ArrowLeft, ArrowRight, Check, MessageSquare, ArrowUpRight } from "lucide-react";
 
 export async function generateStaticParams() {
-  return caseStudies.map((study) => ({
-    slug: study.slug,
+  return projects.map((p) => ({
+    slug: p.slug,
   }));
 }
 
-export default function CaseStudyPage({ params }: { params: { slug: string } }) {
-  const caseStudy = getCaseStudy(params.slug);
+export async function generateMetadata({ params }: { params: { slug: string } }) {
+  const project = getProjectBySlug(params.slug);
+  if (!project) return {};
+  return {
+    title: `${project.title} | Kool Konsulting`,
+    description: project.problem,
+  };
+}
 
-  if (!caseStudy) {
+export default function ProjectDetailPage({
+  params,
+}: {
+  params: { slug: string };
+}) {
+  const project = getProjectBySlug(params.slug);
+
+  if (!project) {
     notFound();
   }
 
+  // Next and previous navigation
+  const currentIndex = projects.findIndex((p) => p.slug === params.slug);
+  const prevProject = currentIndex > 0 ? projects[currentIndex - 1] : null;
+  const nextProject = currentIndex < projects.length - 1 ? projects[currentIndex + 1] : null;
+
+  const waProjectUrl = getWhatsAppUrl(
+    `Hi Kulvir, I saw the ${project.title} project on your website. I want to build something similar for my business.`
+  );
+
   return (
-    <div className="flex flex-col w-full bg-black min-h-screen">
-      
-      {/* 1. Header Section */}
-      <section className="pt-24 pb-16 md:pt-32 md:pb-24 border-b border-white/15">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          
+    <div className="bg-paper min-h-screen py-12 md:py-20">
+      <div className="max-w-[1000px] mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+        
+        {/* Back navigation */}
+        <div>
           <Link
             href="/work"
-            className="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-neutral-500 hover:text-white transition-colors mb-12"
+            className="inline-flex items-center gap-1.5 text-xs font-semibold text-ink-3 hover:text-carbon transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
-            <span>Return to Deployments</span>
-          </Link>
-
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
-            <div className="lg:col-span-8 space-y-6">
-              <div className="flex items-center gap-4">
-                <span className="text-[10px] font-mono text-terminal-green uppercase tracking-widest border border-terminal-green/30 px-3 py-1 bg-terminal-green/10">
-                  {caseStudy.caseNumber}
-                </span>
-                <span className="text-[10px] font-mono text-neutral-400 uppercase tracking-widest border border-white/15 px-3 py-1 bg-white/5">
-                  {caseStudy.industry}
-                </span>
-              </div>
-              <h1 className="text-4xl md:text-5xl lg:text-7xl font-sans font-bold text-white tracking-tighter leading-tight">
-                {caseStudy.title}
-              </h1>
-              <p className="text-lg md:text-xl text-neutral-400 leading-relaxed font-mono max-w-2xl">
-                {caseStudy.subtitle}
-              </p>
-            </div>
-            
-            <div className="lg:col-span-4 space-y-6">
-              <div className="p-6 border border-white/15 bg-[#050505] space-y-4 text-xs font-mono">
-                <div className="flex justify-between items-center border-b border-white/10 pb-2">
-                  <span className="text-neutral-500 uppercase">Role</span>
-                  <span className="text-white text-right">{caseStudy.role}</span>
-                </div>
-                <div className="flex justify-between items-center border-b border-white/10 pb-2">
-                  <span className="text-neutral-500 uppercase">Status</span>
-                  <span className="text-white text-right">{caseStudy.status}</span>
-                </div>
-                <div className="flex justify-between items-center border-b border-white/10 pb-2">
-                  <span className="text-neutral-500 uppercase">Timeframe</span>
-                  <span className="text-white text-right">{caseStudy.timeframe}</span>
-                </div>
-                <div className="pt-2">
-                  <span className="text-neutral-500 uppercase block mb-2">Stack / Tools</span>
-                  <div className="flex flex-wrap gap-2">
-                    {caseStudy.tools.map((tool, i) => (
-                      <span key={i} className="px-2 py-1 bg-white/5 border border-white/10 text-neutral-300">
-                        {tool}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 2. Executive SCR Summary (If present) */}
-      {caseStudy.scr && (
-        <section className="py-16 border-b border-white/15 bg-[#050505]">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-[10px] font-mono text-neutral-500 uppercase tracking-widest mb-8">
-              Executive Brief (SCR)
-            </h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-0 border border-white/15 bg-black">
-              <div className="p-8 border-b md:border-b-0 md:border-r border-white/15 space-y-4">
-                <span className="text-xs font-mono text-terminal-green uppercase tracking-widest">Situation</span>
-                <p className="text-sm font-sans text-neutral-300 leading-relaxed">{caseStudy.scr.situation}</p>
-              </div>
-              <div className="p-8 border-b md:border-b-0 md:border-r border-white/15 space-y-4">
-                <span className="text-xs font-mono text-amber-500 uppercase tracking-widest">Complication</span>
-                <p className="text-sm font-sans text-neutral-300 leading-relaxed">{caseStudy.scr.complication}</p>
-              </div>
-              <div className="p-8 space-y-4">
-                <span className="text-xs font-mono text-white uppercase tracking-widest">Resolution</span>
-                <p className="text-sm font-sans text-neutral-300 leading-relaxed">{caseStudy.scr.resolution}</p>
-              </div>
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* 3. Deep Dive Content */}
-      <section className="py-24">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
-            
-            {/* Left Column: Context, Problem, Approach */}
-            <div className="lg:col-span-8 space-y-16">
-              
-              <div className="space-y-6">
-                <h2 className="text-2xl font-sans font-bold text-white flex items-center gap-3">
-                  <span className="text-terminal-green font-mono text-sm">01</span> Context
-                </h2>
-                <div className="space-y-4">
-                  {caseStudy.context.map((p, i) => (
-                    <p key={i} className="text-sm md:text-base text-neutral-400 leading-relaxed font-mono">
-                      {p}
-                    </p>
-                  ))}
-                </div>
-              </div>
-
-              <div className="space-y-6">
-                <h2 className="text-2xl font-sans font-bold text-white flex items-center gap-3">
-                  <span className="text-terminal-green font-mono text-sm">02</span> The Core Problem
-                </h2>
-                <div className="p-6 border border-white/15 bg-[#050505] space-y-4">
-                  {caseStudy.problem.map((p, i) => (
-                    <p key={i} className="text-sm md:text-base text-neutral-300 leading-relaxed font-mono">
-                      {p}
-                    </p>
-                  ))}
-                </div>
-              </div>
-
-              {caseStudy.approach && caseStudy.approach.length > 0 && (
-                <div className="space-y-6">
-                  <h2 className="text-2xl font-sans font-bold text-white flex items-center gap-3">
-                    <span className="text-terminal-green font-mono text-sm">03</span> Architecture & Approach
-                  </h2>
-                  <div className="space-y-8">
-                    {caseStudy.approach.map((item, i) => (
-                      <div key={i} className="space-y-2">
-                        <h3 className="text-lg font-bold text-white">{item.title}</h3>
-                        <p className="text-sm md:text-base text-neutral-400 leading-relaxed font-mono">
-                          {item.body}
-                        </p>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {caseStudy.solution && (
-                <div className="space-y-6">
-                  <h2 className="text-2xl font-sans font-bold text-white flex items-center gap-3">
-                    <span className="text-terminal-green font-mono text-sm">04</span> Implementation
-                  </h2>
-                  <p className="text-sm md:text-base text-neutral-400 leading-relaxed font-mono">
-                    {caseStudy.solution.intro}
-                  </p>
-                  
-                  {caseStudy.solution.highlights && (
-                    <div className="pt-4 space-y-3">
-                      {caseStudy.solution.highlights.map((highlight, i) => (
-                        <div key={i} className="flex items-start gap-3 p-4 bg-[#050505] border border-white/15">
-                          <Check className="w-5 h-5 text-terminal-green shrink-0 mt-0.5" />
-                          <p className="text-sm text-neutral-300 font-mono leading-relaxed">{highlight}</p>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              )}
-
-            </div>
-
-            {/* Right Column: Outcomes, Risks, Lessons */}
-            <div className="lg:col-span-4 space-y-12">
-              
-              {caseStudy.outcome && (
-                <div className="p-8 border border-terminal-green/30 bg-terminal-green/5 space-y-6">
-                  <div className="flex items-center gap-3 text-terminal-green">
-                    <Activity className="w-5 h-5" />
-                    <h3 className="text-sm font-mono uppercase tracking-widest font-bold">
-                      {caseStudy.outcome.kind === 'measured' ? 'Measured Results' : 'Expected Outcomes'}
-                    </h3>
-                  </div>
-                  <p className="text-xs font-mono text-neutral-400 leading-relaxed">
-                    {caseStudy.outcome.intro}
-                  </p>
-                  <div className="space-y-4">
-                    {caseStudy.outcome.items.map((item, i) => (
-                      <div key={i} className="border-t border-white/15 pt-4">
-                        {item.value && (
-                          <div className="text-2xl font-sans font-bold text-white mb-1">
-                            {item.value}
-                          </div>
-                        )}
-                        <div className="text-xs font-mono text-neutral-400 uppercase tracking-wide">
-                          {item.label}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {caseStudy.risks && caseStudy.risks.length > 0 && (
-                <div className="p-8 border border-white/15 bg-[#050505] space-y-6">
-                  <div className="flex items-center gap-3 text-amber-500">
-                    <AlertTriangle className="w-5 h-5" />
-                    <h3 className="text-sm font-mono uppercase tracking-widest font-bold">
-                      Identified Risks
-                    </h3>
-                  </div>
-                  <div className="space-y-6">
-                    {caseStudy.risks.map((risk, i) => (
-                      <div key={i} className="space-y-1">
-                        <h4 className="text-sm font-bold text-white">{risk.title}</h4>
-                        <p className="text-xs font-mono text-neutral-400 leading-relaxed">{risk.body}</p>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {caseStudy.learned && caseStudy.learned.length > 0 && (
-                <div className="p-8 border border-white/15 bg-[#050505] space-y-6">
-                  <div className="flex items-center gap-3 text-white">
-                    <Lightbulb className="w-5 h-5" />
-                    <h3 className="text-sm font-mono uppercase tracking-widest font-bold">
-                      Lessons Learned
-                    </h3>
-                  </div>
-                  <div className="space-y-4">
-                    {caseStudy.learned.map((lesson, i) => (
-                      <div key={i} className="flex gap-3 text-xs font-mono text-neutral-400">
-                        <span className="text-neutral-600">{(i + 1).toString().padStart(2, '0')}</span>
-                        <p className="leading-relaxed">{lesson}</p>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-            </div>
-
-          </div>
-        </div>
-      </section>
-
-      {/* CTA Footer */}
-      <section className="py-24 border-t border-white/15 text-center px-4 bg-[#050505]">
-        <h2 className="text-3xl md:text-4xl font-sans font-bold text-white tracking-tighter mb-6">
-          Require a similar system?
-        </h2>
-        <div className="flex justify-center pt-4">
-          <Link
-            href="/contact"
-            className="brutalist-button px-8 py-4 text-sm"
-          >
-            Initiate Architecture Review
+            <span>Back to all work</span>
           </Link>
         </div>
-      </section>
+
+        {/* 1. Header & Metadata */}
+        <div className="space-y-4 border-b border-line pb-8">
+          <div className="flex flex-wrap items-center gap-3">
+            <span className="text-xs font-semibold uppercase tracking-wider text-carbon bg-carbon-050 px-3 py-1 rounded-full border border-[#DCD9F5]">
+              {project.services.join(" · ")}
+            </span>
+            <StatusBadge status={project.status} />
+          </div>
+
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-display font-bold text-ink tracking-tight leading-tight font-stretch-h1">
+            {project.title}
+          </h1>
+
+          <div className="text-sm text-ink-3 font-medium flex flex-wrap items-center gap-4">
+            <span>{project.client}</span>
+            {project.place && <span>• {project.place}</span>}
+            {project.year && <span>• {project.year}</span>}
+          </div>
+
+          {project.liveUrl && (
+            <div className="pt-2">
+              <a
+                href={project.liveUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 text-xs font-semibold text-carbon hover:underline"
+              >
+                <span>Visit live project</span>
+                <ArrowUpRight className="w-3.5 h-3.5" />
+              </a>
+            </div>
+          )}
+        </div>
+
+        {/* 2. The Problem */}
+        <div className="space-y-3">
+          <span className="text-xs font-semibold text-ledger-red uppercase tracking-wider block">
+            The Problem, in the owner's words
+          </span>
+          <div className="p-6 md:p-8 bg-surface rounded-card border border-line text-base md:text-lg text-ink font-normal leading-relaxed shadow-sm">
+            "{project.problem}"
+          </div>
+        </div>
+
+        {/* 3. What We Built */}
+        <div className="space-y-4">
+          <span className="text-xs font-semibold text-ink-3 uppercase tracking-wider block">
+            What was built & delivered
+          </span>
+          <div className="grid grid-cols-1 gap-3">
+            {project.built.map((item, idx) => (
+              <div
+                key={idx}
+                className="p-4 bg-surface rounded-card border border-line flex items-start gap-3 text-sm md:text-base text-ink"
+              >
+                <Check className="w-5 h-5 text-leaf flex-shrink-0 mt-0.5" />
+                <span>{item}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* 4. How It Works (Flow diagram in HTML) */}
+        {project.howItWorks && project.howItWorks.length > 0 && (
+          <div className="space-y-4">
+            <span className="text-xs font-semibold text-carbon uppercase tracking-wider block">
+              How the system works (Step by step)
+            </span>
+            <div className="bg-surface rounded-stage border border-line p-6 md:p-8 space-y-4">
+              <ol className="relative border-l-2 border-carbon-050 ml-3 space-y-6">
+                {project.howItWorks.map((step, idx) => (
+                  <li key={idx} className="ml-6">
+                    <span className="absolute -left-3.5 flex items-center justify-center w-7 h-7 rounded-full bg-carbon-050 text-carbon font-bold text-xs border border-[#DCD9F5]">
+                      {idx + 1}
+                    </span>
+                    <p className="text-sm md:text-base text-ink font-medium leading-relaxed">
+                      {step}
+                    </p>
+                  </li>
+                ))}
+              </ol>
+            </div>
+          </div>
+        )}
+
+        {/* 5. Measured Results (If real figures exist) */}
+        {project.results && project.results.length > 0 && (
+          <div className="space-y-4">
+            <span className="text-xs font-semibold text-leaf uppercase tracking-wider block">
+              Measured operational results
+            </span>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {project.results.map((res, idx) => (
+                <div
+                  key={idx}
+                  className="p-6 bg-surface border border-[#CEEAD6] rounded-card space-y-1 shadow-sm"
+                >
+                  <div className="text-3xl font-display font-bold text-leaf tabular-nums">
+                    {res.value}
+                  </div>
+                  <div className="text-sm font-semibold text-ink">
+                    {res.label}
+                  </div>
+                  <div className="text-[11px] text-ink-3">
+                    Source: {res.source}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* 6. Tools Stack */}
+        {project.tools && project.tools.length > 0 && (
+          <div className="space-y-2 border-t border-line pt-6">
+            <span className="text-xs font-semibold text-ink-3 uppercase tracking-wider block">
+              Tools & Stack
+            </span>
+            <div className="flex flex-wrap gap-2">
+              {project.tools.map((t, idx) => (
+                <span
+                  key={idx}
+                  className="px-3 py-1 rounded-full text-xs font-medium bg-surface border border-line text-ink"
+                >
+                  {t}
+                </span>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* 7. Action Card */}
+        <div className="p-8 md:p-12 rounded-stage bg-carbon-050 border border-[#DCD9F5] text-center space-y-6">
+          <h2 className="text-2xl sm:text-3xl font-display font-bold text-ink">
+            Want something like this for your business?
+          </h2>
+          <p className="text-sm md:text-base text-ink-2 max-w-lg mx-auto">
+            Book a 30-minute tech check-up. We'll examine your current setup and show you what can be automated first.
+          </p>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <Button
+              variant="whatsapp"
+              href={waProjectUrl}
+              icon={<MessageSquare className="w-5 h-5" />}
+            >
+              Chat about this project on WhatsApp
+            </Button>
+            <Button variant="primary" href="/contact">
+              Get a free tech check-up
+            </Button>
+          </div>
+        </div>
+
+        {/* 8. Prev / Next Navigation */}
+        <div className="pt-6 border-t border-line flex items-center justify-between text-xs font-semibold">
+          {prevProject ? (
+            <Link
+              href={`/work/${prevProject.slug}`}
+              className="inline-flex items-center gap-1.5 text-ink hover:text-carbon transition-colors"
+            >
+              <ArrowLeft className="w-4 h-4" />
+              <span>Previous: {prevProject.title.slice(0, 30)}...</span>
+            </Link>
+          ) : (
+            <div />
+          )}
+
+          {nextProject ? (
+            <Link
+              href={`/work/${nextProject.slug}`}
+              className="inline-flex items-center gap-1.5 text-ink hover:text-carbon transition-colors text-right"
+            >
+              <span>Next: {nextProject.title.slice(0, 30)}...</span>
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+          ) : (
+            <div />
+          )}
+        </div>
+
+      </div>
     </div>
   );
 }

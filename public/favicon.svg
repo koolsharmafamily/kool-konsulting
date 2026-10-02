@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-  <rect width="100" height="100" fill="#14130f"/>
-  <g transform="translate(0,6)" stroke="#f6f3ec" stroke-width="7.5" stroke-linecap="square" fill="none">
+  <rect width="100" height="100" rx="22" fill="#35309A"/>
+  <g transform="translate(0,6)" stroke="#FBFAF6" stroke-width="7.5" stroke-linecap="square" fill="none">
     <path d="M14 8 V80"/>
     <path d="M14 44 L50 8"/>
     <path d="M14 44 L50 80"/>

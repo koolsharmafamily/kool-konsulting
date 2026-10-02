@@ -1,99 +1,119 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { MessageSquare, ArrowRight } from "lucide-react";
+import Link from "next/link";
+import Button from "@/components/ui/Button";
+import { getWhatsAppUrl } from "@/lib/whatsapp";
+import { MessageSquare, CheckCircle2, AlertCircle } from "lucide-react";
 
 export default function ContactForm() {
   const [name, setName] = useState("");
-  const [serviceNeeded, setServiceNeeded] = useState(
-    "AI & Workflow Automation (WhatsApp bots, Tally sync)"
-  );
-  const [businessType, setBusinessType] = useState(
-    "Manufacturing / MIDC Industrial (Hingna / Butibori)"
-  );
-  const [bottleneck, setBottleneck] = useState("");
+  const [business, setBusiness] = useState("");
   const [phone, setPhone] = useState("");
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
+  const [service, setService] = useState("Not sure yet");
+  const [problem, setProblem] = useState("");
+  const [city, setCity] = useState("");
+  const [email, setEmail] = useState("");
+  const [renderTime, setRenderTime] = useState<number>(0);
+
+  const [loading, setLoading] = useState(false);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   useEffect(() => {
+    setRenderTime(Date.now());
+
     if (typeof window !== "undefined") {
-      const urlParams = new URLSearchParams(window.location.search);
-      const prefilledService = urlParams.get("service");
-      if (prefilledService) {
-        setServiceNeeded(decodeURIComponent(prefilledService));
+      const params = new URLSearchParams(window.location.search);
+      const svcParam = params.get("service");
+      if (svcParam) {
+        setService(decodeURIComponent(svcParam));
       }
-      const prefilledBottleneck = urlParams.get("bottleneck");
-      if (prefilledBottleneck) {
-        setBottleneck(decodeURIComponent(prefilledBottleneck));
+      const noteParam = params.get("notes") || params.get("size");
+      if (noteParam) {
+        setProblem(`Scope: ${decodeURIComponent(noteParam)}`);
       }
     }
   }, []);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const serviceChips = [
+    "Website",
+    "App",
+    "Business software",
+    "Automation",
+    "Not sure yet",
+  ];
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setIsSubmitting(true);
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setSubmitted(true);
-    }, 500);
+    setLoading(true);
+    setErrorMessage(null);
+
+    const payload = {
+      name,
+      business,
+      phone,
+      service,
+      problem,
+      city,
+      email,
+      "render-time": renderTime,
+    };
+
+    try {
+      const res = await fetch("/api/enquiry", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+
+      const data = await res.json();
+
+      if (res.ok && data.ok) {
+        setSuccessMessage(
+          data.message || `Thanks, ${name.split(" ")[0]}. Kulvir will reply on WhatsApp within one working day.`
+        );
+      } else {
+        setErrorMessage(data.error || "Could not dispatch enquiry.");
+      }
+    } catch {
+      setErrorMessage(
+        "Network connection failed. Please message Kulvir directly on WhatsApp."
+      );
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const serviceOptions = [
-    "AI & Workflow Automation (WhatsApp bots, Tally sync)",
-    "Digital Marketing & Google Maps 3-Pack Ranking",
-    "Business Plans & Financial Modelling (Bank/Investor)",
-    "Custom Software & Multi-Godown Portals",
-    "General Consultation / Multiple Needs",
-  ];
+  const waFallbackUrl = getWhatsAppUrl(
+    `Hi Kulvir, I tried submitting the enquiry form. Here are my details:\nName: ${name}\nBusiness: ${business}\nPhone: ${phone}\nNeed: ${service}\nNotes: ${problem}`
+  );
 
-  const businessTypes = [
-    "Manufacturing / MIDC Industrial (Hingna / Butibori)",
-    "FMCG / Wholesale Trading (Wardhaman Nagar / Sitabuldi)",
-    "Real Estate / Civil Construction & Infrastructure",
-    "Healthcare / Diagnostic Clinic / Hospital",
-    "Retail Showroom / Hospitality / Restaurant",
-    "Professional Services / Other",
-  ];
-
-  if (submitted) {
+  if (successMessage) {
     return (
-      <div className="border border-white/15 bg-[#050505] p-8 md:p-12 space-y-8 font-mono">
-        <div className="flex items-center gap-3 text-terminal-green">
-          <div className="w-2 h-2 bg-terminal-green animate-blink"></div>
-          <span className="uppercase tracking-widest text-xs font-bold">STATUS: RECEIVED</span>
+      <div className="p-8 md:p-10 bg-surface rounded-stage border border-line shadow-sm space-y-6 animate-in fade-in">
+        <div className="w-12 h-12 rounded-full bg-[#E6F4EA] text-leaf flex items-center justify-center">
+          <CheckCircle2 className="w-6 h-6" />
         </div>
-
-        <div className="space-y-4">
-          <h3 className="text-2xl font-sans font-bold text-white">
-            Thank you, {name || "Friend"}.
-          </h3>
-          <p className="text-sm text-neutral-400 leading-relaxed max-w-md">
-            Kulvir Sharma has received your details. He will review your operational requirements and message you directly on WhatsApp at <strong className="text-white">{phone}</strong> within 2 hours.
+        <div className="space-y-2">
+          <h2 className="text-2xl font-display font-bold text-ink">
+            Enquiry Received
+          </h2>
+          <p className="text-base text-ink-2 leading-relaxed">
+            {successMessage}
           </p>
         </div>
-
-        <div className="pt-6 flex flex-col sm:flex-row items-center gap-4">
-          <a
-            href={`https://wa.me/918888821351?text=Hi%20Kulvir,%20I%20just%20submitted%20the%20form%20for%20${encodeURIComponent(
-              name || "my business"
-            )}%20(${encodeURIComponent(serviceNeeded)}).%20Notes:%20${encodeURIComponent(
-              bottleneck || "Free consultation"
-            )}.`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="w-full sm:w-auto px-6 py-4 bg-terminal-green text-black uppercase tracking-widest text-xs font-bold hover:bg-white transition-colors flex items-center justify-center gap-2"
+        <div className="pt-2">
+          <Button
+            variant="whatsapp"
+            href={getWhatsAppUrl(`Hi Kulvir, I just submitted an enquiry for ${business}.`)}
+            icon={<MessageSquare className="w-4 h-4" />}
           >
-            <MessageSquare className="w-4 h-4" />
-            <span>Chat on WhatsApp Now</span>
-          </a>
-
-          <button
-            onClick={() => setSubmitted(false)}
-            className="w-full sm:w-auto px-6 py-4 border border-white/15 text-neutral-400 uppercase tracking-widest text-xs hover:text-white transition-colors"
-          >
-            Reset Form
-          </button>
+            Chat with Kulvir on WhatsApp
+          </Button>
         </div>
       </div>
     );
@@ -101,113 +121,184 @@ export default function ContactForm() {
 
   return (
     <form
+      action="/api/enquiry"
+      method="POST"
       onSubmit={handleSubmit}
-      className="space-y-8 font-mono"
+      className="p-6 md:p-10 bg-surface rounded-stage border border-line shadow-sm space-y-6"
     >
-      <div className="border-b border-white/15 pb-6">
-        <h2 className="font-sans font-bold text-2xl text-white">
-          Direct Project Inquiry
-        </h2>
-        <p className="text-xs text-neutral-500 mt-2 uppercase tracking-widest">
-          Simple 4-question intake. Zero marketing spam.
-        </p>
+      <input type="hidden" name="render-time" value={renderTime} />
+      {/* Honeypot field for bot suppression */}
+      <div className="hidden" aria-hidden="true">
+        <input type="text" name="company-website" tabIndex={-1} autoComplete="off" />
       </div>
 
-      <div className="space-y-2">
-        <label htmlFor="name" className="block text-xs uppercase tracking-widest text-neutral-400">
-          1. Your Name & Business Name <span className="text-terminal-green">*</span>
-        </label>
-        <input
-          id="name"
-          type="text"
-          required
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          placeholder="e.g. Anand Agrawal, Vidarbha Agro"
-          className="w-full px-4 py-3 bg-[#050505] border border-white/15 focus:border-white focus:outline-none text-white text-sm placeholder:text-neutral-700 transition-colors"
-        />
+      {errorMessage && (
+        <div className="p-4 rounded-btn bg-[#FDF2F2] border border-ledger-red/30 text-xs md:text-sm text-ledger-red space-y-2 animate-in fade-in">
+          <div className="flex items-start gap-2">
+            <AlertCircle className="w-4 h-4 flex-shrink-0 mt-0.5" />
+            <span>{errorMessage}</span>
+          </div>
+          <div>
+            <a
+              href={waFallbackUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-semibold underline inline-flex items-center gap-1"
+            >
+              <span>Click here to send this via WhatsApp instead</span>
+              <MessageSquare className="w-3.5 h-3.5" />
+            </a>
+          </div>
+        </div>
+      )}
+
+      {/* Row 1: Name and Business */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="space-y-1.5">
+          <label htmlFor="name" className="block text-xs font-semibold uppercase tracking-wider text-ink">
+            Your Name <span className="text-ledger-red">*</span>
+          </label>
+          <input
+            id="name"
+            name="name"
+            type="text"
+            required
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder="e.g. Anand Agrawal"
+            className="w-full px-4 py-3 bg-paper border border-line rounded-btn text-ink text-sm focus:border-carbon focus:bg-surface focus:outline-none transition-colors"
+          />
+        </div>
+
+        <div className="space-y-1.5">
+          <label htmlFor="business" className="block text-xs font-semibold uppercase tracking-wider text-ink">
+            Business Name <span className="text-ledger-red">*</span>
+          </label>
+          <input
+            id="business"
+            name="business"
+            type="text"
+            required
+            value={business}
+            onChange={(e) => setBusiness(e.target.value)}
+            placeholder="e.g. Vidarbha Agro"
+            className="w-full px-4 py-3 bg-paper border border-line rounded-btn text-ink text-sm focus:border-carbon focus:bg-surface focus:outline-none transition-colors"
+          />
+        </div>
       </div>
 
-      <div className="space-y-2">
-        <label htmlFor="serviceNeeded" className="block text-xs uppercase tracking-widest text-neutral-400">
-          2. What Service Are You Most Interested In? <span className="text-terminal-green">*</span>
-        </label>
-        <select
-          id="serviceNeeded"
-          value={serviceNeeded}
-          onChange={(e) => setServiceNeeded(e.target.value)}
-          className="w-full px-4 py-3 bg-[#050505] border border-white/15 focus:border-white focus:outline-none text-white text-sm transition-colors cursor-pointer appearance-none"
-        >
-          {serviceOptions.map((opt, idx) => (
-            <option key={idx} value={opt} className="bg-black text-white">
-              {opt}
-            </option>
-          ))}
-        </select>
-      </div>
-
-      <div className="space-y-2">
-        <label htmlFor="businessType" className="block text-xs uppercase tracking-widest text-neutral-400">
-          3. Your Industry / Business Type <span className="text-terminal-green">*</span>
-        </label>
-        <select
-          id="businessType"
-          value={businessType}
-          onChange={(e) => setBusinessType(e.target.value)}
-          className="w-full px-4 py-3 bg-[#050505] border border-white/15 focus:border-white focus:outline-none text-white text-sm transition-colors cursor-pointer appearance-none"
-        >
-          {businessTypes.map((type, idx) => (
-            <option key={idx} value={type} className="bg-black text-white">
-              {type}
-            </option>
-          ))}
-        </select>
-      </div>
-
-      <div className="space-y-2">
-        <label htmlFor="bottleneck" className="block text-xs uppercase tracking-widest text-neutral-400">
-          4. What Is Slowing Down Your Operations? <span className="text-terminal-green">*</span>
-        </label>
-        <textarea
-          id="bottleneck"
-          required
-          rows={4}
-          value={bottleneck}
-          onChange={(e) => setBottleneck(e.target.value)}
-          placeholder="e.g. Retyping WhatsApp orders into Tally takes 3 hours a day..."
-          className="w-full px-4 py-3 bg-[#050505] border border-white/15 focus:border-white focus:outline-none text-white text-sm placeholder:text-neutral-700 transition-colors resize-none"
-        />
-      </div>
-
-      <div className="space-y-2">
-        <label htmlFor="phone" className="block text-xs uppercase tracking-widest text-neutral-400">
-          5. WhatsApp Number <span className="text-terminal-green">*</span>
+      {/* Row 2: Phone/WhatsApp */}
+      <div className="space-y-1.5">
+        <label htmlFor="phone" className="block text-xs font-semibold uppercase tracking-wider text-ink">
+          Phone or WhatsApp Number <span className="text-ledger-red">*</span>
         </label>
         <input
           id="phone"
+          name="phone"
           type="tel"
           required
           value={phone}
           onChange={(e) => setPhone(e.target.value)}
-          placeholder="e.g. +91 98230 XXXXX"
-          className="w-full px-4 py-3 bg-[#050505] border border-white/15 focus:border-white focus:outline-none text-white text-sm placeholder:text-neutral-700 transition-colors"
+          placeholder="+91 98230 XXXXX"
+          className="w-full px-4 py-3 bg-paper border border-line rounded-btn text-ink text-sm focus:border-carbon focus:bg-surface focus:outline-none transition-colors tabular-nums"
+        />
+        <span className="text-[11px] text-ink-3">
+          Kulvir replies personally on this number. No marketing calls.
+        </span>
+      </div>
+
+      {/* Row 3: What do you need? Chips */}
+      <div className="space-y-2">
+        <label className="block text-xs font-semibold uppercase tracking-wider text-ink">
+          What do you need built?
+        </label>
+        <input type="hidden" name="service" value={service} />
+        <div className="flex flex-wrap gap-2">
+          {serviceChips.map((chip) => {
+            const isSelected = service.toLowerCase() === chip.toLowerCase();
+            return (
+              <button
+                key={chip}
+                type="button"
+                onClick={() => setService(chip)}
+                className={`px-3.5 py-1.5 rounded-full text-xs font-medium border transition-colors ${
+                  isSelected
+                    ? "bg-carbon text-paper border-carbon font-semibold"
+                    : "bg-paper text-ink-2 border-line hover:border-line-strong hover:text-ink"
+                }`}
+              >
+                {chip}
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Row 4: Tell us a little (Textarea) */}
+      <div className="space-y-1.5">
+        <label htmlFor="problem" className="block text-xs font-semibold uppercase tracking-wider text-ink">
+          Tell us a little about where your team loses time (Optional)
+        </label>
+        <textarea
+          id="problem"
+          name="problem"
+          rows={3}
+          value={problem}
+          onChange={(e) => setProblem(e.target.value)}
+          placeholder="e.g. We take orders on WhatsApp and lose track of payments, or site attendance is still kept in notebooks."
+          className="w-full px-4 py-3 bg-paper border border-line rounded-btn text-ink text-sm focus:border-carbon focus:bg-surface focus:outline-none transition-colors resize-none"
         />
       </div>
 
-      <div className="pt-4 border-t border-white/15">
-        <button
-          type="submit"
-          disabled={isSubmitting}
-          className="w-full py-4 bg-white text-black hover:bg-neutral-300 font-mono uppercase tracking-widest text-sm font-bold transition-colors flex items-center justify-center gap-2 disabled:opacity-50 cursor-pointer"
-        >
-          <span>{isSubmitting ? "TRANSMITTING..." : "SUBMIT INQUIRY"}</span>
-          <ArrowRight className="w-4 h-4" />
-        </button>
+      {/* Row 5: City and Email */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="space-y-1.5">
+          <label htmlFor="city" className="block text-xs font-semibold uppercase tracking-wider text-ink">
+            City (Optional)
+          </label>
+          <input
+            id="city"
+            name="city"
+            type="text"
+            value={city}
+            onChange={(e) => setCity(e.target.value)}
+            placeholder="Nagpur"
+            className="w-full px-4 py-3 bg-paper border border-line rounded-btn text-ink text-sm focus:border-carbon focus:bg-surface focus:outline-none transition-colors"
+          />
+        </div>
+
+        <div className="space-y-1.5">
+          <label htmlFor="email" className="block text-xs font-semibold uppercase tracking-wider text-ink">
+            Email Address (Optional)
+          </label>
+          <input
+            id="email"
+            name="email"
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="anand@example.com"
+            className="w-full px-4 py-3 bg-paper border border-line rounded-btn text-ink text-sm focus:border-carbon focus:bg-surface focus:outline-none transition-colors"
+          />
+        </div>
       </div>
 
-      <div className="text-center pt-2">
-        <p className="text-[10px] font-mono uppercase tracking-widest text-neutral-600">
-          Direct response guaranteed from Kulvir Sharma within 2 hours.
+      {/* Submit Button & Consent Line */}
+      <div className="pt-2 space-y-3">
+        <Button
+          type="submit"
+          variant="primary"
+          disabled={loading}
+          className="w-full py-4 text-base"
+        >
+          {loading ? "Sending enquiry..." : "Get a free tech check-up"}
+        </Button>
+
+        <p className="text-[11px] text-ink-3 text-center leading-relaxed">
+          We'll use these details only to reply to your enquiry. We don't share them.{" "}
+          <Link href="/privacy" className="text-carbon hover:underline">
+            Read our DPDP privacy notice
+          </Link>.
         </p>
       </div>
     </form>

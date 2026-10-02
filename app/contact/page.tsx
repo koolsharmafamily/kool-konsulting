@@ -1,128 +1,121 @@
 import React, { Suspense } from "react";
 import ContactForm from "@/components/contact/ContactForm";
-import { MessageSquare, Phone, Mail, MapPin, Clock } from "lucide-react";
+import { site } from "@/data/site";
+import { getWhatsAppUrl, getPhoneUrl } from "@/lib/whatsapp";
+import { MessageSquare, Phone, Clock, MapPin, Mail, ShieldCheck } from "lucide-react";
 
 export const metadata = {
-  title: "Contact & Free AI Audit | Kool Konsulting Nagpur",
+  title: "Get a Free Tech Check-up | Kool Konsulting Nagpur",
   description:
-    "Ready to get your time back? Submit your operational bottleneck or skip the form and WhatsApp us directly at +91 88888 21351.",
+    "Schedule a 30-minute operational review with Kulvir Sharma. No sales pitches, just practical software recommendations for your business.",
 };
 
 export default function ContactPage() {
+  const waContactUrl = getWhatsAppUrl("Hi Kulvir, I'd like to book a free 30-minute tech check-up for my business.");
+
   return (
-    <div className="flex flex-col w-full bg-black min-h-screen">
-      
-      {/* Header */}
-      <section className="pt-24 pb-16 md:pt-32 md:pb-24 border-b border-white/15">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-3xl space-y-6">
-            <div className="text-[10px] font-mono text-neutral-400 uppercase tracking-widest border border-white/15 px-3 py-1 bg-white/5 inline-block">
-              Intake & Audit
-            </div>
-            <h1 className="text-4xl sm:text-5xl md:text-7xl font-sans font-bold text-white tracking-tighter leading-tight">
-              Ready to get your time back?
-            </h1>
-            <p className="text-lg md:text-xl text-neutral-400 leading-relaxed font-mono">
-              Tell us where your team is bleeding hours. You will receive a direct diagnosis and a working prototype architecture within 48 hours.
-            </p>
-
-            <div className="pt-4">
-              <a
-                href="https://wa.me/918888821351"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-3 px-8 py-4 bg-terminal-green text-black font-mono uppercase tracking-widest text-sm font-bold hover:bg-white transition-colors"
-              >
-                <MessageSquare className="w-5 h-5" />
-                <span>Skip the form. WhatsApp directly.</span>
-              </a>
-            </div>
-          </div>
+    <div className="bg-paper min-h-screen py-12 md:py-24">
+      <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
+        
+        {/* Page Top Title */}
+        <div className="max-w-2xl mb-12 space-y-3">
+          <span className="text-xs font-semibold uppercase tracking-wider text-carbon bg-carbon-050 px-3 py-1 rounded-full border border-[#DCD9F5]">
+            Direct Intake
+          </span>
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-display font-bold text-ink tracking-tight font-stretch-h1">
+            Get a free tech check-up.
+          </h1>
+          <p className="text-lg md:text-xl text-ink-2 font-normal leading-relaxed">
+            30 minutes by phone, Google Meet, or at your office in Nagpur. We'll examine what's slowing your operations down and give you a straight answer on what to fix first.
+          </p>
         </div>
-      </section>
 
-      {/* Form and Contact Detail Split */}
-      <section className="py-24">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-0 border border-white/15 bg-[#050505]">
+        {/* Two-Column Grid */}
+        <div id="check-up" className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+          
+          {/* Left Column: Form */}
+          <div className="lg:col-span-7">
+            <Suspense fallback={<div className="p-8 text-xs text-ink-3">Loading form...</div>}>
+              <ContactForm />
+            </Suspense>
+          </div>
+
+          {/* Right Column: Direct Contact & Guarantees */}
+          <div className="lg:col-span-5 space-y-6">
             
-            {/* Ultra Minimalist Form (Brutalist style applied via ContactForm internally if possible, or we wrap it) */}
-            <div className="lg:col-span-7 p-8 md:p-12 border-b lg:border-b-0 lg:border-r border-white/15">
-              <Suspense fallback={<div className="text-neutral-500 font-mono text-sm">Loading form...</div>}>
-                <ContactForm />
-              </Suspense>
+            {/* Direct WhatsApp Callout */}
+            <div className="p-8 bg-surface rounded-stage border border-line shadow-sm space-y-6">
+              <span className="text-xs font-semibold text-ink uppercase tracking-wider block">
+                Skip the form & reach out directly
+              </span>
+
+              <div className="space-y-3">
+                <a
+                  href={waContactUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="p-4 rounded-btn bg-whatsapp text-ink font-semibold flex items-center justify-between shadow-sm hover:opacity-95 transition-opacity"
+                >
+                  <div className="flex items-center gap-3">
+                    <MessageSquare className="w-5 h-5 flex-shrink-0" />
+                    <div>
+                      <span className="text-[11px] block opacity-80 uppercase">WhatsApp Directly</span>
+                      <span className="text-base font-bold tabular-nums">{site.phoneDisplay}</span>
+                    </div>
+                  </div>
+                  <span className="text-xs font-semibold underline">Chat now →</span>
+                </a>
+
+                <a
+                  href={getPhoneUrl()}
+                  className="p-4 rounded-btn bg-paper border border-line text-ink font-semibold flex items-center justify-between hover:border-line-strong transition-colors"
+                >
+                  <div className="flex items-center gap-3">
+                    <Phone className="w-5 h-5 flex-shrink-0 text-carbon" />
+                    <div>
+                      <span className="text-[11px] text-ink-3 block uppercase">Phone Call</span>
+                      <span className="text-base font-bold tabular-nums">{site.phoneDisplay}</span>
+                    </div>
+                  </div>
+                  <span className="text-xs text-carbon font-semibold">Call →</span>
+                </a>
+              </div>
+
+              <div className="pt-4 border-t border-line space-y-3 text-xs text-ink-2">
+                <div className="flex items-start gap-2.5">
+                  <Clock className="w-4 h-4 text-carbon flex-shrink-0 mt-0.5" />
+                  <span>
+                    <strong>Response commitment:</strong> Kulvir replies {site.responsePromise}.
+                  </span>
+                </div>
+                <div className="flex items-start gap-2.5">
+                  <MapPin className="w-4 h-4 text-carbon flex-shrink-0 mt-0.5" />
+                  <span>
+                    <strong>Location:</strong> Nagpur, Maharashtra. On-site visits available across MIDC Hingna, Butibori, and Central India.
+                  </span>
+                </div>
+                <div className="flex items-start gap-2.5">
+                  <ShieldCheck className="w-4 h-4 text-leaf flex-shrink-0 mt-0.5" />
+                  <span>
+                    <strong>Founder guarantee:</strong> You talk directly with Kulvir, not a sales representative or junior intern.
+                  </span>
+                </div>
+              </div>
             </div>
 
-            {/* Direct Details & Trust Card */}
-            <div className="lg:col-span-5 p-8 md:p-12 flex flex-col justify-between">
-              <div className="space-y-8">
-                <div>
-                  <h3 className="font-sans font-bold text-2xl text-white mb-2">
-                    The Direct Architect SLA
-                  </h3>
-                  <p className="text-sm font-mono text-neutral-400 leading-relaxed">
-                    When you reach out, your message doesn’t get assigned to a call center or junior rep. Kulvir Sharma personally reads every submission and responds with architectural feasibility and budget range.
-                  </p>
-                </div>
-
-                <div className="space-y-4 font-mono text-xs">
-                  <a
-                    href="https://wa.me/918888821351"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center justify-between p-4 border border-white/15 bg-black hover:bg-white/5 transition-colors group"
-                  >
-                    <div className="flex items-center gap-3">
-                      <MessageSquare className="w-4 h-4 text-terminal-green" />
-                      <span className="text-neutral-400 uppercase tracking-widest">WhatsApp Hotline</span>
-                    </div>
-                    <span className="text-white font-bold group-hover:text-terminal-green transition-colors">+91 88888 21351</span>
-                  </a>
-
-                  <a
-                    href="tel:+918888821351"
-                    className="flex items-center justify-between p-4 border border-white/15 bg-black hover:bg-white/5 transition-colors group"
-                  >
-                    <div className="flex items-center gap-3">
-                      <Phone className="w-4 h-4 text-white" />
-                      <span className="text-neutral-400 uppercase tracking-widest">Direct Phone</span>
-                    </div>
-                    <span className="text-white font-bold">+91 88888 21351</span>
-                  </a>
-
-                  <a
-                    href="mailto:hello@koolkonsulting.com"
-                    className="flex items-center justify-between p-4 border border-white/15 bg-black hover:bg-white/5 transition-colors group"
-                  >
-                    <div className="flex items-center gap-3">
-                      <Mail className="w-4 h-4 text-white" />
-                      <span className="text-neutral-400 uppercase tracking-widest">Email</span>
-                    </div>
-                    <span className="text-white font-bold">hello@koolkonsulting.com</span>
-                  </a>
-
-                  <div className="flex items-center justify-between p-4 border border-white/15 bg-black">
-                    <div className="flex items-center gap-3">
-                      <MapPin className="w-4 h-4 text-white" />
-                      <span className="text-neutral-400 uppercase tracking-widest">Location</span>
-                    </div>
-                    <span className="text-white font-bold text-right max-w-[150px]">Nagpur, IN</span>
-                  </div>
-                </div>
-              </div>
-
-              <div className="pt-8 mt-8 border-t border-white/15 flex items-center justify-between text-[10px] font-mono uppercase tracking-widest text-neutral-500">
-                <span className="flex items-center gap-2 text-terminal-green">
-                  <Clock className="w-3.5 h-3.5" /> Resp: &lt; 2 Hours
-                </span>
-                <span>Encrypted</span>
-              </div>
+            {/* Practical note */}
+            <div className="p-6 bg-carbon-050 rounded-card border border-[#DCD9F5] text-xs text-ink-2 space-y-1.5">
+              <span className="font-bold text-carbon block">What to have ready for the call:</span>
+              <p>
+                Nothing formal. Just know roughly how many hours your staff spends on WhatsApp, Tally, or Excel each day, and what problem you'd most like solved first.
+              </p>
             </div>
 
           </div>
-        </div>
-      </section>
 
+        </div>
+
+      </div>
     </div>
   );
 }
