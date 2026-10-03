@@ -21,15 +21,15 @@ export default function BeforeAfterDemo() {
       projectSlug: "construction-site-app",
       projectTitle: "Site attendance & wages app",
       facts: [
-        "Replaced 32-worker paper attendance ledger with 1-tap mobile check-in",
-        "Wages & overtime auto-calculate; supervisor saves 4 hours every Saturday",
-        "Daily petty cash receipts photographed and categorised on the spot",
+        "One-tap attendance on the supervisor's phone",
+        "Wages and overtime calculated automatically",
+        "Petty cash logged with a photo of the receipt",
       ],
       before: (
         <LedgerPaper className="h-full">
           <div className="space-y-3">
             <div className="text-center font-bold text-ledger-red border-b border-ledger-red/30 pb-1">
-              HAZIRI REGISTER — OKTOBER SITE #2
+              Haziri register, October, Site 2
             </div>
             <p>12 Oct: Ramesh Mistry — P (Adv ₹500)</p>
             <p>12 Oct: Suresh Beldar — P (Adv Nil)</p>
@@ -90,7 +90,7 @@ export default function BeforeAfterDemo() {
       facts: [
         "Eliminated manual guessing of interval food preparation",
         "Predicts exact samosa and popcorn demand based on show advance booking",
-        "Kitchen wastage reduced by 35% within 3 weeks of daily use",
+        "Kitchen prep alert sent 45 minutes before intermission",
       ],
       before: (
         <LedgerPaper className="h-full">
@@ -153,7 +153,7 @@ export default function BeforeAfterDemo() {
       ],
       before: (
         <ParchiSlip
-          title="KACCHI PARCHI #408"
+          title="PARCHI #408"
           items={[
             { label: "DAP Khad 50kg", qty: "10 bag", amount: "₹13,500" },
             { label: "Urea Neem Coated", qty: "20 bag", amount: "₹5,400" },

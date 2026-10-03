@@ -31,3 +31,8 @@ out
 # Deployments
 .netlify
 .vercel
+.env*
+
+# 3D assets outside public/
+*.glb
+!public/**/*.glb

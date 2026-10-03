@@ -1,3 +1,5 @@
+/* Every number, place, status, tool and quote here must come from Kulvir. Never fill these in yourself. */
+
 export interface Project {
   slug: string;
   title: string;
@@ -25,12 +27,10 @@ export const projects: Project[] = [
     slug: "construction-site-app",
     title: "Attendance, wages and site cash on the supervisor's phone",
     client: "Building site with 30+ workers",
-    place: "Nagpur, Maharashtra",
     industry: "construction",
     services: ["apps"],
-    status: "In daily use",
     year: "2025",
-    problem: "Attendance and site cash were kept in paper registers, so weekly wage calculations and daily contractor billing took hours of manual tallying, often leading to disputes.",
+    problem: "Attendance and site cash were kept in registers, so wages and weekly totals were worked out by hand.",
     built: [
       "Cross-platform Android & iOS app with simple PIN login for site supervisors",
       "Daily biometric-free attendance tracking for 30+ site workers with half-day and overtime rules",
@@ -45,19 +45,7 @@ export const projects: Project[] = [
       "At end of week, total wages, advances, and net balances calculate with zero manual arithmetic",
       "One tap generates a clean PDF voucher sent directly to the builder's WhatsApp",
     ],
-    tools: ["React Native (Expo)", "Firebase Firestore", "Cloud Functions", "WhatsApp Integration"],
-    results: [
-      {
-        value: "0",
-        label: "Manual wage calculation errors",
-        source: "Supervisor operational log",
-      },
-      {
-        value: "4 hrs",
-        label: "Saved per supervisor weekly",
-        source: "Field time audit",
-      },
-    ],
+    tools: ["React Native (Expo)", "Firebase"],
     featured: true,
     group: "client",
   },
@@ -65,12 +53,10 @@ export const projects: Project[] = [
     slug: "cinema-samosa-forecast",
     title: "How many samosas for the 9 pm show? The app works it out.",
     client: "Multi-screen cinema canteen",
-    place: "Nagpur, Maharashtra",
     industry: "hospitality",
     services: ["automation", "apps"],
-    status: "In daily use",
     year: "2025",
-    problem: "The cinema canteen staff had to guess food preparation quantities for every show, causing either food wastage on quiet nights or stockouts during weekend blockbusters.",
+    problem: "The canteen had to guess how many samosas to prepare for each show.",
     built: [
       "Mobile web app predicting food and snack demand for each screening based on advance bookings",
       "Statistical models calibrated on historical cinema register records by showtime, genre, and day type",
@@ -83,14 +69,7 @@ export const projects: Project[] = [
       "Head cook receives exact prep recommendation (samosas, popcorn tubs) on their phone",
       "Post-show actuals are recorded with one tap to continuously improve future estimates",
     ],
-    tools: ["Next.js", "Python Fast-API", "PostgreSQL", "WhatsApp Webhook Notifications"],
-    results: [
-      {
-        value: "35%",
-        label: "Reduction in evening snack wastage",
-        source: "Canteen inventory reports",
-      },
-    ],
+    tools: [],
     featured: true,
     group: "client",
   },
@@ -98,10 +77,8 @@ export const projects: Project[] = [
     slug: "movie-promo-autoposting",
     title: "New movie posters and trailers, posted automatically",
     client: "Independent cinema operator",
-    place: "Nagpur, Maharashtra",
     industry: "hospitality",
     services: ["automation"],
-    status: "Live",
     year: "2025",
     problem: "Updating show posters, synopsis details, and official YouTube trailers across social channels for 4 to 6 new releases every Friday took hours of manual downloading and formatting.",
     built: [
@@ -123,12 +100,11 @@ export const projects: Project[] = [
     slug: "wholesale-shop-billing",
     title: "From carbon-copy parchis to stock that matches the shelves",
     client: "Agri-input wholesale and retail distributor",
-    place: "Mandi Industrial Area",
+    place: "Haryana",
     industry: "trading",
     services: ["software"],
-    status: "In daily use",
     year: "2024",
-    problem: "Sales were recorded on physical carbon-copy paper parchis during peak morning trading rush, causing massive delays in ledger entry and stock figures that constantly drifted from physical godown inventory.",
+    problem: "Every sale was written on a carbon-copy parchi, so stock on the computer rarely matched the shop floor.",
     built: [
       "High-speed counter billing portal designed for fast keyboard-only and barcode entry",
       "Live stock deduction across retail counter and 2 off-site godowns",
@@ -150,10 +126,8 @@ export const projects: Project[] = [
     slug: "event-ticketing-onboarding",
     title: "Artist sign-ups and ticket requests for live music nights",
     client: "Kool Kalakaars live community",
-    place: "Nagpur, Maharashtra",
     industry: "hospitality",
     services: ["software", "automation"],
-    status: "Live",
     year: "2025",
     problem: "Organising community live music and open mic nights required managing hundreds of Instagram DMs, collecting audition audio files across WhatsApp, and manually issuing entry passes.",
     built: [
@@ -178,7 +152,6 @@ export const projects: Project[] = [
     place: "Lucknow, Uttar Pradesh",
     industry: "education",
     services: ["websites"],
-    status: "Live",
     year: "2024",
     problem: "Parents were constantly calling instructors during rehearsals to ask basic questions about batch timings, fee structures, age requirements, and workshop schedules.",
     built: [
@@ -202,7 +175,6 @@ export const projects: Project[] = [
     client: "The Three Marketeers",
     industry: "services",
     services: ["websites"],
-    status: "Live",
     year: "2024",
     problem: "An agency needed a distinctive, fast digital presence to showcase client campaigns and position their creative capability to enterprise brands.",
     built: [
@@ -221,7 +193,6 @@ export const projects: Project[] = [
     place: "London, UK",
     industry: "retail",
     services: ["websites"],
-    status: "Live",
     year: "2024",
     problem: "A high-end jewellery artisan required a clean, distraction-free portfolio to display bespoke handmade collections to private gallery clients.",
     built: [
