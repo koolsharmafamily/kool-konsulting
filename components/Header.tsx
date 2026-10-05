@@ -7,7 +7,8 @@ import Button from "@/components/ui/Button";
 import { servicesData } from "@/data/services";
 import { servicePricing } from "@/data/pricing";
 import { getWhatsAppUrl } from "@/lib/whatsapp";
-import { ChevronDown, Menu, X, MessageSquare } from "lucide-react";
+import { ChevronDown, Menu, X } from "lucide-react";
+import { WhatsAppIcon } from "@/components/brand/WhatsAppIcon";
 
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
@@ -29,16 +30,16 @@ export default function Header() {
       <header
         className={`sticky top-0 z-40 h-[72px] transition-all duration-200 border-b ${
           scrolled
-            ? "bg-paper/85 backdrop-blur-md border-line shadow-sm"
-            : "bg-paper/95 border-transparent"
+            ? "bg-bg/80 backdrop-blur-md border-line shadow-sm"
+            : "bg-bg/95 border-transparent"
         }`}
       >
         <div className="max-w-[1200px] h-full mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
-          {/* Brand Logo */}
-          <Logo />
+          {/* Brand Logo with first-load animation */}
+          <Logo animated={true} />
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center gap-8 text-[17px] font-sans font-medium text-ink">
+          <nav className="hidden md:flex items-center gap-8 text-[16px] font-sans font-medium text-ink">
             {/* Services with Hover/Click Flyout */}
             <div
               className="relative"
@@ -47,13 +48,13 @@ export default function Header() {
             >
               <button
                 onClick={() => setServicesOpen(!servicesOpen)}
-                className="inline-flex items-center gap-1.5 py-2 hover:text-carbon transition-colors"
+                className="inline-flex items-center gap-1.5 py-2 hover:text-kk-indigo transition-colors"
                 aria-expanded={servicesOpen}
               >
                 <span>Services</span>
                 <ChevronDown
                   className={`w-4 h-4 transition-transform duration-150 ${
-                    servicesOpen ? "rotate-180 text-carbon" : "text-ink-3"
+                    servicesOpen ? "rotate-180 text-kk-indigo" : "text-ink-3"
                   }`}
                 />
               </button>
@@ -66,10 +67,10 @@ export default function Header() {
                       key={svc.slug}
                       href={`/services/${svc.slug}`}
                       onClick={() => setServicesOpen(false)}
-                      className="block p-3 rounded-lg hover:bg-paper transition-colors group"
+                      className="block p-3 rounded-lg hover:bg-bg transition-colors group"
                     >
                       <div className="flex items-center justify-between">
-                        <span className="font-semibold text-ink group-hover:text-carbon text-sm">
+                        <span className="font-semibold text-ink group-hover:text-kk-indigo text-sm">
                           {svc.name}
                         </span>
                         <span className="text-xs text-ink-3 tabular-nums">
@@ -85,22 +86,22 @@ export default function Header() {
                     <Link
                       href="/services"
                       onClick={() => setServicesOpen(false)}
-                      className="block text-center text-xs font-semibold text-carbon hover:underline py-1"
+                      className="block text-center text-xs font-semibold text-kk-indigo hover:underline py-1"
                     >
-                      View all 4 services overview →
+                      View all 4 services overview
                     </Link>
                   </div>
                 </div>
               )}
             </div>
 
-            <Link href="/work" className="hover:text-carbon transition-colors">
+            <Link href="/work" className="hover:text-kk-indigo transition-colors">
               Work
             </Link>
-            <Link href="/pricing" className="hover:text-carbon transition-colors">
+            <Link href="/pricing" className="hover:text-kk-indigo transition-colors">
               Pricing
             </Link>
-            <Link href="/about" className="hover:text-carbon transition-colors">
+            <Link href="/about" className="hover:text-kk-indigo transition-colors">
               About
             </Link>
           </nav>
@@ -111,7 +112,6 @@ export default function Header() {
               variant="whatsapp"
               href={waHeaderUrl}
               className="text-sm px-5 py-2.5"
-              icon={<MessageSquare className="w-4 h-4" />}
             >
               Chat on WhatsApp
             </Button>
@@ -126,7 +126,7 @@ export default function Header() {
               aria-label="Chat on WhatsApp"
               className="w-11 h-11 rounded-btn bg-whatsapp flex items-center justify-center text-ink"
             >
-              <MessageSquare className="w-5 h-5" />
+              <WhatsAppIcon className="w-5 h-5 text-ink" />
             </a>
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -141,10 +141,10 @@ export default function Header() {
 
       {/* Full Screen Mobile Sheet */}
       {mobileMenuOpen && (
-        <div className="fixed inset-0 top-[72px] z-50 bg-paper flex flex-col justify-between p-6 overflow-y-auto md:hidden animate-in fade-in duration-150">
+        <div className="fixed inset-0 top-[72px] z-50 bg-bg flex flex-col justify-between p-6 overflow-y-auto md:hidden animate-in fade-in duration-150">
           <nav className="space-y-4 pt-4">
             <div className="border-b border-line pb-4">
-              <span className="text-xs uppercase tracking-wider text-ink-3 block mb-2 font-medium">
+              <span className="text-xs text-ink-3 block mb-2 font-medium">
                 Services
               </span>
               <div className="space-y-3">
@@ -196,7 +196,7 @@ export default function Header() {
               <Link
                 href="/contact"
                 onClick={() => setMobileMenuOpen(false)}
-                className="block text-xl font-bold text-carbon"
+                className="block text-xl font-bold text-kk-indigo"
               >
                 Free Tech Check-up
               </Link>
@@ -208,7 +208,6 @@ export default function Header() {
               variant="whatsapp"
               href={waHeaderUrl}
               className="w-full justify-center"
-              icon={<MessageSquare className="w-5 h-5" />}
             >
               WhatsApp (+91 88888 21351)
             </Button>

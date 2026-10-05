@@ -4,7 +4,7 @@ import { Section, SectionHeading } from "@/components/ui/Section";
 import Button from "@/components/ui/Button";
 import { site } from "@/data/site";
 import { getWhatsAppUrl } from "@/lib/whatsapp";
-import { MessageSquare, CheckCircle2 } from "lucide-react";
+import { CheckCircle2 } from "lucide-react";
 
 export default function FounderSection() {
   const waFounderUrl = getWhatsAppUrl("Hi Kulvir, I'd like to schedule a 30-minute tech check-up call.");
@@ -15,24 +15,21 @@ export default function FounderSection() {
         
         {/* Left Column: Cropped Photo in 4:5 aspect ratio in colour */}
         <div className="lg:col-span-5 flex justify-center">
-          <div className="relative w-full max-w-sm aspect-[4/5] rounded-card overflow-hidden border border-line shadow-floating bg-paper">
+          <div className="relative w-full max-w-sm aspect-[4/5] rounded-card overflow-hidden border border-line shadow-floating bg-bg">
             <Image
               src="/kulvir-sharma.webp"
               alt="Kulvir Sharma - Founder of Kool Konsulting in Nagpur"
               fill
-              sizes="(max-width: 768px) 100vw, 400px"
+              sizes="(min-width: 1024px) 360px, 80vw"
               className="object-cover"
               style={{ objectPosition: "60% 22%" }}
+              loading="eager"
             />
           </div>
         </div>
 
         {/* Right Column: Bio & Credentials */}
         <div className="lg:col-span-7 space-y-6">
-          <span className="text-xs font-semibold uppercase tracking-wider text-carbon bg-carbon-050 px-3 py-1 rounded-full border border-[#DCD9F5]">
-            Founder-Led Practice
-          </span>
-
           <h2 className="text-3xl md:text-5xl font-display font-bold text-ink tracking-tight leading-[1.08] font-stretch-h2">
             You'll work with Kulvir.
           </h2>
@@ -47,13 +44,10 @@ export default function FounderSection() {
 
           {/* Plain list of credentials */}
           <div className="pt-2 border-t border-line space-y-2">
-            <span className="text-xs font-semibold text-ink uppercase tracking-wider block mb-2">
-              Background & Credentials
-            </span>
             <ul className="space-y-1.5 text-xs text-ink-2">
               {site.founder.credentials.map((cred, idx) => (
                 <li key={idx} className="flex items-start gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-carbon flex-shrink-0 mt-0.5" />
+                  <CheckCircle2 className="w-4 h-4 text-kk-indigo flex-shrink-0 mt-0.5" />
                   <span>{cred}</span>
                 </li>
               ))}
@@ -64,7 +58,6 @@ export default function FounderSection() {
             <Button
               variant="whatsapp"
               href={waFounderUrl}
-              icon={<MessageSquare className="w-5 h-5" />}
             >
               Chat with Kulvir on WhatsApp
             </Button>

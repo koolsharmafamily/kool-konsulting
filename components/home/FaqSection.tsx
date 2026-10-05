@@ -20,11 +20,11 @@ export default function FaqSection() {
         {topFaqs.map((faq) => (
           <details
             key={faq.id}
-            className="group bg-paper border border-line rounded-card p-5 md:p-6 transition-colors hover:border-line-strong open:bg-surface open:shadow-sm"
+            className="group bg-bg border border-line rounded-card p-5 md:p-6 transition-colors hover:border-line-strong open:bg-surface open:shadow-sm"
           >
             <summary className="flex items-center justify-between cursor-pointer list-none text-base md:text-lg font-bold text-ink select-none font-display font-stretch-h3">
               <span>{faq.q}</span>
-              <ChevronDown className="w-5 h-5 text-ink-3 transition-transform duration-200 group-open:rotate-180 group-open:text-carbon flex-shrink-0 ml-4" />
+              <ChevronDown className="w-5 h-5 text-ink-3 transition-transform duration-200 group-open:rotate-180 group-open:text-kk-indigo flex-shrink-0 ml-4" />
             </summary>
             <div className="mt-3 pt-3 border-t border-line text-sm md:text-base text-ink-2 leading-relaxed">
               <p>{faq.a}</p>
@@ -36,9 +36,9 @@ export default function FaqSection() {
       <div className="text-center pt-8">
         <Link
           href="/faq"
-          className="text-sm font-semibold text-carbon hover:text-carbon-600 underline underline-offset-4"
+          className="text-sm font-semibold text-kk-indigo hover:text-kk-indigo-600 underline underline-offset-4"
         >
-          View all 10 common questions and answers →
+          View all 10 common questions and answers
         </Link>
       </div>
     </Section>

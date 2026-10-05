@@ -25,7 +25,7 @@ export default function Footer() {
 
           {/* Col 2: Services */}
           <div className="md:col-span-3 space-y-3">
-            <span className="text-xs font-semibold text-ink uppercase tracking-wider block">
+            <span className="text-xs font-semibold text-ink block">
               Services
             </span>
             <ul className="space-y-2.5 text-sm text-ink-2">
@@ -33,7 +33,7 @@ export default function Footer() {
                 <li key={s.slug}>
                   <Link
                     href={`/services/${s.slug}`}
-                    className="hover:text-carbon transition-colors"
+                    className="hover:text-kk-indigo transition-colors"
                   >
                     {s.name}
                   </Link>
@@ -42,9 +42,9 @@ export default function Footer() {
               <li className="pt-1">
                 <Link
                   href="/services"
-                  className="text-carbon hover:underline text-xs font-medium"
+                  className="text-kk-indigo hover:underline text-xs font-medium"
                 >
-                  All services overview →
+                  All services overview
                 </Link>
               </li>
             </ul>
@@ -52,32 +52,32 @@ export default function Footer() {
 
           {/* Col 3: Company */}
           <div className="md:col-span-2 space-y-3">
-            <span className="text-xs font-semibold text-ink uppercase tracking-wider block">
+            <span className="text-xs font-semibold text-ink block">
               Company
             </span>
             <ul className="space-y-2.5 text-sm text-ink-2">
               <li>
-                <Link href="/work" className="hover:text-carbon transition-colors">
+                <Link href="/work" className="hover:text-kk-indigo transition-colors">
                   Work & Proof
                 </Link>
               </li>
               <li>
-                <Link href="/pricing" className="hover:text-carbon transition-colors">
+                <Link href="/pricing" className="hover:text-kk-indigo transition-colors">
                   Pricing & Care
                 </Link>
               </li>
               <li>
-                <Link href="/about" className="hover:text-carbon transition-colors">
+                <Link href="/about" className="hover:text-kk-indigo transition-colors">
                   About Kulvir
                 </Link>
               </li>
               <li>
-                <Link href="/faq" className="hover:text-carbon transition-colors">
+                <Link href="/faq" className="hover:text-kk-indigo transition-colors">
                   FAQ
                 </Link>
               </li>
               <li>
-                <Link href="/credentials" className="hover:text-carbon transition-colors">
+                <Link href="/credentials" className="hover:text-kk-indigo transition-colors">
                   Credentials Sheet
                 </Link>
               </li>
@@ -86,7 +86,7 @@ export default function Footer() {
 
           {/* Col 4: Contact & Hours */}
           <div className="md:col-span-3 space-y-3 text-sm text-ink-2">
-            <span className="text-xs font-semibold text-ink uppercase tracking-wider block">
+            <span className="text-xs font-semibold text-ink block">
               Contact & Hours
             </span>
             <div className="space-y-2">
@@ -96,21 +96,21 @@ export default function Footer() {
                   href={getWhatsAppUrl()}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-carbon hover:underline"
+                  className="text-kk-indigo hover:underline"
                 >
                   {site.phoneDisplay}
                 </a>
               </p>
               <p>
                 <strong className="text-ink font-medium">Phone:</strong>{" "}
-                <a href={getPhoneUrl()} className="hover:text-carbon">
+                <a href={getPhoneUrl()} className="hover:text-kk-indigo">
                   {site.phoneDisplay}
                 </a>
               </p>
               {site.emailLive && (
                 <p>
                   <strong className="text-ink font-medium">Email:</strong>{" "}
-                  <a href={`mailto:${site.email}`} className="text-carbon hover:underline">
+                  <a href={`mailto:${site.email}`} className="text-kk-indigo hover:underline">
                     {site.email}
                   </a>
                 </p>

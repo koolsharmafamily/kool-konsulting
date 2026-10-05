@@ -10,16 +10,38 @@ import FounderSection from "@/components/home/FounderSection";
 import BallparkEstimator from "@/components/home/BallparkEstimator";
 import FaqSection from "@/components/home/FaqSection";
 import FinalCtaSection from "@/components/home/FinalCtaSection";
+import { site } from "@/data/site";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { getWebSiteSchema } from "@/lib/schema";
 
 export const metadata = {
   title: "Website, App and Software Development in Nagpur | Kool Konsulting",
   description:
     "We build websites, apps, business software and automations for growing Indian businesses. Founder-led, fixed quotes, and based in Nagpur.",
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    title: "Website, App and Software Development in Nagpur | Kool Konsulting",
+    description:
+      "We build websites, apps, business software and automations for growing Indian businesses. Founder-led, fixed quotes, and based in Nagpur.",
+    url: site.origin,
+    siteName: site.name,
+    locale: "en_IN",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Website, App and Software Development in Nagpur | Kool Konsulting",
+    description:
+      "We build websites, apps, business software and automations for growing Indian businesses. Founder-led, fixed quotes, and based in Nagpur.",
+  },
 };
 
 export default function HomePage() {
   return (
-    <div className="flex flex-col w-full bg-paper">
+    <div className="flex flex-col w-full bg-bg">
+      <JsonLd data={getWebSiteSchema()} />
       {/* 1. Hero Section */}
       <HeroSection />
 

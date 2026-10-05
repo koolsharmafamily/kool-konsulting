@@ -2,6 +2,7 @@ import React from "react";
 import Link from "next/link";
 import { site } from "@/data/site";
 import { getWhatsAppUrl } from "@/lib/whatsapp";
+import { WhatsAppIcon } from "@/components/brand/WhatsAppIcon";
 
 export const metadata = {
   title: "Enquiry Received | Kool Konsulting",
@@ -15,10 +16,10 @@ export default function ThanksPage() {
   const waUrl = getWhatsAppUrl("Hi Kulvir, I just submitted an enquiry on your website.");
 
   return (
-    <div className="min-h-screen bg-paper text-ink flex items-center justify-center px-4 py-16">
+    <div className="min-h-screen bg-bg text-ink flex items-center justify-center px-4 py-16">
       <div className="max-w-xl w-full bg-surface border border-line rounded-[28px] p-8 md:p-12 shadow-sm space-y-8">
         <div className="space-y-3">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-carbon-050 text-carbon text-sm font-medium">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-kk-indigo-050 text-kk-indigo text-sm font-medium">
             <span className="w-2 h-2 rounded-full bg-leaf"></span>
             Enquiry Received
           </div>
@@ -31,12 +32,12 @@ export default function ThanksPage() {
         </div>
 
         <div className="border-t border-line pt-6 space-y-4">
-          <h2 className="text-sm font-semibold text-ink uppercase tracking-wider">
+          <h2 className="text-sm font-semibold text-ink">
             What happens next
           </h2>
           <ol className="space-y-4 text-sm text-ink-2">
             <li className="flex items-start gap-3">
-              <span className="flex-shrink-0 w-6 h-6 rounded-full bg-carbon-050 text-carbon flex items-center justify-center font-bold text-xs">
+              <span className="flex-shrink-0 w-6 h-6 rounded-full bg-kk-indigo-050 text-kk-indigo flex items-center justify-center font-bold text-xs">
                 1
               </span>
               <span>
@@ -44,7 +45,7 @@ export default function ThanksPage() {
               </span>
             </li>
             <li className="flex items-start gap-3">
-              <span className="flex-shrink-0 w-6 h-6 rounded-full bg-carbon-050 text-carbon flex items-center justify-center font-bold text-xs">
+              <span className="flex-shrink-0 w-6 h-6 rounded-full bg-kk-indigo-050 text-kk-indigo flex items-center justify-center font-bold text-xs">
                 2
               </span>
               <span>
@@ -52,7 +53,7 @@ export default function ThanksPage() {
               </span>
             </li>
             <li className="flex items-start gap-3">
-              <span className="flex-shrink-0 w-6 h-6 rounded-full bg-carbon-050 text-carbon flex items-center justify-center font-bold text-xs">
+              <span className="flex-shrink-0 w-6 h-6 rounded-full bg-kk-indigo-050 text-kk-indigo flex items-center justify-center font-bold text-xs">
                 3
               </span>
               <span>
@@ -69,6 +70,7 @@ export default function ThanksPage() {
             rel="noopener noreferrer"
             className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-whatsapp text-ink font-semibold rounded-xl text-sm hover:opacity-95 transition-opacity"
           >
+            <WhatsAppIcon className="w-4 h-4 text-ink" />
             <span>Message Kulvir on WhatsApp</span>
           </a>
           <Link

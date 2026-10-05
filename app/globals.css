@@ -4,25 +4,31 @@
 
 @layer base {
   :root {
-    --paper: #FBFAF6;
+    --bg: #F6F7FB;
+    --paper: #F6F7FB;
     --surface: #FFFFFF;
-    --ink: #17161C;
-    --ink-2: #55515E;
-    --ink-3: #6F6A78;
-    --line: #E6E2DA;
-    --line-strong: #D6D0C4;
-    --carbon: #35309A;
-    --carbon-600: #2B2783;
-    --carbon-050: #EEEDFA;
+    --ink: #0E0F1A;
+    --ink-2: #4A4D63;
+    --ink-3: #6B6F86;
+    --line: #E3E6EF;
+    --line-strong: #D1D5E2;
+    --kk-indigo: #3D35E0;
+    --kk-indigo-600: #2F28B8;
+    --kk-indigo-050: #EEEDFF;
+    --carbon: #3D35E0;
+    --carbon-600: #2F28B8;
+    --carbon-050: #EEEDFF;
+    --kk-signal: #22C3EE;
+    --engine: #0B0C16;
     --bahi: #B3261E;
     --ledger-red: #C9443A;
     --ledger-rule: #C8D3EC;
-    --leaf: #1E7A4C;
+    --leaf: #166534;
     --whatsapp: #25D366;
   }
 
   body {
-    background-color: var(--paper);
+    background-color: var(--bg);
     color: var(--ink);
     font-family: var(--font-mukta), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     font-size: 18px;
@@ -34,13 +40,13 @@
 
   /* Accessible focus ring */
   *:focus-visible {
-    outline: 2px solid var(--carbon);
+    outline: 2px solid var(--kk-indigo);
     outline-offset: 2px;
   }
 
   ::selection {
-    background-color: var(--carbon-050);
-    color: var(--carbon);
+    background-color: var(--kk-indigo-050);
+    color: var(--kk-indigo);
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -89,3 +95,96 @@
   background-image: linear-gradient(to bottom, transparent 96%, #C8D3EC 96%);
   background-size: 100% 28px;
 }
+
+/* Logo Motion (§2.4) */
+@keyframes kk-draw-stem {
+  from {
+    stroke-dashoffset: 80;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes kk-draw-diamond {
+  from {
+    stroke-dashoffset: 220;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes kk-node-appear {
+  0% {
+    transform: rotate(45deg) scale(0);
+    opacity: 0;
+  }
+  70% {
+    transform: rotate(45deg) scale(1.25);
+    opacity: 1;
+  }
+  100% {
+    transform: rotate(45deg) scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes kk-node-pulse {
+  0% {
+    transform: rotate(45deg) scale(1);
+  }
+  50% {
+    transform: rotate(45deg) scale(1.3);
+  }
+  100% {
+    transform: rotate(45deg) scale(1);
+  }
+}
+
+.kk-animate .kk-stem {
+  stroke-dasharray: 80;
+  stroke-dashoffset: 80;
+  animation: kk-draw-stem 0.4s ease-out forwards;
+}
+
+.kk-animate .kk-diamond {
+  stroke-dasharray: 220;
+  stroke-dashoffset: 220;
+  animation: kk-draw-diamond 0.5s ease-out 0.25s forwards;
+}
+
+.kk-animate .kk-node {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: kk-node-appear 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.65s forwards;
+}
+
+.kk-hover-pulse:hover .kk-node {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: kk-node-pulse 0.3s ease-in-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .kk-animate .kk-stem,
+  .kk-animate .kk-diamond,
+  .kk-animate .kk-node,
+  .kk-hover-pulse:hover .kk-node {
+    animation: none !important;
+    stroke-dashoffset: 0 !important;
+    opacity: 1 !important;
+  }
+}
+
+/* Restrained Dot Grid (§3.2) */
+.bg-dot-grid-light {
+  background-image: radial-gradient(#D9DCE8 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+
+.bg-dot-grid-dark {
+  background-image: radial-gradient(#23253A 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+

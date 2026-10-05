@@ -2,20 +2,48 @@ import React from "react";
 import Link from "next/link";
 import { site } from "@/data/site";
 import { Section } from "@/components/ui/Section";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { getBreadcrumbSchema } from "@/lib/schema";
 
 export const metadata = {
   title: "Privacy Notice | Kool Konsulting",
   description:
     "Plain-language privacy policy complying with India's Digital Personal Data Protection (DPDP) Act 2023.",
+  alternates: {
+    canonical: "/privacy",
+  },
+  openGraph: {
+    title: "Privacy Notice | Kool Konsulting",
+    description:
+      "Plain-language privacy policy complying with India's Digital Personal Data Protection (DPDP) Act 2023.",
+    url: `${site.origin}/privacy`,
+    siteName: site.name,
+    locale: "en_IN",
+    type: "website",
+    images: [{ url: "/opengraph-image", width: 1200, height: 630 }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Privacy Notice | Kool Konsulting",
+    description:
+      "Plain-language privacy policy complying with India's Digital Personal Data Protection (DPDP) Act 2023.",
+    images: ["/opengraph-image"],
+  },
 };
 
 export default function PrivacyPage() {
+  const breadcrumbs = getBreadcrumbSchema([
+    { name: "Home", url: "/" },
+    { name: "Privacy", url: "/privacy" },
+  ]);
+
   return (
-    <div className="bg-paper min-h-screen py-16 md:py-24">
+    <div className="bg-bg min-h-screen py-16 md:py-24">
+      <JsonLd data={breadcrumbs} />
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
         
         <div className="border-b border-line pb-6 space-y-2">
-          <span className="text-xs font-semibold uppercase tracking-wider text-carbon bg-carbon-050 px-3 py-1 rounded-full border border-[#DCD9F5]">
+          <span className="text-xs font-semibold text-kk-indigo bg-kk-indigo-050 px-3 py-1 rounded-full border border-[#DCD9F5]">
             Compliance
           </span>
           <h1 className="text-3xl md:text-5xl font-display font-bold text-ink tracking-tight font-stretch-h1">
@@ -92,8 +120,8 @@ export default function PrivacyPage() {
         </div>
 
         <div className="pt-8 border-t border-line">
-          <Link href="/" className="text-xs font-semibold text-carbon hover:underline">
-            ← Return to Homepage
+          <Link href="/" className="text-xs font-semibold text-kk-indigo hover:underline">
+            Return to homepage
           </Link>
         </div>
 

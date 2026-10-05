@@ -41,13 +41,13 @@ const industries: IndustryRow[] = [
   {
     industry: "Shops and showrooms",
     problem: "High street footfall slowing down because local buyers search Google and find nearby competitors with updated profiles.",
-    builds: ["Mobile catalogue website", "Google Business Profile optimization", "WhatsApp digital product catalogue"],
+    builds: ["Mobile catalogue website", "Google profile setup", "WhatsApp digital product catalogue"],
   },
 ];
 
 export default function IndustryMatrix() {
   return (
-    <Section variant="paper">
+    <Section variant="bg">
       <SectionHeading
         h2="Built for businesses like yours"
         lead="Whether you manage a factory in Hingna, a mandi shop in Kalamna, or a clinic in Ramdaspeth, we build software around how you already run."
@@ -57,7 +57,7 @@ export default function IndustryMatrix() {
         {industries.map((ind, idx) => (
           <div
             key={idx}
-            className="p-6 md:p-8 grid grid-cols-1 md:grid-cols-12 gap-6 items-center hover:bg-paper/40 transition-colors"
+            className="p-6 md:p-8 grid grid-cols-1 md:grid-cols-12 gap-6 items-center hover:bg-bg/40 transition-colors"
           >
             {/* Col 1: Industry title */}
             <div className="md:col-span-4">
@@ -68,22 +68,22 @@ export default function IndustryMatrix() {
 
             {/* Col 2: The everyday problem */}
             <div className="md:col-span-4 text-sm text-ink-2 leading-relaxed">
-              <span className="text-[11px] font-semibold text-ledger-red uppercase tracking-wider block mb-1">
-                The Bottleneck
+              <span className="text-xs font-medium text-ink-3 block mb-1">
+                The problem
               </span>
               <p>{ind.problem}</p>
             </div>
 
             {/* Col 3: Typical builds */}
             <div className="md:col-span-4 space-y-1.5">
-              <span className="text-[11px] font-semibold text-carbon uppercase tracking-wider block mb-1">
-                Typical Builds
+              <span className="text-xs font-medium text-ink-3 block mb-1">
+                What we build
               </span>
               <div className="flex flex-wrap gap-1.5">
                 {ind.builds.map((b, i) => (
                   <span
                     key={i}
-                    className="px-2.5 py-1 rounded bg-paper border border-line text-xs font-medium text-ink"
+                    className="px-2.5 py-1 rounded bg-bg border border-line text-xs font-medium text-ink"
                   >
                     {b}
                   </span>

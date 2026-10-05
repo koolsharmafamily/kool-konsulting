@@ -6,16 +6,42 @@ import Button from "@/components/ui/Button";
 import FinalCtaSection from "@/components/home/FinalCtaSection";
 import { site } from "@/data/site";
 import { getWhatsAppUrl } from "@/lib/whatsapp";
-import { CheckCircle2, MessageSquare, ArrowRight } from "lucide-react";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { getPersonSchema, getBreadcrumbSchema } from "@/lib/schema";
+import { CheckCircle2 } from "lucide-react";
 
 export const metadata = {
   title: "About Kulvir Sharma & Kool Konsulting | Nagpur",
   description:
     "Founder-led technology studio in Nagpur. Background in finance, logistics, and software engineering for Indian MSMEs.",
+  alternates: {
+    canonical: "/about",
+  },
+  openGraph: {
+    title: "About Kulvir Sharma & Kool Konsulting | Nagpur",
+    description:
+      "Founder-led technology studio in Nagpur. Background in finance, logistics, and software engineering for Indian MSMEs.",
+    url: `${site.origin}/about`,
+    siteName: site.name,
+    locale: "en_IN",
+    type: "website",
+    images: [{ url: "/opengraph-image", width: 1200, height: 630 }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "About Kulvir Sharma & Kool Konsulting | Nagpur",
+    description:
+      "Founder-led technology studio in Nagpur. Background in finance, logistics, and software engineering for Indian MSMEs.",
+    images: ["/opengraph-image"],
+  },
 };
 
 export default function AboutPage() {
   const waAboutUrl = getWhatsAppUrl("Hi Kulvir, I was reading your story on the about page. Let's talk about my business.");
+  const breadcrumbs = getBreadcrumbSchema([
+    { name: "Home", url: "/" },
+    { name: "About", url: "/about" },
+  ]);
 
   const principles = [
     {
@@ -37,7 +63,9 @@ export default function AboutPage() {
   ];
 
   return (
-    <div className="bg-paper min-h-screen">
+    <div className="bg-bg min-h-screen">
+      <JsonLd data={getPersonSchema()} />
+      <JsonLd data={breadcrumbs} />
       
       {/* 1. Header & Story */}
       <section className="pt-16 pb-16 md:pt-24 md:pb-24 bg-surface border-b border-line">
@@ -45,12 +73,12 @@ export default function AboutPage() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             
             <div className="lg:col-span-5 flex justify-center">
-              <div className="relative w-full max-w-sm aspect-[4/5] rounded-card overflow-hidden border border-line shadow-floating bg-paper">
+              <div className="relative w-full max-w-sm aspect-[4/5] rounded-card overflow-hidden border border-line shadow-floating bg-bg">
                 <Image
                   src="/kulvir-sharma.webp"
                   alt="Kulvir Sharma - Tech Architect & Founder of Kool Konsulting"
                   fill
-                  sizes="(max-width: 768px) 100vw, 400px"
+                  sizes="(min-width: 1024px) 360px, 80vw"
                   className="object-cover"
                   style={{ objectPosition: "60% 22%" }}
                   priority
@@ -59,7 +87,7 @@ export default function AboutPage() {
             </div>
 
             <div className="lg:col-span-7 space-y-6">
-              <span className="text-xs font-semibold uppercase tracking-wider text-carbon bg-carbon-050 px-3 py-1 rounded-full border border-[#DCD9F5]">
+              <span className="text-xs font-semibold text-kk-indigo bg-kk-indigo-050 px-3 py-1 rounded-full border border-[#DCD9F5]">
                 Founder Story
               </span>
 
@@ -89,7 +117,6 @@ export default function AboutPage() {
                 <Button
                   variant="whatsapp"
                   href={waAboutUrl}
-                  icon={<MessageSquare className="w-5 h-5" />}
                 >
                   Chat with Kulvir on WhatsApp
                 </Button>
@@ -101,7 +128,7 @@ export default function AboutPage() {
       </section>
 
       {/* 2. Credentials List */}
-      <Section variant="paper">
+      <Section variant="bg">
         <SectionHeading
           h2="Background & credentials"
           lead="Rigorous commercial discipline combined with practical software engineering."
@@ -113,7 +140,7 @@ export default function AboutPage() {
               key={idx}
               className="p-5 bg-surface rounded-card border border-line flex items-start gap-3.5 shadow-sm"
             >
-              <CheckCircle2 className="w-5 h-5 text-carbon flex-shrink-0 mt-0.5" />
+              <CheckCircle2 className="w-5 h-5 text-kk-indigo flex-shrink-0 mt-0.5" />
               <span className="text-sm md:text-base text-ink font-medium leading-relaxed">
                 {cred}
               </span>
@@ -133,9 +160,9 @@ export default function AboutPage() {
           {principles.map((pr, idx) => (
             <div
               key={idx}
-              className="p-6 md:p-8 bg-paper rounded-stage border border-line space-y-3"
+              className="p-6 md:p-8 bg-bg rounded-stage border border-line space-y-3"
             >
-              <div className="w-8 h-8 rounded-full bg-carbon-050 text-carbon font-display font-bold text-sm flex items-center justify-center border border-[#DCD9F5]">
+              <div className="w-8 h-8 rounded-full bg-kk-indigo-050 text-kk-indigo font-display font-bold text-sm flex items-center justify-center border border-[#DCD9F5]">
                 0{idx + 1}
               </div>
               <h3 className="font-display font-bold text-xl text-ink font-stretch-h3">
@@ -151,10 +178,9 @@ export default function AboutPage() {
         <div className="text-center pt-10">
           <Link
             href="/work#earlier"
-            className="text-xs font-semibold text-carbon hover:underline inline-flex items-center gap-1"
+            className="text-xs font-semibold text-kk-indigo hover:underline"
           >
-            <span>See earlier roles, corporate research and prototypes</span>
-            <ArrowRight className="w-3.5 h-3.5" />
+            See earlier roles, corporate research and prototypes
           </Link>
         </div>
       </Section>

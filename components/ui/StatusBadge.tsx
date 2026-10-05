@@ -13,7 +13,7 @@ export function StatusBadge({ status, className = "" }: StatusBadgeProps) {
   const styles: Record<ProjectStatus, string> = {
     Live: "bg-[#E6F4EA] text-leaf border-[#CEEAD6]",
     "In daily use": "bg-[#E6F4EA] text-leaf border-[#CEEAD6]",
-    Pilot: "bg-carbon-050 text-carbon border-[#DCD9F5]",
+    Pilot: "bg-kk-indigo-050 text-kk-indigo border-[#DCD9F5]",
     Prototype: "bg-[#FEF7E0] text-[#B06000] border-[#FEEFC3]",
     "Earlier role": "bg-[#F1F3F4] text-ink-2 border-line",
   };
@@ -29,7 +29,7 @@ export function StatusBadge({ status, className = "" }: StatusBadgeProps) {
           status === "Live" || status === "In daily use"
             ? "bg-leaf"
             : status === "Pilot"
-            ? "bg-carbon"
+            ? "bg-kk-indigo"
             : status === "Prototype"
             ? "bg-[#B06000]"
             : "bg-ink-3"
@@ -60,7 +60,7 @@ export function Chip({
       onClick={onClick}
       className={`inline-flex items-center px-3.5 py-1.5 rounded-full text-sm font-medium transition-colors ${
         active
-          ? "bg-carbon text-paper border border-carbon"
+          ? "bg-ink text-white border border-ink"
           : "bg-surface text-ink-2 border border-line hover:border-line-strong hover:text-ink"
       } ${onClick ? "cursor-pointer" : ""} ${className}`}
     >

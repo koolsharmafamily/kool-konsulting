@@ -3,7 +3,8 @@
 import React, { useState, useEffect } from "react";
 import { site } from "@/data/site";
 import { getWhatsAppUrl, getPhoneUrl } from "@/lib/whatsapp";
-import { MessageSquare, Phone } from "lucide-react";
+import { WhatsAppIcon } from "@/components/brand/WhatsAppIcon";
+import { Phone } from "lucide-react";
 
 export default function MobileActionBar() {
   const [visible, setVisible] = useState(false);
@@ -31,17 +32,17 @@ export default function MobileActionBar() {
           href={getWhatsAppUrl("Hi Kulvir, I'm reaching out from your website.")}
           target="_blank"
           rel="noopener noreferrer"
-          className="h-14 rounded-btn bg-whatsapp text-ink font-semibold flex items-center justify-center gap-2 text-base shadow-sm active:opacity-90"
+          className="h-14 rounded-btn bg-whatsapp text-ink font-semibold flex items-center justify-center gap-2 text-base shadow-sm active:opacity-90 active:translate-y-[1px]"
         >
-          <MessageSquare className="w-5 h-5 flex-shrink-0" />
+          <WhatsAppIcon className="w-5 h-5 flex-shrink-0 text-ink" />
           <span>WhatsApp</span>
         </a>
 
         <a
           href={getPhoneUrl()}
-          className="h-14 rounded-btn bg-surface border border-line text-ink font-semibold flex items-center justify-center gap-2 text-base shadow-sm active:bg-paper"
+          className="h-14 rounded-btn bg-surface border border-line text-ink font-semibold flex items-center justify-center gap-2 text-base shadow-sm active:bg-bg active:translate-y-[1px]"
         >
-          <Phone className="w-5 h-5 flex-shrink-0 text-carbon" />
+          <Phone className="w-5 h-5 flex-shrink-0 text-ink" />
           <span>Call</span>
         </a>
       </div>

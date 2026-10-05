@@ -9,7 +9,7 @@ export default function ServicesIndex() {
   const serviceList = Object.values(servicesData);
 
   return (
-    <Section variant="paper">
+    <Section variant="bg">
       <SectionHeading
         h2="What we build"
         lead="Most businesses start with one thing and add the rest later."
@@ -17,26 +17,21 @@ export default function ServicesIndex() {
 
       {/* List Style Rows */}
       <div className="border border-line rounded-stage bg-surface divide-y divide-line overflow-hidden shadow-sm">
-        {serviceList.map((svc, idx) => {
+        {serviceList.map((svc) => {
           const pricing = servicePricing[svc.slug];
 
           return (
             <div
               key={svc.slug}
-              className="p-6 md:p-10 transition-colors hover:bg-paper/40 group"
+              className="p-6 md:p-10 transition-colors hover:bg-bg/40 group"
             >
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
                 
                 {/* Col 1: Service Info & Chips */}
                 <div className="lg:col-span-8 space-y-4">
-                  <div className="flex flex-wrap items-center gap-3">
-                    <span className="text-xs font-bold text-carbon uppercase tracking-wider">
-                      0{idx + 1}
-                    </span>
-                    <h3 className="font-display font-bold text-2xl md:text-3xl text-ink font-stretch-h3">
-                      {svc.name}
-                    </h3>
-                  </div>
+                  <h3 className="font-display font-bold text-2xl md:text-3xl text-ink font-stretch-h3">
+                    {svc.name}
+                  </h3>
 
                   <p className="text-base md:text-lg text-ink-2 font-normal leading-relaxed">
                     {svc.lead}
@@ -47,7 +42,7 @@ export default function ServicesIndex() {
                     {svc.examples.map((ex, i) => (
                       <span
                         key={i}
-                        className="px-3 py-1 rounded-full text-xs font-medium bg-paper border border-line text-ink-2"
+                        className="px-3 py-1 rounded-full text-xs font-medium bg-bg border border-line text-ink-2"
                       >
                         {ex}
                       </span>
@@ -74,10 +69,7 @@ export default function ServicesIndex() {
 
                 {/* Col 2: Action & Mini Visual preview */}
                 <div className="lg:col-span-4 flex flex-col sm:flex-row lg:flex-col items-start lg:items-end justify-between gap-4">
-                  <div className="w-full max-w-[260px] p-3 rounded-card bg-paper border border-line text-xs space-y-2">
-                    <span className="text-[10px] font-semibold text-carbon uppercase tracking-wider block">
-                      Deliverable highlight
-                    </span>
+                  <div className="w-full max-w-[260px] p-3 rounded-card bg-bg border border-line text-xs">
                     <p className="text-ink-2 line-clamp-2 text-xs">
                       {svc.deliverables[0]}
                     </p>
@@ -85,10 +77,9 @@ export default function ServicesIndex() {
 
                   <Link
                     href={`/services/${svc.slug}`}
-                    className="inline-flex items-center gap-2 text-sm font-semibold text-ink group-hover:text-carbon transition-colors mt-2"
+                    className="inline-flex items-center gap-2 text-sm font-semibold text-ink group-hover:text-kk-indigo transition-colors mt-2"
                   >
                     <span>See {svc.name.toLowerCase()} details</span>
-                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                   </Link>
                 </div>
 

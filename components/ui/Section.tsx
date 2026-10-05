@@ -4,19 +4,22 @@ interface SectionProps {
   id?: string;
   className?: string;
   children: React.ReactNode;
-  variant?: "paper" | "surface" | "carbon-050";
+  variant?: "bg" | "paper" | "surface" | "engine" | "indigo-050" | "carbon-050";
 }
 
 export function Section({
   id,
   className = "",
   children,
-  variant = "paper",
+  variant = "bg",
 }: SectionProps) {
   const bgStyles = {
-    paper: "bg-paper",
+    bg: "bg-bg",
+    paper: "bg-bg",
     surface: "bg-surface border-y border-line",
-    "carbon-050": "bg-carbon-050 border-y border-[#DCD9F5]",
+    engine: "bg-engine border-y border-[#23253A] text-[#F6F7FB]",
+    "indigo-050": "bg-kk-indigo-050 border-y border-[#DCD9F5]",
+    "carbon-050": "bg-kk-indigo-050 border-y border-[#DCD9F5]",
   };
 
   return (

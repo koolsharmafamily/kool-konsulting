@@ -8,15 +8,15 @@ interface LedgerPaperProps {
 export function LedgerPaper({ children, className = "" }: LedgerPaperProps) {
   return (
     <div
-      className={`relative p-6 md:p-8 bg-[#FAF7EF] border border-[#E2DCBD] rounded-card shadow-sm font-handwriting text-carbon leading-[28px] overflow-hidden select-none ${className}`}
+      className={`relative p-6 md:p-8 bg-[#FAF7EF] border border-[#E2DCBD] rounded-card shadow-sm font-handwriting text-[#1C244B] leading-[28px] overflow-hidden select-none ${className}`}
       style={{
         backgroundImage: "linear-gradient(to bottom, transparent 27px, #C8D3EC 27px)",
         backgroundSize: "100% 28px",
       }}
     >
       {/* Red Ledger Margin Lines */}
-      <div className="absolute top-0 bottom-0 left-12 w-[1px] bg-ledger-red/60 pointer-events-none" />
-      <div className="absolute top-0 bottom-0 left-14 w-[1px] bg-ledger-red/60 pointer-events-none" />
+      <div className="absolute top-0 bottom-0 left-12 w-[1px] bg-bahi/60 pointer-events-none" />
+      <div className="absolute top-0 bottom-0 left-14 w-[1px] bg-bahi/60 pointer-events-none" />
 
       {/* Content */}
       <div className="pl-8 relative z-10 text-base md:text-lg">
@@ -41,14 +41,14 @@ export function ParchiSlip({
 }: ParchiSlipProps) {
   return (
     <div
-      className={`relative p-5 bg-[#FFFDF7] border border-[#D9D3BD] rounded-lg shadow-sm font-handwriting text-carbon max-w-sm mx-auto select-none ${className}`}
+      className={`relative p-5 bg-[#FFFDF7] border border-[#D9D3BD] rounded-lg shadow-sm font-handwriting text-[#1C244B] max-w-sm mx-auto select-none ${className}`}
       style={{
         backgroundImage: "linear-gradient(to bottom, transparent 25px, #D0DBEE 25px)",
         backgroundSize: "100% 26px",
       }}
     >
-      <div className="text-center border-b border-ledger-red/40 pb-2 mb-2">
-        <span className="text-sm font-bold text-ledger-red font-sans uppercase tracking-wider block">
+      <div className="text-center border-b border-bahi/40 pb-2 mb-2">
+        <span className="text-sm font-bold text-bahi font-sans block">
           {title}
         </span>
         <span className="text-xs text-ink-3 font-sans">Sample handwritten register slip</span>

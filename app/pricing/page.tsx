@@ -5,24 +5,51 @@ import BallparkEstimator from "@/components/home/BallparkEstimator";
 import FinalCtaSection from "@/components/home/FinalCtaSection";
 import { servicePricing, carePlans } from "@/data/pricing";
 import { site } from "@/data/site";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { getBreadcrumbSchema } from "@/lib/schema";
 import { Check, ShieldCheck, CheckCircle2 } from "lucide-react";
 
 export const metadata = {
   title: "Pricing & Care Plans | Kool Konsulting",
   description:
     "Transparent starting prices and care plans for Indian businesses. Fixed written quotes, milestone payments, zero software lock-in.",
+  alternates: {
+    canonical: "/pricing",
+  },
+  openGraph: {
+    title: "Pricing & Care Plans | Kool Konsulting",
+    description:
+      "Transparent starting prices and care plans for Indian businesses. Fixed written quotes, milestone payments, zero software lock-in.",
+    url: `${site.origin}/pricing`,
+    siteName: site.name,
+    locale: "en_IN",
+    type: "website",
+    images: [{ url: "/opengraph-image", width: 1200, height: 630 }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Pricing & Care Plans | Kool Konsulting",
+    description:
+      "Transparent starting prices and care plans for Indian businesses. Fixed written quotes, milestone payments, zero software lock-in.",
+    images: ["/opengraph-image"],
+  },
 };
 
 export default function PricingPage() {
   const services = Object.values(servicePricing);
+  const breadcrumbs = getBreadcrumbSchema([
+    { name: "Home", url: "/" },
+    { name: "Pricing", url: "/pricing" },
+  ]);
 
   return (
-    <div className="bg-paper min-h-screen">
+    <div className="bg-bg min-h-screen">
+      <JsonLd data={breadcrumbs} />
       
       {/* 1. Header */}
       <section className="pt-16 pb-12 md:pt-24 md:pb-16 bg-surface border-b border-line">
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 max-w-3xl">
-          <span className="text-xs font-semibold uppercase tracking-wider text-carbon bg-carbon-050 px-3 py-1 rounded-full border border-[#DCD9F5]">
+          <span className="text-xs font-semibold text-kk-indigo bg-kk-indigo-050 px-3 py-1 rounded-full border border-[#DCD9F5]">
             Transparent Investment
           </span>
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-display font-bold text-ink tracking-tight mt-4 mb-4 font-stretch-h1">
@@ -35,7 +62,7 @@ export default function PricingPage() {
       </section>
 
       {/* 2. Core Services Price Table */}
-      <Section id="engagement-models" variant="paper">
+      <Section id="engagement-models" variant="bg">
         <SectionHeading
           h2="Starting prices by service"
           lead="Every quote is fixed for the agreed scope. No open-ended hourly billing."
@@ -71,7 +98,7 @@ export default function PricingPage() {
                 </div>
 
                 <div className="space-y-2">
-                  <span className="text-xs font-semibold text-ink uppercase tracking-wider block">
+                  <span className="text-xs font-semibold text-ink-3 block">
                     What is included in this tier:
                   </span>
                   <ul className="space-y-2 text-xs md:text-sm text-ink-2">
@@ -110,7 +137,7 @@ export default function PricingPage() {
           {carePlans.map((plan, idx) => (
             <div
               key={idx}
-              className="bg-paper rounded-stage border border-line p-8 flex flex-col justify-between space-y-6"
+              className="bg-bg rounded-stage border border-line p-8 flex flex-col justify-between space-y-6"
             >
               <div className="space-y-4">
                 <div className="border-b border-line pb-4">
@@ -149,9 +176,9 @@ export default function PricingPage() {
       </Section>
 
       {/* 4. Payment Terms & Guarantee */}
-      <Section variant="paper">
+      <Section variant="bg">
         <div className="max-w-3xl mx-auto p-8 bg-surface rounded-stage border border-line space-y-6">
-          <div className="flex items-center gap-3 text-carbon">
+          <div className="flex items-center gap-3 text-kk-indigo">
             <ShieldCheck className="w-6 h-6" />
             <h2 className="font-display font-bold text-2xl text-ink">
               How payments and ownership work
@@ -168,7 +195,7 @@ export default function PricingPage() {
               Any bugs or defects in what we built are resolved free for{" "}
               {site.freeFixWindowDays} days after launch.
             </p>
-            <p className="p-4 bg-paper rounded-card border border-line text-xs font-medium text-ink">
+            <p className="p-4 bg-bg rounded-card border border-line text-xs font-medium text-ink">
               Never included: licence fees paid to us, lock-in, or charges you didn't approve in writing. All prices exclude GST.
             </p>
           </div>

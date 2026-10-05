@@ -48,7 +48,7 @@ const comparisonRows = [
 
 export default function ComparisonSection() {
   return (
-    <Section id="why" variant="paper">
+    <Section id="why" variant="bg">
       <SectionHeading
         h2="Why owners choose Kool Konsulting"
         lead="How our founder-led approach compares to typical alternatives in India."
@@ -58,31 +58,31 @@ export default function ComparisonSection() {
       <div className="border border-line rounded-stage bg-surface overflow-x-auto shadow-sm">
         <table className="w-full text-left border-collapse min-w-[720px] text-sm">
           <thead>
-            <tr className="border-b border-line bg-paper/60">
-              <th className="p-4 md:p-5 font-semibold text-ink-3 uppercase text-xs tracking-wider sticky left-0 bg-paper/90 backdrop-blur z-10 w-1/4">
-                Comparison
+            <tr className="border-b border-line bg-bg/60">
+              <th scope="col" className="p-4 md:p-5 sticky left-0 bg-surface z-10 w-1/4">
+                <span className="sr-only">Evaluation Criteria</span>
               </th>
-              <th className="p-4 md:p-5 font-display font-bold text-carbon text-base md:text-lg bg-carbon-050/40 w-1/4">
+              <th scope="col" className="p-4 md:p-5 font-display font-bold text-kk-indigo text-base md:text-lg bg-kk-indigo-050/40 w-1/4">
                 Kool Konsulting
               </th>
-              <th className="p-4 md:p-5 font-medium text-ink-2 text-xs md:text-sm w-1/6">
+              <th scope="col" className="p-4 md:p-5 font-medium text-ink-2 text-xs md:text-sm w-1/6">
                 Typical IT Agency
               </th>
-              <th className="p-4 md:p-5 font-medium text-ink-2 text-xs md:text-sm w-1/6">
+              <th scope="col" className="p-4 md:p-5 font-medium text-ink-2 text-xs md:text-sm w-1/6">
                 Freelancer
               </th>
-              <th className="p-4 md:p-5 font-medium text-ink-2 text-xs md:text-sm w-1/6">
+              <th scope="col" className="p-4 md:p-5 font-medium text-ink-2 text-xs md:text-sm w-1/6">
                 Ready-made SaaS
               </th>
             </tr>
           </thead>
           <tbody className="divide-y divide-line">
             {comparisonRows.map((row, idx) => (
-              <tr key={idx} className="hover:bg-paper/30 transition-colors">
-                <td className="p-4 md:p-5 font-semibold text-ink sticky left-0 bg-surface z-10 border-r border-line text-xs md:text-sm">
+              <tr key={idx} className="hover:bg-bg/40 transition-colors">
+                <th scope="row" className="p-4 md:p-5 font-semibold text-ink sticky left-0 bg-surface z-10 border-r border-line text-xs md:text-sm text-left font-sans">
                   {row.criterion}
-                </td>
-                <td className="p-4 md:p-5 font-semibold text-ink bg-carbon-050/20 border-r border-line text-xs md:text-sm">
+                </th>
+                <td className="p-4 md:p-5 font-semibold text-ink bg-kk-indigo-050/20 border-r border-line text-xs md:text-sm">
                   {row.kool}
                 </td>
                 <td className="p-4 md:p-5 text-ink-2 text-xs md:text-sm">

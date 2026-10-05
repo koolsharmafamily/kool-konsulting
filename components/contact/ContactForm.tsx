@@ -4,7 +4,8 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Button from "@/components/ui/Button";
 import { getWhatsAppUrl } from "@/lib/whatsapp";
-import { MessageSquare, CheckCircle2, AlertCircle } from "lucide-react";
+import { WhatsAppIcon } from "@/components/brand/WhatsAppIcon";
+import { CheckCircle2, AlertCircle } from "lucide-react";
 
 export default function ContactForm() {
   const [name, setName] = useState("");
@@ -110,7 +111,6 @@ export default function ContactForm() {
           <Button
             variant="whatsapp"
             href={getWhatsAppUrl(`Hi Kulvir, I just submitted an enquiry for ${business}.`)}
-            icon={<MessageSquare className="w-4 h-4" />}
           >
             Chat with Kulvir on WhatsApp
           </Button>
@@ -143,10 +143,10 @@ export default function ContactForm() {
               href={waFallbackUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="font-semibold underline inline-flex items-center gap-1"
+              className="font-semibold underline inline-flex items-center gap-1.5"
             >
+              <WhatsAppIcon className="w-4 h-4 text-ledger-red" />
               <span>Click here to send this via WhatsApp instead</span>
-              <MessageSquare className="w-3.5 h-3.5" />
             </a>
           </div>
         </div>
@@ -155,7 +155,7 @@ export default function ContactForm() {
       {/* Row 1: Name and Business */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div className="space-y-1.5">
-          <label htmlFor="name" className="block text-xs font-semibold uppercase tracking-wider text-ink">
+          <label htmlFor="name" className="block text-xs font-semibold text-ink">
             Your Name <span className="text-ledger-red">*</span>
           </label>
           <input
@@ -166,12 +166,12 @@ export default function ContactForm() {
             value={name}
             onChange={(e) => setName(e.target.value)}
             placeholder="e.g. Anand Agrawal"
-            className="w-full px-4 py-3 bg-paper border border-line rounded-btn text-ink text-sm focus:border-carbon focus:bg-surface focus:outline-none transition-colors"
+            className="w-full px-4 py-3 bg-bg border border-line rounded-btn text-ink text-sm focus:border-kk-indigo focus:bg-surface focus:outline-none transition-colors"
           />
         </div>
 
         <div className="space-y-1.5">
-          <label htmlFor="business" className="block text-xs font-semibold uppercase tracking-wider text-ink">
+          <label htmlFor="business" className="block text-xs font-semibold text-ink">
             Business Name <span className="text-ledger-red">*</span>
           </label>
           <input
@@ -182,14 +182,14 @@ export default function ContactForm() {
             value={business}
             onChange={(e) => setBusiness(e.target.value)}
             placeholder="e.g. Vidarbha Agro"
-            className="w-full px-4 py-3 bg-paper border border-line rounded-btn text-ink text-sm focus:border-carbon focus:bg-surface focus:outline-none transition-colors"
+            className="w-full px-4 py-3 bg-bg border border-line rounded-btn text-ink text-sm focus:border-kk-indigo focus:bg-surface focus:outline-none transition-colors"
           />
         </div>
       </div>
 
       {/* Row 2: Phone/WhatsApp */}
       <div className="space-y-1.5">
-        <label htmlFor="phone" className="block text-xs font-semibold uppercase tracking-wider text-ink">
+        <label htmlFor="phone" className="block text-xs font-semibold text-ink">
           Phone or WhatsApp Number <span className="text-ledger-red">*</span>
         </label>
         <input
@@ -200,7 +200,7 @@ export default function ContactForm() {
           value={phone}
           onChange={(e) => setPhone(e.target.value)}
           placeholder="+91 98230 XXXXX"
-          className="w-full px-4 py-3 bg-paper border border-line rounded-btn text-ink text-sm focus:border-carbon focus:bg-surface focus:outline-none transition-colors tabular-nums"
+          className="w-full px-4 py-3 bg-bg border border-line rounded-btn text-ink text-sm focus:border-kk-indigo focus:bg-surface focus:outline-none transition-colors tabular-nums"
         />
         <span className="text-[11px] text-ink-3">
           Kulvir replies personally on this number. No marketing calls.
@@ -209,7 +209,7 @@ export default function ContactForm() {
 
       {/* Row 3: What do you need? Chips */}
       <div className="space-y-2">
-        <label className="block text-xs font-semibold uppercase tracking-wider text-ink">
+        <label className="block text-xs font-semibold text-ink">
           What do you need built?
         </label>
         <input type="hidden" name="service" value={service} />
@@ -223,8 +223,8 @@ export default function ContactForm() {
                 onClick={() => setService(chip)}
                 className={`px-3.5 py-1.5 rounded-full text-xs font-medium border transition-colors ${
                   isSelected
-                    ? "bg-carbon text-paper border-carbon font-semibold"
-                    : "bg-paper text-ink-2 border-line hover:border-line-strong hover:text-ink"
+                    ? "bg-ink text-white border-ink font-semibold"
+                    : "bg-bg text-ink-2 border-line hover:border-line-strong hover:text-ink"
                 }`}
               >
                 {chip}
@@ -236,7 +236,7 @@ export default function ContactForm() {
 
       {/* Row 4: Tell us a little (Textarea) */}
       <div className="space-y-1.5">
-        <label htmlFor="problem" className="block text-xs font-semibold uppercase tracking-wider text-ink">
+        <label htmlFor="problem" className="block text-xs font-semibold text-ink">
           Tell us a little about where your team loses time (Optional)
         </label>
         <textarea
@@ -246,14 +246,14 @@ export default function ContactForm() {
           value={problem}
           onChange={(e) => setProblem(e.target.value)}
           placeholder="e.g. We take orders on WhatsApp and lose track of payments, or site attendance is still kept in notebooks."
-          className="w-full px-4 py-3 bg-paper border border-line rounded-btn text-ink text-sm focus:border-carbon focus:bg-surface focus:outline-none transition-colors resize-none"
+          className="w-full px-4 py-3 bg-bg border border-line rounded-btn text-ink text-sm focus:border-kk-indigo focus:bg-surface focus:outline-none transition-colors resize-none"
         />
       </div>
 
       {/* Row 5: City and Email */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div className="space-y-1.5">
-          <label htmlFor="city" className="block text-xs font-semibold uppercase tracking-wider text-ink">
+          <label htmlFor="city" className="block text-xs font-semibold text-ink">
             City (Optional)
           </label>
           <input
@@ -263,12 +263,12 @@ export default function ContactForm() {
             value={city}
             onChange={(e) => setCity(e.target.value)}
             placeholder="Nagpur"
-            className="w-full px-4 py-3 bg-paper border border-line rounded-btn text-ink text-sm focus:border-carbon focus:bg-surface focus:outline-none transition-colors"
+            className="w-full px-4 py-3 bg-bg border border-line rounded-btn text-ink text-sm focus:border-kk-indigo focus:bg-surface focus:outline-none transition-colors"
           />
         </div>
 
         <div className="space-y-1.5">
-          <label htmlFor="email" className="block text-xs font-semibold uppercase tracking-wider text-ink">
+          <label htmlFor="email" className="block text-xs font-semibold text-ink">
             Email Address (Optional)
           </label>
           <input
@@ -278,7 +278,7 @@ export default function ContactForm() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="anand@example.com"
-            className="w-full px-4 py-3 bg-paper border border-line rounded-btn text-ink text-sm focus:border-carbon focus:bg-surface focus:outline-none transition-colors"
+            className="w-full px-4 py-3 bg-bg border border-line rounded-btn text-ink text-sm focus:border-kk-indigo focus:bg-surface focus:outline-none transition-colors"
           />
         </div>
       </div>
@@ -296,7 +296,7 @@ export default function ContactForm() {
 
         <p className="text-[11px] text-ink-3 text-center leading-relaxed">
           We'll use these details only to reply to your enquiry. We don't share them.{" "}
-          <Link href="/privacy" className="text-carbon hover:underline">
+          <Link href="/privacy" className="text-kk-indigo hover:underline">
             Read our DPDP privacy notice
           </Link>.
         </p>

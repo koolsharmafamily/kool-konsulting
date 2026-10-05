@@ -38,7 +38,7 @@ export const servicePricing: Record<string, ServicePricing> = {
         range: "₹60,000 – ₹1,20,000",
         min: 60000,
         max: 120000,
-        example: "Multi-page catalogue or service portal with CMS and local SEO architecture",
+        example: "Multi-page catalogue or service portal with CMS and set up to be found on Google",
       },
       advanced: {
         range: "₹1,20,000 – ₹2,50,000",

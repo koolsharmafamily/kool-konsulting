@@ -5,7 +5,10 @@ import { projects, getProjectBySlug } from "@/data/work";
 import { StatusBadge } from "@/components/ui/StatusBadge";
 import Button from "@/components/ui/Button";
 import { getWhatsAppUrl } from "@/lib/whatsapp";
-import { ArrowLeft, ArrowRight, Check, MessageSquare, ArrowUpRight } from "lucide-react";
+import { site } from "@/data/site";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { getBreadcrumbSchema } from "@/lib/schema";
+import { ArrowLeft, ArrowRight, Check, ArrowUpRight } from "lucide-react";
 
 export async function generateStaticParams() {
   return projects.map((p) => ({
@@ -19,6 +22,22 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   return {
     title: `${project.title} | Kool Konsulting`,
     description: project.problem,
+    alternates: {
+      canonical: `/work/${params.slug}`,
+    },
+    openGraph: {
+      title: `${project.title} | Kool Konsulting`,
+      description: project.problem,
+      url: `${site.origin}/work/${params.slug}`,
+      siteName: site.name,
+      locale: "en_IN",
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${project.title} | Kool Konsulting`,
+      description: project.problem,
+    },
   };
 }
 
@@ -33,6 +52,12 @@ export default function ProjectDetailPage({
     notFound();
   }
 
+  const breadcrumbs = getBreadcrumbSchema([
+    { name: "Home", url: "/" },
+    { name: "Work", url: "/work" },
+    { name: project.title, url: `/work/${params.slug}` },
+  ]);
+
   // Next and previous navigation
   const currentIndex = projects.findIndex((p) => p.slug === params.slug);
   const prevProject = currentIndex > 0 ? projects[currentIndex - 1] : null;
@@ -43,14 +68,15 @@ export default function ProjectDetailPage({
   );
 
   return (
-    <div className="bg-paper min-h-screen py-12 md:py-20">
+    <div className="bg-bg min-h-screen py-12 md:py-20">
+      <JsonLd data={breadcrumbs} />
       <div className="max-w-[1000px] mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
         
         {/* Back navigation */}
         <div>
           <Link
             href="/work"
-            className="inline-flex items-center gap-1.5 text-xs font-semibold text-ink-3 hover:text-carbon transition-colors"
+            className="inline-flex items-center gap-1.5 text-xs font-semibold text-ink-3 hover:text-kk-indigo transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
             <span>Back to all work</span>
@@ -60,7 +86,7 @@ export default function ProjectDetailPage({
         {/* 1. Header & Metadata */}
         <div className="space-y-4 border-b border-line pb-8">
           <div className="flex flex-wrap items-center gap-3">
-            <span className="text-xs font-semibold uppercase tracking-wider text-carbon bg-carbon-050 px-3 py-1 rounded-full border border-[#DCD9F5]">
+            <span className="text-xs font-semibold text-kk-indigo bg-kk-indigo-050 px-3 py-1 rounded-full border border-[#DCD9F5]">
               {project.services.join(" · ")}
             </span>
             <StatusBadge status={project.status} />
@@ -82,7 +108,7 @@ export default function ProjectDetailPage({
                 href={project.liveUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 text-xs font-semibold text-carbon hover:underline"
+                className="inline-flex items-center gap-1.5 text-xs font-semibold text-kk-indigo hover:underline"
               >
                 <span>Visit live project</span>
                 <ArrowUpRight className="w-3.5 h-3.5" />
@@ -93,8 +119,8 @@ export default function ProjectDetailPage({
 
         {/* 2. The Problem */}
         <div className="space-y-3">
-          <span className="text-xs font-semibold text-ledger-red uppercase tracking-wider block">
-            The Problem, in the owner's words
+          <span className="text-xs font-semibold text-bahi block">
+            The problem, in the owner's words
           </span>
           <div className="p-6 md:p-8 bg-surface rounded-card border border-line text-base md:text-lg text-ink font-normal leading-relaxed shadow-sm">
             "{project.problem}"
@@ -103,7 +129,7 @@ export default function ProjectDetailPage({
 
         {/* 3. What We Built */}
         <div className="space-y-4">
-          <span className="text-xs font-semibold text-ink-3 uppercase tracking-wider block">
+          <span className="text-xs font-semibold text-ink-3 block">
             What was built & delivered
           </span>
           <div className="grid grid-cols-1 gap-3">
@@ -122,14 +148,14 @@ export default function ProjectDetailPage({
         {/* 4. How It Works (Flow diagram in HTML) */}
         {project.howItWorks && project.howItWorks.length > 0 && (
           <div className="space-y-4">
-            <span className="text-xs font-semibold text-carbon uppercase tracking-wider block">
+            <span className="text-xs font-semibold text-kk-indigo block">
               How the system works (Step by step)
             </span>
             <div className="bg-surface rounded-stage border border-line p-6 md:p-8 space-y-4">
-              <ol className="relative border-l-2 border-carbon-050 ml-3 space-y-6">
+              <ol className="relative border-l-2 border-kk-indigo-050 ml-3 space-y-6">
                 {project.howItWorks.map((step, idx) => (
                   <li key={idx} className="ml-6">
-                    <span className="absolute -left-3.5 flex items-center justify-center w-7 h-7 rounded-full bg-carbon-050 text-carbon font-bold text-xs border border-[#DCD9F5]">
+                    <span className="absolute -left-3.5 flex items-center justify-center w-7 h-7 rounded-full bg-kk-indigo-050 text-kk-indigo font-bold text-xs border border-[#DCD9F5]">
                       {idx + 1}
                     </span>
                     <p className="text-sm md:text-base text-ink font-medium leading-relaxed">
@@ -145,7 +171,7 @@ export default function ProjectDetailPage({
         {/* 5. Measured Results (If real figures exist) */}
         {project.results && project.results.length > 0 && (
           <div className="space-y-4">
-            <span className="text-xs font-semibold text-leaf uppercase tracking-wider block">
+            <span className="text-xs font-semibold text-leaf block">
               Measured operational results
             </span>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -172,8 +198,8 @@ export default function ProjectDetailPage({
         {/* 6. Tools Stack */}
         {project.tools && project.tools.length > 0 && (
           <div className="space-y-2 border-t border-line pt-6">
-            <span className="text-xs font-semibold text-ink-3 uppercase tracking-wider block">
-              Tools & Stack
+            <span className="text-xs font-semibold text-ink-3 block">
+              Tools & stack
             </span>
             <div className="flex flex-wrap gap-2">
               {project.tools.map((t, idx) => (
@@ -189,7 +215,7 @@ export default function ProjectDetailPage({
         )}
 
         {/* 7. Action Card */}
-        <div className="p-8 md:p-12 rounded-stage bg-carbon-050 border border-[#DCD9F5] text-center space-y-6">
+        <div className="p-8 md:p-12 rounded-stage bg-kk-indigo-050 border border-[#DCD9F5] text-center space-y-6">
           <h2 className="text-2xl sm:text-3xl font-display font-bold text-ink">
             Want something like this for your business?
           </h2>
@@ -200,7 +226,6 @@ export default function ProjectDetailPage({
             <Button
               variant="whatsapp"
               href={waProjectUrl}
-              icon={<MessageSquare className="w-5 h-5" />}
             >
               Chat about this project on WhatsApp
             </Button>
@@ -215,7 +240,7 @@ export default function ProjectDetailPage({
           {prevProject ? (
             <Link
               href={`/work/${prevProject.slug}`}
-              className="inline-flex items-center gap-1.5 text-ink hover:text-carbon transition-colors"
+              className="inline-flex items-center gap-1.5 text-ink hover:text-kk-indigo transition-colors"
             >
               <ArrowLeft className="w-4 h-4" />
               <span>Previous: {prevProject.title.slice(0, 30)}...</span>
@@ -227,7 +252,7 @@ export default function ProjectDetailPage({
           {nextProject ? (
             <Link
               href={`/work/${nextProject.slug}`}
-              className="inline-flex items-center gap-1.5 text-ink hover:text-carbon transition-colors text-right"
+              className="inline-flex items-center gap-1.5 text-ink hover:text-kk-indigo transition-colors text-right"
             >
               <span>Next: {nextProject.title.slice(0, 30)}...</span>
               <ArrowRight className="w-4 h-4" />

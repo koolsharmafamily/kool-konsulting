@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" role="img" aria-label="Kool Konsulting">
+  <g fill="none" stroke="#3D35E0" stroke-width="15" stroke-linejoin="miter" stroke-miterlimit="10">
+    <path d="M17 12V88M83 12V88" stroke-linecap="butt"/>
+    <path d="M22 50L50 22L78 50L50 78Z" stroke-linecap="butt"/>
+  </g>
+  <rect x="45" y="45" width="10" height="10" fill="#22C3EE"/>
+</svg>

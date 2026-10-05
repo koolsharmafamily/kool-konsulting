@@ -5,6 +5,8 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import MobileActionBar from "@/components/MobileActionBar";
 import { site } from "@/data/site";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { getOrganizationSchema } from "@/lib/schema";
 
 // Display: Anek Latin with width axis
 const anekLatin = Anek_Latin({
@@ -32,10 +34,42 @@ const kalam = Kalam({
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.origin),
-  title: "Website, App and Software Development in Nagpur | Kool Konsulting",
+  title: {
+    default: "Website, App and Software Development in Nagpur | Kool Konsulting",
+    template: "%s | Kool Konsulting",
+  },
   description: site.oneLiner,
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    title: "Website, App and Software Development in Nagpur | Kool Konsulting",
+    description: site.oneLiner,
+    url: site.origin,
+    siteName: site.name,
+    locale: "en_IN",
+    type: "website",
+    images: [
+      {
+        url: "/opengraph-image",
+        width: 1200,
+        height: 630,
+        alt: "Kool Konsulting - Website, App and Software Development in Nagpur",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Website, App and Software Development in Nagpur | Kool Konsulting",
+    description: site.oneLiner,
+    images: ["/opengraph-image"],
+  },
   icons: {
-    icon: "/favicon.svg",
+    icon: [
+      { url: "/favicon.svg", type: "image/svg+xml" },
+      { url: "/icon.svg", type: "image/svg+xml" },
+    ],
+    apple: "/apple-icon.png",
   },
 };
 
@@ -49,7 +83,8 @@ export default function RootLayout({
       lang="en"
       className={`${anekLatin.variable} ${mukta.variable} ${kalam.variable} scroll-smooth`}
     >
-      <body className="min-h-screen bg-paper text-ink font-sans antialiased flex flex-col selection:bg-carbon-050 selection:text-carbon">
+      <body className="min-h-screen bg-bg text-ink font-sans antialiased flex flex-col selection:bg-kk-indigo-050 selection:text-kk-indigo">
+        <JsonLd data={getOrganizationSchema()} />
         <Header />
         <main className="flex-1 flex flex-col">{children}</main>
         <Footer />
@@ -58,3 +93,4 @@ export default function RootLayout({
     </html>
   );
 }
+

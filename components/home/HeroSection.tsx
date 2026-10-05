@@ -5,7 +5,8 @@ import Link from "next/link";
 import dynamic from "next/dynamic";
 import Button from "@/components/ui/Button";
 import { getWhatsAppUrl } from "@/lib/whatsapp";
-import { MessageSquare, ArrowUpRight } from "lucide-react";
+import { WhatsAppIcon } from "@/components/brand/WhatsAppIcon";
+import { ArrowUpRight, RotateCcw } from "lucide-react";
 
 // Dynamic import with SSR disabled for three.js canvas
 const BahiKhataScene = dynamic(
@@ -16,34 +17,99 @@ const BahiKhataScene = dynamic(
 export default function HeroSection() {
   const [scrollProgress, setScrollProgress] = useState(0);
   const [canLoad3D, setCanLoad3D] = useState(false);
+  const [canvasReady, setCanvasReady] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  const [isPlayingMobile, setIsPlayingMobile] = useState(false);
+  const [hasPlayedMobile, setHasPlayedMobile] = useState(false);
+
   const heroRef = useRef<HTMLDivElement>(null);
+  const stageRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 1024);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+
     // Check reduced motion & performance fallbacks
     const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const isSaveData = (navigator as any).connection?.saveData;
+    const isLowMemory = (navigator as any).deviceMemory && (navigator as any).deviceMemory < 4;
+    const isLowConcurrency = navigator.hardwareConcurrency && navigator.hardwareConcurrency < 4;
 
-    if (!prefersReducedMotion && !isSaveData) {
-      // Load 3D scene after browser reaches idle state
+    if (!prefersReducedMotion && !isSaveData && !isLowMemory && !isLowConcurrency) {
       if ("requestIdleCallback" in window) {
-        (window as any).requestIdleCallback(() => setCanLoad3D(true), { timeout: 2000 });
+        (window as any).requestIdleCallback(() => setCanLoad3D(true), { timeout: 1500 });
       } else {
-        setTimeout(() => setCanLoad3D(true), 800);
+        setTimeout(() => setCanLoad3D(true), 600);
       }
     }
+
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
+  // Desktop scroll progress tracking
+  useEffect(() => {
+    if (isMobile) return;
 
     const handleScroll = () => {
       if (!heroRef.current) return;
       const rect = heroRef.current.getBoundingClientRect();
       const heroHeight = rect.height;
       const topOffset = -rect.top;
-      const progress = Math.max(0, Math.min(1, topOffset / (heroHeight * 0.75)));
+      // Map scroll offset to progress (0 -> 1)
+      const progress = Math.max(0, Math.min(1, topOffset / (heroHeight * 0.65)));
       setScrollProgress(progress);
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll();
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [isMobile]);
+
+  // Mobile play-on-view mechanics per REDESIGN-PROMPT-V3 §7.5
+  useEffect(() => {
+    if (!isMobile || !stageRef.current || !canLoad3D) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && !hasPlayedMobile && !isPlayingMobile) {
+            playMobileAnimation();
+          }
+        });
+      },
+      { threshold: 0.6 }
+    );
+
+    observer.observe(stageRef.current);
+    return () => observer.disconnect();
+  }, [isMobile, canLoad3D, hasPlayedMobile, isPlayingMobile]);
+
+  const playMobileAnimation = () => {
+    setIsPlayingMobile(true);
+    setHasPlayedMobile(true);
+    const duration = 4500; // 4.5 seconds per §7.5
+    const startTime = performance.now();
+
+    const animate = (currentTime: number) => {
+      const elapsed = currentTime - startTime;
+      const p = Math.min(1, elapsed / duration);
+      setScrollProgress(p);
+
+      if (p < 1) {
+        requestAnimationFrame(animate);
+      } else {
+        setIsPlayingMobile(false);
+      }
+    };
+
+    requestAnimationFrame(animate);
+  };
+
+  const handleReplay = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    playMobileAnimation();
+  };
 
   const waHeroUrl = getWhatsAppUrl(
     "Hi Kulvir, I saw your homepage. I'd like to talk about tech for my business."
@@ -52,14 +118,20 @@ export default function HeroSection() {
   return (
     <section
       ref={heroRef}
-      className="relative pt-12 pb-20 md:pt-20 md:pb-28 overflow-hidden bg-paper"
+      className="relative pt-12 pb-20 md:pt-20 md:pb-32 overflow-hidden bg-bg"
     >
-      <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
+      {/* Restrained Dot Grid with radial mask */}
+      <div className="absolute inset-0 bg-dot-grid-light opacity-50 pointer-events-none" />
+
+      <div className="relative max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
           
           {/* Left Column: Headlines & CTAs */}
           <div className="lg:col-span-7 space-y-6">
-            <h1 className="text-4xl sm:text-5xl lg:text-[68px] font-display font-bold text-ink tracking-tight leading-[1.04] font-stretch-h1">
+            <h1
+              className="text-4xl sm:text-5xl lg:text-[68px] font-display font-[720] text-ink tracking-tight leading-[1.0] font-stretch-h1"
+              style={{ fontStretch: "108%" }}
+            >
               We build the tech that runs growing Indian businesses.
             </h1>
 
@@ -74,7 +146,7 @@ export default function HeroSection() {
               <Button
                 variant="secondary"
                 href={waHeroUrl}
-                icon={<MessageSquare className="w-5 h-5 text-whatsapp" />}
+                icon={<WhatsAppIcon className="w-5 h-5 text-whatsapp" />}
               >
                 Chat on WhatsApp
               </Button>
@@ -89,76 +161,96 @@ export default function HeroSection() {
 
           {/* Right Column: 3D Stage */}
           <div className="lg:col-span-5 w-full">
-            <div className="relative aspect-[4/4.2] sm:aspect-square w-full max-w-[460px] mx-auto rounded-stage bg-surface border border-line shadow-floating p-6 flex flex-col justify-between overflow-hidden">
-              
-              {/* Top pill */}
+            <div
+              ref={stageRef}
+              className="relative aspect-[4/4.3] sm:aspect-square w-full max-w-[460px] mx-auto rounded-stage bg-surface border border-line shadow-floating p-6 flex flex-col justify-between overflow-hidden"
+            >
+              {/* Stage header caption in sentence case per §4.2 & §5 */}
               <div className="flex items-center justify-between z-10 pointer-events-none">
-                <span className="text-xs font-semibold uppercase tracking-wider text-carbon bg-carbon-050 px-3 py-1 rounded-full border border-[#DCD9F5]">
-                  From registers to real-time
+                <span className="text-xs font-medium text-ink-3">
+                  From registers to real-time.
                 </span>
-                <span className="text-[11px] text-ink-3 font-medium">
-                  {canLoad3D ? "Drag to Rotate 3D" : "Interactive Stage"}
-                </span>
+                <div className="flex items-center gap-2 pointer-events-auto">
+                  {isMobile && hasPlayedMobile && !isPlayingMobile && (
+                    <button
+                      onClick={handleReplay}
+                      className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-surface border border-line text-[11px] font-medium text-ink hover:text-kk-indigo transition-colors"
+                      title="Replay 3D transition"
+                    >
+                      <RotateCcw className="w-2.5 h-2.5" />
+                      <span>Replay</span>
+                    </button>
+                  )}
+                  <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-kk-indigo-050 text-kk-indigo text-[11px] font-medium">
+                    <span className="w-1.5 h-1.5 rounded-full bg-kk-signal animate-pulse" />
+                    Live 3D
+                  </span>
+                </div>
               </div>
 
-              {/* 3D Canvas / Poster Stand-in */}
+              {/* 3D Canvas / Poster Container with cross-fade (Stage never blank per §4.1) */}
               <div className="my-auto relative w-full h-[280px] sm:h-[320px] flex items-center justify-center">
-                {canLoad3D ? (
-                  <BahiKhataScene scrollProgress={scrollProgress} />
-                ) : (
-                  <div className="relative w-44 sm:w-52 h-64 sm:h-72 bg-bahi rounded-lg shadow-xl border-t-2 border-r-2 border-[#D94C43] p-4 flex flex-col justify-between text-paper transform -rotate-3 transition-transform duration-300">
-                    <div className="absolute top-28 -left-2 -right-2 h-3.5 bg-[#EBE1C9] shadow-sm rounded-full transform rotate-1 flex items-center justify-center">
-                      <span className="w-4 h-4 rounded-full bg-[#DFD2B4] shadow-inner" />
-                    </div>
-                    <div className="border border-dashed border-paper/40 h-full w-full rounded p-3 flex flex-col justify-between">
-                      <div className="flex justify-between items-start text-[10px] text-paper/70 font-sans tracking-widest uppercase">
-                        <span>Bahi Khata</span>
-                        <span>Nagpur</span>
-                      </div>
-                      <div className="text-center space-y-1">
-                        <div className="w-8 h-8 mx-auto rounded bg-paper/10 border border-paper/30 flex items-center justify-center">
-                          <span className="font-display font-bold text-sm">KK</span>
-                        </div>
-                        <span className="text-xs font-display tracking-tight text-paper/90 block">
-                          Kool Konsulting
-                        </span>
-                      </div>
-                      <div className="text-center text-[10px] text-paper/60 font-sans">
-                        Cloth Bound Accounts
-                      </div>
-                    </div>
+                {/* 1. Poster First (Visible immediately, cross-fades out once canvas ready) */}
+                <div
+                  className={`absolute inset-0 w-full h-full flex items-center justify-center transition-opacity duration-500 ${
+                    canvasReady ? "opacity-0 pointer-events-none" : "opacity-100"
+                  }`}
+                >
+                  <img
+                    src="/3d/bahi-poster.avif"
+                    alt="Traditional Bahi-Khata ledger"
+                    className="max-w-[70%] max-h-[85%] object-contain drop-shadow-md select-none"
+                    loading="eager"
+                    onError={(e) => {
+                      // Fallback if AVIF not rendered yet
+                      (e.currentTarget as HTMLElement).style.display = "none";
+                    }}
+                  />
+                </div>
+
+                {/* 2. Three.js Canvas */}
+                {canLoad3D && (
+                  <div
+                    className={`w-full h-full transition-opacity duration-500 ${
+                      canvasReady ? "opacity-100" : "opacity-0"
+                    }`}
+                  >
+                    <BahiKhataScene
+                      scrollProgress={scrollProgress}
+                      onCanvasReady={() => setCanvasReady(true)}
+                    />
                   </div>
                 )}
               </div>
 
-              {/* Four service direct links at base */}
+              {/* Four service direct links at base (no 1. 2. 3. 4. numbering per §4.6 & §5) */}
               <div className="grid grid-cols-2 gap-2 pt-3 border-t border-line text-xs font-semibold z-10">
                 <Link
                   href="/services/websites"
-                  className="p-2 rounded-lg bg-paper hover:bg-carbon-050 hover:text-carbon transition-colors flex items-center justify-between"
+                  className="p-2 rounded-lg bg-bg hover:bg-kk-indigo-050 hover:text-kk-indigo text-ink transition-colors flex items-center justify-between"
                 >
-                  <span>1. Websites</span>
+                  <span>Websites</span>
                   <ArrowUpRight className="w-3.5 h-3.5 opacity-60" />
                 </Link>
                 <Link
                   href="/services/apps"
-                  className="p-2 rounded-lg bg-paper hover:bg-carbon-050 hover:text-carbon transition-colors flex items-center justify-between"
+                  className="p-2 rounded-lg bg-bg hover:bg-kk-indigo-050 hover:text-kk-indigo text-ink transition-colors flex items-center justify-between"
                 >
-                  <span>2. Apps</span>
+                  <span>Apps</span>
                   <ArrowUpRight className="w-3.5 h-3.5 opacity-60" />
                 </Link>
                 <Link
                   href="/services/software"
-                  className="p-2 rounded-lg bg-paper hover:bg-carbon-050 hover:text-carbon transition-colors flex items-center justify-between"
+                  className="p-2 rounded-lg bg-bg hover:bg-kk-indigo-050 hover:text-kk-indigo text-ink transition-colors flex items-center justify-between"
                 >
-                  <span>3. Software</span>
+                  <span>Business software</span>
                   <ArrowUpRight className="w-3.5 h-3.5 opacity-60" />
                 </Link>
                 <Link
                   href="/services/automation"
-                  className="p-2 rounded-lg bg-paper hover:bg-carbon-050 hover:text-carbon transition-colors flex items-center justify-between"
+                  className="p-2 rounded-lg bg-bg hover:bg-kk-indigo-050 hover:text-kk-indigo text-ink transition-colors flex items-center justify-between"
                 >
-                  <span>4. Automation</span>
+                  <span>Automation</span>
                   <ArrowUpRight className="w-3.5 h-3.5 opacity-60" />
                 </Link>
               </div>

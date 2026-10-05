@@ -6,7 +6,7 @@ import { Section, SectionHeading } from "@/components/ui/Section";
 import Button from "@/components/ui/Button";
 import { servicePricing, estimatorExtras } from "@/data/pricing";
 import { getWhatsAppUrl } from "@/lib/whatsapp";
-import { MessageSquare, ArrowRight, Check } from "lucide-react";
+import { ArrowRight, Check } from "lucide-react";
 
 type ServiceKey = "websites" | "apps" | "software" | "automation";
 type SizeKey = "simple" | "standard" | "advanced";
@@ -53,7 +53,7 @@ export default function BallparkEstimator() {
   const quoteFormUrl = `/contact?service=${encodeURIComponent(currentPricing.name)}&size=${size}`;
 
   return (
-    <Section id="estimate" variant="paper">
+    <Section id="estimate" variant="bg">
       <SectionHeading
         h2="Get a ballpark in a minute"
         lead="Select what your business needs to see typical investment ranges and timelines. No email required."
@@ -63,8 +63,8 @@ export default function BallparkEstimator() {
         
         {/* Step 1: Service Type */}
         <div className="space-y-3">
-          <label className="text-xs font-semibold text-ink uppercase tracking-wider block">
-            Step 1: What do you need built?
+          <label className="text-xs font-semibold text-ink block">
+            What do you need?
           </label>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
             {(Object.keys(servicePricing) as ServiceKey[]).map((key) => {
@@ -77,14 +77,14 @@ export default function BallparkEstimator() {
                   onClick={() => setService(key)}
                   className={`p-3.5 rounded-btn text-left border transition-all ${
                     isSelected
-                      ? "bg-carbon text-paper border-carbon shadow-sm"
-                      : "bg-paper text-ink border-line hover:border-line-strong hover:bg-surface"
+                      ? "bg-ink text-white border-ink shadow-sm"
+                      : "bg-bg text-ink border-line hover:border-line-strong hover:bg-surface"
                   }`}
                 >
                   <span className="font-semibold text-sm block leading-tight">
                     {svc.name}
                   </span>
-                  <span className={`text-[11px] block mt-1 ${isSelected ? "text-paper/80" : "text-ink-3"}`}>
+                  <span className={`text-[11px] block mt-1 ${isSelected ? "text-white/80" : "text-ink-3"}`}>
                     From {svc.startingPriceDisplay}
                   </span>
                 </button>
@@ -95,8 +95,8 @@ export default function BallparkEstimator() {
 
         {/* Step 2: Size & Scope */}
         <div className="space-y-3">
-          <label className="text-xs font-semibold text-ink uppercase tracking-wider block">
-            Step 2: Choose project scope
+          <label className="text-xs font-semibold text-ink block">
+            How big?
           </label>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             {(["simple", "standard", "advanced"] as SizeKey[]).map((s) => {
@@ -109,8 +109,8 @@ export default function BallparkEstimator() {
                   onClick={() => setSize(s)}
                   className={`p-4 rounded-btn text-left border transition-all flex flex-col justify-between ${
                     isSelected
-                      ? "bg-carbon-050 border-carbon text-ink"
-                      : "bg-paper text-ink border-line hover:border-line-strong"
+                      ? "bg-kk-indigo-050 border-kk-indigo text-ink"
+                      : "bg-bg text-ink border-line hover:border-line-strong"
                   }`}
                 >
                   <div className="space-y-1">
@@ -121,7 +121,7 @@ export default function BallparkEstimator() {
                       {opt.example}
                     </p>
                   </div>
-                  <span className="mt-3 font-semibold text-xs text-carbon tabular-nums">
+                  <span className="mt-3 font-semibold text-xs text-kk-indigo tabular-nums">
                     {opt.range}
                   </span>
                 </button>
@@ -132,8 +132,8 @@ export default function BallparkEstimator() {
 
         {/* Step 3: Add-on Extras */}
         <div className="space-y-3">
-          <label className="text-xs font-semibold text-ink uppercase tracking-wider block">
-            Step 3: Any specific connections? (Optional)
+          <label className="text-xs font-semibold text-ink block">
+            Extras
           </label>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
             {estimatorExtras.map((extra) => {
@@ -145,15 +145,15 @@ export default function BallparkEstimator() {
                   onClick={() => toggleExtra(extra.id)}
                   className={`p-3 rounded-btn border text-left flex items-center justify-between transition-all ${
                     isChecked
-                      ? "bg-carbon-050 border-carbon text-ink"
-                      : "bg-paper border-line text-ink-2 hover:border-line-strong"
+                      ? "bg-kk-indigo-050 border-kk-indigo text-ink"
+                      : "bg-bg border-line text-ink-2 hover:border-line-strong"
                   }`}
                 >
                   <div className="flex items-center gap-2.5">
                     <span
                       className={`w-4 h-4 rounded flex items-center justify-center border ${
                         isChecked
-                          ? "bg-carbon border-carbon text-paper"
+                          ? "bg-kk-indigo border-kk-indigo text-white"
                           : "border-line-strong bg-white"
                       }`}
                     >
@@ -171,10 +171,10 @@ export default function BallparkEstimator() {
         </div>
 
         {/* Estimated Result Box */}
-        <div className="p-6 md:p-8 bg-paper border border-line rounded-stage flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+        <div className="p-6 md:p-8 bg-bg border border-line rounded-stage flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
           <div className="space-y-1">
-            <span className="text-xs font-semibold uppercase tracking-wider text-ink-3">
-              Ballpark Estimate
+            <span className="text-xs font-semibold text-ink-3">
+              Ballpark estimate
             </span>
             <div className="text-2xl sm:text-4xl font-display font-bold text-ink tabular-nums">
               {formattedMin} – {formattedMax}
@@ -189,7 +189,6 @@ export default function BallparkEstimator() {
               variant="whatsapp"
               href={waEstimateUrl}
               className="text-sm px-5 py-3"
-              icon={<MessageSquare className="w-4 h-4" />}
             >
               Send to Kulvir on WhatsApp
             </Button>
@@ -206,10 +205,9 @@ export default function BallparkEstimator() {
         <div className="text-center pt-2">
           <Link
             href="/pricing"
-            className="text-xs font-semibold text-carbon hover:underline inline-flex items-center gap-1"
+            className="text-xs font-semibold text-kk-indigo hover:underline"
           >
-            <span>See complete starting prices and monthly care plans</span>
-            <ArrowRight className="w-3.5 h-3.5" />
+            See complete starting prices and monthly care plans
           </Link>
         </div>
 

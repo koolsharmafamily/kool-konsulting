@@ -2,15 +2,14 @@ import React from "react";
 import Link from "next/link";
 import Button from "@/components/ui/Button";
 import { getWhatsAppUrl } from "@/lib/whatsapp";
-import { MessageSquare } from "lucide-react";
 
 export default function NotFound() {
   const waUrl = getWhatsAppUrl("Hi Kulvir, I hit a missing link on your website.");
 
   return (
-    <div className="min-h-[70vh] bg-paper flex items-center justify-center px-4 py-20 text-center">
+    <div className="min-h-[70vh] bg-bg flex items-center justify-center px-4 py-20 text-center">
       <div className="max-w-md mx-auto space-y-6">
-        <span className="text-xs font-semibold uppercase tracking-wider text-ledger-red bg-[#FDF2F2] px-3 py-1 rounded-full border border-ledger-red/30">
+        <span className="text-xs font-semibold text-bahi bg-[#FDF2F2] px-3 py-1 rounded-full border border-bahi/30">
           404 Not Found
         </span>
         <h1 className="text-3xl md:text-5xl font-display font-bold text-ink tracking-tight font-stretch-h1">
@@ -23,7 +22,7 @@ export default function NotFound() {
         <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-3">
           <Link
             href="/"
-            className="w-full sm:w-auto px-5 py-3 rounded-btn bg-ink text-paper font-semibold text-sm hover:bg-[#2B2934] transition-colors"
+            className="w-full sm:w-auto px-5 py-3 rounded-btn bg-ink text-white font-semibold text-sm hover:bg-kk-indigo transition-colors"
           >
             Home
           </Link>
@@ -45,7 +44,6 @@ export default function NotFound() {
           <Button
             variant="whatsapp"
             href={waUrl}
-            icon={<MessageSquare className="w-4 h-4" />}
             className="text-xs"
           >
             Message Kulvir on WhatsApp

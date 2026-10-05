@@ -4,23 +4,51 @@ import { Section, SectionHeading } from "@/components/ui/Section";
 import Button from "@/components/ui/Button";
 import { servicesData } from "@/data/services";
 import { servicePricing } from "@/data/pricing";
+import { site } from "@/data/site";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { getBreadcrumbSchema } from "@/lib/schema";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
 
 export const metadata = {
   title: "Services | Kool Konsulting",
   description:
     "Websites, apps, custom business software, and AI automations. Built specifically for growing Indian businesses.",
+  alternates: {
+    canonical: "/services",
+  },
+  openGraph: {
+    title: "Services | Kool Konsulting",
+    description:
+      "Websites, apps, custom business software, and AI automations. Built specifically for growing Indian businesses.",
+    url: `${site.origin}/services`,
+    siteName: site.name,
+    locale: "en_IN",
+    type: "website",
+    images: [{ url: "/opengraph-image", width: 1200, height: 630 }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Services | Kool Konsulting",
+    description:
+      "Websites, apps, custom business software, and AI automations. Built specifically for growing Indian businesses.",
+    images: ["/opengraph-image"],
+  },
 };
 
 export default function ServicesPage() {
   const serviceList = Object.values(servicesData);
+  const breadcrumbs = getBreadcrumbSchema([
+    { name: "Home", url: "/" },
+    { name: "Services", url: "/services" },
+  ]);
 
   return (
-    <div className="bg-paper min-h-screen">
+    <div className="bg-bg min-h-screen">
+      <JsonLd data={breadcrumbs} />
       {/* Header */}
       <section className="pt-16 pb-12 md:pt-24 md:pb-16 bg-surface border-b border-line">
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 max-w-3xl">
-          <span className="text-xs font-semibold uppercase tracking-wider text-carbon bg-carbon-050 px-3 py-1 rounded-full border border-[#DCD9F5]">
+          <span className="text-xs font-semibold text-kk-indigo bg-kk-indigo-050 px-3 py-1 rounded-full border border-[#DCD9F5]">
             Capabilities
           </span>
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-display font-bold text-ink tracking-tight mt-4 mb-4 leading-tight font-stretch-h1">
@@ -33,9 +61,9 @@ export default function ServicesPage() {
       </section>
 
       {/* Services List */}
-      <Section variant="paper">
+      <Section variant="bg">
         <div className="space-y-12">
-          {serviceList.map((svc, idx) => {
+          {serviceList.map((svc) => {
             const pricing = servicePricing[svc.slug];
 
             return (
@@ -46,9 +74,6 @@ export default function ServicesPage() {
               >
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-line pb-6">
                   <div>
-                    <span className="text-xs font-bold text-carbon uppercase tracking-wider block mb-1">
-                      Service 0{idx + 1}
-                    </span>
                     <h2 className="text-3xl md:text-4xl font-display font-bold text-ink font-stretch-h2">
                       {svc.name}
                     </h2>
@@ -74,7 +99,7 @@ export default function ServicesPage() {
                     </p>
 
                     <div className="pt-2">
-                      <span className="text-xs font-semibold text-ink uppercase tracking-wider block mb-2">
+                      <span className="text-xs font-semibold text-ink-3 block mb-2">
                         What we deliver:
                       </span>
                       <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-ink-2">
@@ -88,8 +113,8 @@ export default function ServicesPage() {
                     </div>
                   </div>
 
-                  <div className="lg:col-span-5 bg-paper p-6 rounded-card border border-line space-y-4">
-                    <span className="text-xs font-semibold text-ink uppercase tracking-wider block">
+                  <div className="lg:col-span-5 bg-bg p-6 rounded-card border border-line space-y-4">
+                    <span className="text-xs font-semibold text-ink-3 block">
                       Best suited for:
                     </span>
                     <div className="flex flex-wrap gap-1.5">
@@ -106,10 +131,9 @@ export default function ServicesPage() {
                     <div className="pt-4 border-t border-line flex items-center justify-between">
                       <Link
                         href={`/services/${svc.slug}`}
-                        className="text-sm font-semibold text-carbon hover:underline inline-flex items-center gap-1"
+                        className="text-sm font-semibold text-kk-indigo hover:underline inline-flex items-center gap-1"
                       >
-                        <span>View complete service breakdown</span>
-                        <ArrowRight className="w-4 h-4" />
+                        View complete service breakdown
                       </Link>
                     </div>
                   </div>

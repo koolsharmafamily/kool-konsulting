@@ -42,10 +42,10 @@ export default function ProcessSection() {
         {steps.map((st, idx) => (
           <div
             key={idx}
-            className="p-6 rounded-card bg-paper border border-line flex flex-col justify-between space-y-4 hover:border-line-strong transition-all"
+            className="p-6 rounded-card bg-bg border border-line flex flex-col justify-between space-y-4 hover:border-line-strong transition-all"
           >
             <div className="space-y-3">
-              <span className="w-9 h-9 rounded-full bg-carbon-050 text-carbon font-display font-bold flex items-center justify-center text-sm border border-[#DCD9F5]">
+              <span className="w-9 h-9 rounded-full bg-kk-indigo-050 text-kk-indigo font-display font-bold flex items-center justify-center text-sm border border-kk-indigo/20">
                 {st.num}
               </span>
               <h3 className="font-display font-bold text-lg text-ink leading-snug font-stretch-h3">
@@ -54,9 +54,6 @@ export default function ProcessSection() {
               <p className="text-xs text-ink-2 leading-relaxed">
                 {st.desc}
               </p>
-            </div>
-            <div className="pt-2 text-[10px] text-ink-3 uppercase tracking-wider font-semibold">
-              Step 0{idx + 1}
             </div>
           </div>
         ))}

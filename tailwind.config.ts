@@ -10,26 +10,34 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        paper: "#FBFAF6",
+        bg: "#F6F7FB",
+        paper: "#F6F7FB",
         surface: "#FFFFFF",
         ink: {
-          DEFAULT: "#17161C",
-          2: "#55515E",
-          3: "#6F6A78",
+          DEFAULT: "#0E0F1A",
+          2: "#4A4D63",
+          3: "#6B6F86",
         },
         line: {
-          DEFAULT: "#E6E2DA",
-          strong: "#D6D0C4",
+          DEFAULT: "#E3E6EF",
+          strong: "#D1D5E2",
         },
+        "kk-indigo": {
+          DEFAULT: "#3D35E0",
+          600: "#2F28B8",
+          "050": "#EEEDFF",
+        },
+        "kk-signal": "#22C3EE",
+        engine: "#0B0C16",
         carbon: {
-          DEFAULT: "#35309A",
-          600: "#2B2783",
-          "050": "#EEEDFA",
+          DEFAULT: "#3D35E0",
+          600: "#2F28B8",
+          "050": "#EEEDFF",
         },
         bahi: "#B3261E",
         "ledger-red": "#C9443A",
         "ledger-rule": "#C8D3EC",
-        leaf: "#1E7A4C",
+        leaf: "#166534",
         whatsapp: "#25D366",
       },
       fontFamily: {
