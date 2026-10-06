@@ -1521,6 +1521,15 @@
   .lab-knowledge label {
     font-size: 12px;
   }
+  .lab-field select,
+  .lab-field input,
+  .lab-startup-input input,
+  .lab-startup-input select,
+  .lab-enquiry-form input,
+  .lab-enquiry-form select {
+    font-size: 16px !important;
+    min-height: 44px;
+  }
   .lab-knowledge-answer {
     font-size: 13px;
   }
@@ -1789,7 +1798,8 @@
   .lab-field select,
   .lab-field input {
     padding-left: 9px;
-    font-size: 12px;
+    font-size: 16px !important;
+    min-height: 44px;
   }
   .lab-team-heading h3 {
     font-size: 28px;

@@ -1102,11 +1102,19 @@
   }
   :where(.inner-page) .inner-actions {
     gap: 14px;
-    align-items: flex-start;
+    align-items: stretch;
     flex-direction: column;
+    width: 100%;
+  }
+  :where(.inner-page) .inner-actions .button {
+    width: 100%;
+    justify-content: center;
   }
   .inner-page .button {
     font-size: 0.88rem;
+  }
+  :where(.inner-page) .case-diagram-steps {
+    grid-template-columns: 1fr;
   }
   :where(.inner-page) .process-grid {
     grid-template-columns: 1fr;

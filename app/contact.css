@@ -583,9 +583,16 @@
   .contact-form {
     gap: 20px;
   }
+  .contact-field input,
+  .contact-field textarea,
+  .contact-field select {
+    font-size: 16px !important; /* Prevents iOS auto-zoom */
+    min-height: 48px;
+  }
   .contact-interest-options span {
-    font-size: 12px;
-    padding: 10px;
+    font-size: 13px;
+    padding: 10px 14px;
+    min-height: 44px;
   }
   .contact-bottom-note {
     margin-top: 36px;

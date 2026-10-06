@@ -1282,7 +1282,7 @@ main:focus {
   }
   .header-inner {
     height: 76px;
-    gap: 15px;
+    gap: 12px;
   }
   .brand-link img {
     width: 195px;
@@ -1293,16 +1293,26 @@ main:focus {
   .menu-toggle {
     display: flex;
     flex-shrink: 0;
+    min-width: 44px;
+    min-height: 44px;
+    align-items: center;
+    justify-content: center;
   }
   .header-book {
     margin-left: auto;
     font-size: 11px;
-    gap: 8px;
-    padding: 10px 12px;
+    gap: 7px;
+    padding: 10px 14px;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
   }
   .mobile-menu {
     top: 76px;
     height: calc(100dvh - 76px);
+    padding: 24px 20px calc(32px + env(safe-area-inset-bottom, 20px));
+    -webkit-overflow-scrolling: touch;
   }
   .hero-grid {
     grid-template-columns: 1fr;
@@ -1311,7 +1321,7 @@ main:focus {
     gap: 36px;
   }
   .hero h1 {
-    font-size: clamp(48px, 8.1vw, 69px);
+    font-size: clamp(42px, 8.5vw, 69px);
     line-height: 1.04;
   }
   .hero h1 br:nth-of-type(1),
@@ -1339,6 +1349,10 @@ main:focus {
   }
   .hero-actions .text-link {
     font-size: 12px;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 8px;
   }
   .hero-scene {
     padding-top: 8px;
@@ -1364,7 +1378,21 @@ main:focus {
     padding-top: 15px;
   }
   .hero-worlds {
-    margin-top: 8px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+    width: 100%;
+    margin-top: 12px;
+  }
+  .hero-worlds button {
+    min-height: 44px;
+    padding: 8px 4px;
+    font-size: 11px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
   }
   .hero-bottom {
     padding: 18px 0;
@@ -1375,6 +1403,11 @@ main:focus {
   }
   .hero-bottom > a {
     margin-left: auto;
+    min-width: 44px;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
   .worlds-section,
   .expertise-section,
@@ -1409,14 +1442,25 @@ main:focus {
   }
   .world-tabs {
     display: flex;
-    gap: 20px;
+    gap: 10px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding-bottom: 6px;
+  }
+  .world-tabs::-webkit-scrollbar {
+    display: none;
   }
   .world-tabs button {
-    flex: 1;
-    font-size: 18px;
+    flex-shrink: 0;
+    font-size: 17px;
     gap: 8px;
     white-space: nowrap;
-    padding: 16px 0;
+    padding: 12px 14px;
+    min-height: 48px;
+    border-radius: 4px;
+    display: inline-flex;
+    align-items: center;
   }
   .world-tabs button svg {
     display: none;
@@ -1600,21 +1644,31 @@ main:focus {
     width: 163px;
   }
   .header-inner {
-    gap: 5px;
+    gap: 8px;
+    height: 72px;
   }
   .header-book {
-    font-size: 10px;
+    font-size: 11px;
     gap: 6px;
-    padding: 9px 10px;
+    padding: 10px 12px;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
   }
   .header-book svg {
-    width: 12px;
+    width: 14px;
+    height: 14px;
   }
   .menu-toggle {
-    width: 37px;
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    min-height: 44px;
   }
   .hero h1 {
-    font-size: 49px;
+    font-size: clamp(38px, 10.5vw, 48px);
+    line-height: 1.05;
     max-width: 350px;
   }
   .hero h1 br:nth-of-type(1),
@@ -1631,38 +1685,55 @@ main:focus {
     font-size: 15px;
   }
   .hero-actions {
-    gap: 19px;
+    gap: 16px;
   }
   .hero-actions .button {
-    padding-inline: 17px;
-    gap: 17px;
+    padding-inline: 18px;
+    gap: 14px;
+    min-height: 48px;
+    width: 100%;
+    justify-content: center;
   }
   .hero-actions .text-link {
     gap: 7px;
-    font-size: 11px;
+    font-size: 12px;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
   }
   .scene-caption {
     font-size: 9px;
-    gap: 5px;
+    gap: 6px;
   }
   .scene-caption button {
-    font-size: 9px;
+    font-size: 10px;
+    min-height: 44px;
+    padding: 10px 8px;
+    margin: -6px 0;
   }
   .scene-topline .mono {
     font-size: 6px;
   }
   .hero-worlds button {
     font-size: 10px;
+    min-height: 44px;
   }
   .world-tabs {
-    gap: 13px;
+    gap: 10px;
   }
   .world-tabs button {
-    font-size: 16px;
+    font-size: 15px;
     gap: 5px;
+    padding: 10px 12px;
+    min-height: 46px;
   }
   .world-tabs button span {
     display: none;
+  }
+  input,
+  select,
+  textarea {
+    font-size: 16px !important;
   }
   .world-composition {
     padding-inline: 15px;
@@ -1829,3 +1900,17 @@ main:focus {
 .workflow-art > div:nth-child(3) small {
   opacity: 1;
 }
+
+/* Mobile Touch & Interaction Enhancements */
+@media (hover: none) and (pointer: coarse) {
+  button:active,
+  .button:active,
+  .header-book:active,
+  .text-link:active,
+  .menu-toggle:active,
+  .round-arrow:active {
+    transform: scale(0.97);
+    transition: transform 0.1s ease;
+  }
+}
+
