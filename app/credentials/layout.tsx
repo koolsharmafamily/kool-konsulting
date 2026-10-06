@@ -1,13 +1,10 @@
-import { Metadata } from "next";
-
+import type { Metadata } from "next";
 export const metadata: Metadata = {
-  title: "Credentials | Kool Konsulting",
-  robots: {
-    index: false,
-    follow: false,
-  },
+  title: "Studio Information",
+  description:
+    "Contact Kool Konsulting for background relevant to your project.",
+  robots: { index: false, follow: false },
 };
-
 export default function CredentialsLayout({
   children,
 }: {

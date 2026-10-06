@@ -1,0 +1,873 @@
+{
+  "matrix": [
+    {
+      "route": "/",
+      "width": 360,
+      "overflow": false
+    },
+    {
+      "route": "/",
+      "width": 390,
+      "overflow": false
+    },
+    {
+      "route": "/",
+      "width": 768,
+      "overflow": false
+    },
+    {
+      "route": "/",
+      "width": 1024,
+      "overflow": false
+    },
+    {
+      "route": "/",
+      "width": 1440,
+      "overflow": false
+    },
+    {
+      "route": "/",
+      "width": 1920,
+      "overflow": false
+    },
+    {
+      "route": "/services",
+      "width": 360,
+      "overflow": false
+    },
+    {
+      "route": "/services",
+      "width": 390,
+      "overflow": false
+    },
+    {
+      "route": "/services",
+      "width": 768,
+      "overflow": false
+    },
+    {
+      "route": "/services",
+      "width": 1024,
+      "overflow": false
+    },
+    {
+      "route": "/services",
+      "width": 1440,
+      "overflow": false
+    },
+    {
+      "route": "/services",
+      "width": 1920,
+      "overflow": false
+    },
+    {
+      "route": "/lab",
+      "width": 360,
+      "overflow": false
+    },
+    {
+      "route": "/lab",
+      "width": 390,
+      "overflow": false
+    },
+    {
+      "route": "/lab",
+      "width": 768,
+      "overflow": false
+    },
+    {
+      "route": "/lab",
+      "width": 1024,
+      "overflow": false
+    },
+    {
+      "route": "/lab",
+      "width": 1440,
+      "overflow": false
+    },
+    {
+      "route": "/lab",
+      "width": 1920,
+      "overflow": false
+    },
+    {
+      "route": "/lab/startup-onboarding",
+      "width": 360,
+      "overflow": false
+    },
+    {
+      "route": "/lab/startup-onboarding",
+      "width": 390,
+      "overflow": false
+    },
+    {
+      "route": "/lab/startup-onboarding",
+      "width": 768,
+      "overflow": false
+    },
+    {
+      "route": "/lab/startup-onboarding",
+      "width": 1024,
+      "overflow": false
+    },
+    {
+      "route": "/lab/startup-onboarding",
+      "width": 1440,
+      "overflow": false
+    },
+    {
+      "route": "/lab/startup-onboarding",
+      "width": 1920,
+      "overflow": false
+    },
+    {
+      "route": "/lab/lifestyle-discovery",
+      "width": 360,
+      "overflow": false
+    },
+    {
+      "route": "/lab/lifestyle-discovery",
+      "width": 390,
+      "overflow": false
+    },
+    {
+      "route": "/lab/lifestyle-discovery",
+      "width": 768,
+      "overflow": false
+    },
+    {
+      "route": "/lab/lifestyle-discovery",
+      "width": 1024,
+      "overflow": false
+    },
+    {
+      "route": "/lab/lifestyle-discovery",
+      "width": 1440,
+      "overflow": false
+    },
+    {
+      "route": "/lab/lifestyle-discovery",
+      "width": 1920,
+      "overflow": false
+    },
+    {
+      "route": "/lab/hospitality-concierge",
+      "width": 360,
+      "overflow": false
+    },
+    {
+      "route": "/lab/hospitality-concierge",
+      "width": 390,
+      "overflow": false
+    },
+    {
+      "route": "/lab/hospitality-concierge",
+      "width": 768,
+      "overflow": false
+    },
+    {
+      "route": "/lab/hospitality-concierge",
+      "width": 1024,
+      "overflow": false
+    },
+    {
+      "route": "/lab/hospitality-concierge",
+      "width": 1440,
+      "overflow": false
+    },
+    {
+      "route": "/lab/hospitality-concierge",
+      "width": 1920,
+      "overflow": false
+    },
+    {
+      "route": "/contact",
+      "width": 360,
+      "overflow": false
+    },
+    {
+      "route": "/contact",
+      "width": 390,
+      "overflow": false
+    },
+    {
+      "route": "/contact",
+      "width": 768,
+      "overflow": false
+    },
+    {
+      "route": "/contact",
+      "width": 1024,
+      "overflow": false
+    },
+    {
+      "route": "/contact",
+      "width": 1440,
+      "overflow": false
+    },
+    {
+      "route": "/contact",
+      "width": 1920,
+      "overflow": false
+    },
+    {
+      "route": "/pricing",
+      "width": 360,
+      "overflow": false
+    },
+    {
+      "route": "/pricing",
+      "width": 390,
+      "overflow": false
+    },
+    {
+      "route": "/pricing",
+      "width": 768,
+      "overflow": false
+    },
+    {
+      "route": "/pricing",
+      "width": 1024,
+      "overflow": false
+    },
+    {
+      "route": "/pricing",
+      "width": 1440,
+      "overflow": false
+    },
+    {
+      "route": "/pricing",
+      "width": 1920,
+      "overflow": false
+    },
+    {
+      "route": "/about",
+      "width": 360,
+      "overflow": false
+    },
+    {
+      "route": "/about",
+      "width": 390,
+      "overflow": false
+    },
+    {
+      "route": "/about",
+      "width": 768,
+      "overflow": false
+    },
+    {
+      "route": "/about",
+      "width": 1024,
+      "overflow": false
+    },
+    {
+      "route": "/about",
+      "width": 1440,
+      "overflow": false
+    },
+    {
+      "route": "/about",
+      "width": 1920,
+      "overflow": false
+    }
+  ],
+  "links": [
+    {
+      "path": "/",
+      "status": 200,
+      "type": "text/html; charset=utf-8"
+    },
+    {
+      "path": "/services",
+      "status": 200,
+      "type": "text/html; charset=utf-8"
+    },
+    {
+      "path": "/lab",
+      "status": 200,
+      "type": "text/html; charset=utf-8"
+    },
+    {
+      "path": "/about",
+      "status": 200,
+      "type": "text/html; charset=utf-8"
+    },
+    {
+      "path": "/contact",
+      "status": 200,
+      "type": "text/html; charset=utf-8"
+    },
+    {
+      "path": "/pricing",
+      "status": 200,
+      "type": "text/html; charset=utf-8"
+    },
+    {
+      "path": "/privacy",
+      "status": 200,
+      "type": "text/html; charset=utf-8"
+    },
+    {
+      "path": "/terms",
+      "status": 200,
+      "type": "text/html; charset=utf-8"
+    },
+    {
+      "path": "/faq",
+      "status": 200,
+      "type": "text/html; charset=utf-8"
+    },
+    {
+      "path": "/work",
+      "status": 200,
+      "type": "text/html; charset=utf-8"
+    },
+    {
+      "path": "/sitemap.xml",
+      "status": 200,
+      "type": "application/xml"
+    },
+    {
+      "path": "/robots.txt",
+      "status": 200,
+      "type": "text/plain"
+    },
+    {
+      "path": "/opengraph-image",
+      "status": 200,
+      "type": "image/png"
+    },
+    {
+      "path": "/services/automation/opengraph-image",
+      "status": 200,
+      "type": "image/png"
+    },
+    {
+      "path": "/dev/brand",
+      "status": 200,
+      "type": "text/html; charset=utf-8"
+    },
+    {
+      "path": "/lab/startup-onboarding",
+      "status": 200,
+      "type": "text/html; charset=utf-8"
+    },
+    {
+      "path": "/services/automation",
+      "status": 200,
+      "type": "text/html; charset=utf-8"
+    },
+    {
+      "path": "/services/websites",
+      "status": 200,
+      "type": "text/html; charset=utf-8"
+    },
+    {
+      "path": "/services/apps",
+      "status": 200,
+      "type": "text/html; charset=utf-8"
+    },
+    {
+      "path": "/lab/lifestyle-discovery",
+      "status": 200,
+      "type": "text/html; charset=utf-8"
+    },
+    {
+      "path": "/lab/hospitality-concierge",
+      "status": 200,
+      "type": "text/html; charset=utf-8"
+    },
+    {
+      "path": "/investment",
+      "status": 308,
+      "type": "text/html; charset=utf-8"
+    },
+    {
+      "path": "/not-a-real-page",
+      "status": 404,
+      "expected": 404
+    },
+    {
+      "path": "/work/adlens-ai",
+      "status": 200
+    },
+    {
+      "path": "/work/distributor-workflow-automation",
+      "status": 200
+    },
+    {
+      "path": "/work/agency-ad-operations",
+      "status": 200
+    },
+    {
+      "path": "/work/construction-workforce-automation",
+      "status": 200
+    },
+    {
+      "path": "/work/finance-data-automation",
+      "status": 200
+    },
+    {
+      "path": "/work/ai-construction-site",
+      "status": 200
+    },
+    {
+      "path": "/work/trakit-australian-market-entry",
+      "status": 200
+    },
+    {
+      "path": "/work/options-trading-agent",
+      "status": 200
+    },
+    {
+      "path": "/work/construction-site-app",
+      "status": 200
+    },
+    {
+      "path": "/work/cinema-samosa-forecast",
+      "status": 200
+    },
+    {
+      "path": "/work/movie-promo-autoposting",
+      "status": 200
+    },
+    {
+      "path": "/work/wholesale-shop-billing",
+      "status": 200
+    },
+    {
+      "path": "/work/event-ticketing-onboarding",
+      "status": 200
+    },
+    {
+      "path": "/work/bachpan-dance-academy",
+      "status": 200
+    },
+    {
+      "path": "/work/three-marketeers-website",
+      "status": 200
+    },
+    {
+      "path": "/work/designs-by-deepti",
+      "status": 200
+    }
+  ],
+  "accessibility": [
+    {
+      "route": "/",
+      "viewport": "desktop",
+      "violations": [
+        {
+          "id": "color-contrast",
+          "nodes": [
+            {
+              "target": [
+                "button:nth-child(2) > span"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 4.35 (foreground color: #77797f, background color: #ffffff, font size: 8.3pt (11px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                "button:nth-child(3) > span"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 4.35 (foreground color: #77797f, background color: #ffffff, font size: 8.3pt (11px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                "div:nth-child(3) > div > small"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.91 (foreground color: #cbc7f7, background color: #5145e5, font size: 6.8pt (9px), font weight: normal). Expected contrast ratio of 4.5:1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "route": "/",
+      "viewport": "mobile",
+      "violations": [
+        {
+          "id": "color-contrast",
+          "nodes": [
+            {
+              "target": [
+                ".world-tabs > button:nth-child(2)"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 4.35 (foreground color: #77797f, background color: #ffffff, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                ".world-tabs > button:nth-child(3)"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 4.35 (foreground color: #77797f, background color: #ffffff, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                "div:nth-child(3) > div > small"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.91 (foreground color: #cbc7f7, background color: #5145e5, font size: 6.8pt (9px), font weight: normal). Expected contrast ratio of 4.5:1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "route": "/lab",
+      "viewport": "desktop",
+      "violations": [
+        {
+          "id": "color-contrast",
+          "nodes": [
+            {
+              "target": [
+                "h2 > a[href$=\"startup-onboarding\"]"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.06 (foreground color: #a6aab8, background color: #f3f2ee, font size: 33.0pt (44px), font weight: normal). Expected contrast ratio of 3:1"
+            },
+            {
+              "target": [
+                ".text-link[href$=\"startup-onboarding\"]"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.06 (foreground color: #a6aab8, background color: #f3f2ee, font size: 9.8pt (13px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                "h2 > a[href$=\"lifestyle-discovery\"]"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.06 (foreground color: #a6aab8, background color: #f3f2ee, font size: 33.0pt (44px), font weight: normal). Expected contrast ratio of 3:1"
+            },
+            {
+              "target": [
+                ".text-link[href$=\"lifestyle-discovery\"]"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.06 (foreground color: #a6aab8, background color: #f3f2ee, font size: 9.8pt (13px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "target": [
+                "h2 > a[href$=\"hospitality-concierge\"]"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.06 (foreground color: #a6aab8, background color: #f3f2ee, font size: 33.0pt (44px), font weight: normal). Expected contrast ratio of 3:1"
+            },
+            {
+              "target": [
+                ".text-link[href$=\"hospitality-concierge\"]"
+              ],
+              "summary": "Fix any of the following:\n  Element has insufficient color contrast of 2.06 (foreground color: #a6aab8, background color: #f3f2ee, font size: 9.8pt (13px), font weight: normal). Expected contrast ratio of 4.5:1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "route": "/contact",
+      "viewport": "desktop",
+      "violations": []
+    }
+  ],
+  "performance": [
+    {
+      "label": "desktop-local",
+      "width": 1440,
+      "height": 1000,
+      "throttled": false,
+      "status": 200,
+      "metrics": {
+        "lcp": 264,
+        "cls": 0.00023761386447482638,
+        "events": [
+          48,
+          48,
+          48
+        ]
+      },
+      "resources": [
+        {
+          "name": "kk-logo-horizontal.svg",
+          "encoded": 504,
+          "transferred": 804,
+          "type": "link"
+        },
+        {
+          "name": "image?url=%2Fart%2Fkool-fold.webp&w=1080&q=75",
+          "encoded": 19977,
+          "transferred": 20277,
+          "type": "link"
+        },
+        {
+          "name": "kk-logo-horizontal-dark.svg",
+          "encoded": 506,
+          "transferred": 806,
+          "type": "link"
+        },
+        {
+          "name": "3551b4b9a6d030e9.css",
+          "encoded": 12806,
+          "transferred": 13106,
+          "type": "link"
+        },
+        {
+          "name": "webpack-936e0199cc0a790b.js",
+          "encoded": 1886,
+          "transferred": 2186,
+          "type": "link"
+        },
+        {
+          "name": "fd9d1056-6e8b9da6262156de.js",
+          "encoded": 53742,
+          "transferred": 54042,
+          "type": "script"
+        },
+        {
+          "name": "main-app-183bf555ea4f53b5.js",
+          "encoded": 461,
+          "transferred": 761,
+          "type": "script"
+        },
+        {
+          "name": "117-5fd6584fc4366ff5.js",
+          "encoded": 31842,
+          "transferred": 32142,
+          "type": "script"
+        },
+        {
+          "name": "972-7fd10fd498a33a04.js",
+          "encoded": 8710,
+          "transferred": 9010,
+          "type": "script"
+        },
+        {
+          "name": "178-22655d614b72d8c3.js",
+          "encoded": 6111,
+          "transferred": 6411,
+          "type": "script"
+        },
+        {
+          "name": "page-afb1a278abfacce5.js",
+          "encoded": 2878,
+          "transferred": 3178,
+          "type": "script"
+        },
+        {
+          "name": "layout-695cc8b5fa4fc466.js",
+          "encoded": 2234,
+          "transferred": 2534,
+          "type": "script"
+        },
+        {
+          "name": "kool-fold.webp",
+          "encoded": 50236,
+          "transferred": 50536,
+          "type": "css"
+        },
+        {
+          "name": "fedf4c9280b16369-s.p.woff2",
+          "encoded": 24836,
+          "transferred": 25136,
+          "type": "css"
+        },
+        {
+          "name": "06ac09dcb8ec7d56-s.woff2",
+          "encoded": 14708,
+          "transferred": 15008,
+          "type": "css"
+        },
+        {
+          "name": "favicon.svg",
+          "encoded": 319,
+          "transferred": 619,
+          "type": "other"
+        },
+        {
+          "name": "services?_rsc=19zvn",
+          "encoded": 2918,
+          "transferred": 3218,
+          "type": "fetch"
+        },
+        {
+          "name": "lab?_rsc=19zvn",
+          "encoded": 3905,
+          "transferred": 4205,
+          "type": "fetch"
+        },
+        {
+          "name": "about?_rsc=19zvn",
+          "encoded": 3343,
+          "transferred": 3643,
+          "type": "fetch"
+        },
+        {
+          "name": "contact?_rsc=19zvn",
+          "encoded": 104,
+          "transferred": 404,
+          "type": "fetch"
+        },
+        {
+          "name": "contact?context=Homepage&_rsc=19zvn",
+          "encoded": 128,
+          "transferred": 428,
+          "type": "fetch"
+        },
+        {
+          "name": "page-c64a5a2723571872.js",
+          "encoded": 318,
+          "transferred": 618,
+          "type": "script"
+        },
+        {
+          "name": "page-b75686ed70124eaf.js",
+          "encoded": 276,
+          "transferred": 576,
+          "type": "script"
+        },
+        {
+          "name": "page-6d02c1051769e05c.js",
+          "encoded": 318,
+          "transferred": 618,
+          "type": "script"
+        }
+      ],
+      "navigation": [
+        {
+          "ttfb": 6.600000023841858,
+          "encoded": 10124,
+          "transferred": 10424
+        }
+      ]
+    },
+    {
+      "label": "mobile-4G-4xCPU",
+      "width": 390,
+      "height": 844,
+      "throttled": true,
+      "status": 200,
+      "metrics": {
+        "lcp": 2032,
+        "cls": 0,
+        "events": [
+          104,
+          104,
+          104
+        ]
+      },
+      "resources": [
+        {
+          "name": "kk-logo-horizontal.svg",
+          "encoded": 504,
+          "transferred": 804,
+          "type": "link"
+        },
+        {
+          "name": "image?url=%2Fart%2Fkool-fold.webp&w=828&q=75",
+          "encoded": 14576,
+          "transferred": 14876,
+          "type": "link"
+        },
+        {
+          "name": "kk-logo-horizontal-dark.svg",
+          "encoded": 506,
+          "transferred": 806,
+          "type": "link"
+        },
+        {
+          "name": "3551b4b9a6d030e9.css",
+          "encoded": 12806,
+          "transferred": 13106,
+          "type": "link"
+        },
+        {
+          "name": "webpack-936e0199cc0a790b.js",
+          "encoded": 1886,
+          "transferred": 2186,
+          "type": "link"
+        },
+        {
+          "name": "fd9d1056-6e8b9da6262156de.js",
+          "encoded": 53742,
+          "transferred": 54042,
+          "type": "script"
+        },
+        {
+          "name": "117-5fd6584fc4366ff5.js",
+          "encoded": 31842,
+          "transferred": 32142,
+          "type": "script"
+        },
+        {
+          "name": "main-app-183bf555ea4f53b5.js",
+          "encoded": 461,
+          "transferred": 761,
+          "type": "script"
+        },
+        {
+          "name": "972-7fd10fd498a33a04.js",
+          "encoded": 8710,
+          "transferred": 9010,
+          "type": "script"
+        },
+        {
+          "name": "178-22655d614b72d8c3.js",
+          "encoded": 6111,
+          "transferred": 6411,
+          "type": "script"
+        },
+        {
+          "name": "page-afb1a278abfacce5.js",
+          "encoded": 2878,
+          "transferred": 3178,
+          "type": "script"
+        },
+        {
+          "name": "layout-695cc8b5fa4fc466.js",
+          "encoded": 2234,
+          "transferred": 2534,
+          "type": "script"
+        },
+        {
+          "name": "kool-fold.webp",
+          "encoded": 50236,
+          "transferred": 50536,
+          "type": "css"
+        },
+        {
+          "name": "fedf4c9280b16369-s.p.woff2",
+          "encoded": 24836,
+          "transferred": 25136,
+          "type": "css"
+        },
+        {
+          "name": "06ac09dcb8ec7d56-s.woff2",
+          "encoded": 14708,
+          "transferred": 15008,
+          "type": "css"
+        },
+        {
+          "name": "favicon.svg",
+          "encoded": 319,
+          "transferred": 619,
+          "type": "other"
+        },
+        {
+          "name": "contact?_rsc=19zvn",
+          "encoded": 104,
+          "transferred": 404,
+          "type": "fetch"
+        },
+        {
+          "name": "contact?context=Homepage&_rsc=19zvn",
+          "encoded": 128,
+          "transferred": 428,
+          "type": "fetch"
+        }
+      ],
+      "navigation": [
+        {
+          "ttfb": 6.300000011920929,
+          "encoded": 10124,
+          "transferred": 10424
+        }
+      ]
+    }
+  ],
+  "webglIndependent": true,
+  "errors": []
+}

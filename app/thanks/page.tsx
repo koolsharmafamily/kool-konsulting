@@ -1,86 +1,66 @@
-import React from "react";
 import Link from "next/link";
-import { site } from "@/data/site";
-import { getWhatsAppUrl } from "@/lib/whatsapp";
-import { WhatsAppIcon } from "@/components/brand/WhatsAppIcon";
+import { cookies } from "next/headers";
+import { ArrowUpRight, Check } from "lucide-react";
+import { contactWhatsApp } from "@/data/contact";
+import "@/app/contact.css";
 
 export const metadata = {
-  title: "Enquiry Received | Kool Konsulting",
-  robots: {
-    index: false,
-    follow: false,
-  },
+  title: "Your call request",
+  robots: { index: false, follow: false },
 };
 
 export default function ThanksPage() {
-  const waUrl = getWhatsAppUrl("Hi Kulvir, I just submitted an enquiry on your website.");
-
+  const receipt = cookies().get("kk-call-request")?.value || "";
+  const received =
+    /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(
+      receipt,
+    );
   return (
-    <div className="min-h-screen bg-bg text-ink flex items-center justify-center px-4 py-16">
-      <div className="max-w-xl w-full bg-surface border border-line rounded-[28px] p-8 md:p-12 shadow-sm space-y-8">
-        <div className="space-y-3">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-kk-indigo-050 text-kk-indigo text-sm font-medium">
-            <span className="w-2 h-2 rounded-full bg-leaf"></span>
-            Enquiry Received
-          </div>
-          <h1 className="text-3xl md:text-4xl font-display font-bold text-ink leading-tight">
-            Thank you. We have your details.
-          </h1>
-          <p className="text-ink-2 text-base md:text-lg">
-            Kulvir Sharma will review your requirements and reply personally on WhatsApp or by email within one working day.
-          </p>
-        </div>
-
-        <div className="border-t border-line pt-6 space-y-4">
-          <h2 className="text-sm font-semibold text-ink">
-            What happens next
-          </h2>
-          <ol className="space-y-4 text-sm text-ink-2">
-            <li className="flex items-start gap-3">
-              <span className="flex-shrink-0 w-6 h-6 rounded-full bg-kk-indigo-050 text-kk-indigo flex items-center justify-center font-bold text-xs">
-                1
-              </span>
-              <span>
-                <strong className="text-ink font-medium">Review:</strong> Kulvir looks at how your business currently operates and maps out what to fix first.
-              </span>
-            </li>
-            <li className="flex items-start gap-3">
-              <span className="flex-shrink-0 w-6 h-6 rounded-full bg-kk-indigo-050 text-kk-indigo flex items-center justify-center font-bold text-xs">
-                2
-              </span>
-              <span>
-                <strong className="text-ink font-medium">Free check-up call:</strong> A 30-minute discussion by phone or Google Meet to verify the scope and answer questions.
-              </span>
-            </li>
-            <li className="flex items-start gap-3">
-              <span className="flex-shrink-0 w-6 h-6 rounded-full bg-kk-indigo-050 text-kk-indigo flex items-center justify-center font-bold text-xs">
-                3
-              </span>
-              <span>
-                <strong className="text-ink font-medium">Fixed quote:</strong> You get a clear, written proposal with fixed milestone pricing.
-              </span>
-            </li>
-          </ol>
-        </div>
-
-        <div className="border-t border-line pt-6 flex flex-col sm:flex-row items-center gap-4">
+    <div className="contact-page">
+      <section className="contact-thanks">
+        {received && (
+          <span className="contact-received-icon" aria-hidden="true">
+            <Check size={26} />
+          </span>
+        )}
+        <p className="eyebrow">
+          {received ? "Call request received" : "Let’s start a conversation"}
+        </p>
+        <h1>
+          {received ? "A good place to start." : "Your next move starts here."}
+        </h1>
+        <p>
+          {received
+            ? "Thank you. Your recent call request has been received for Kulvir to review. He can follow up using the contact details you provided to discuss the project and arrange a time."
+            : "To discuss a website, an app or a more useful business workflow, tell Kulvir a little about your project."}
+        </p>
+        <p className="contact-thanks-note">
+          {received
+            ? "No appointment has been booked yet. A time still needs to be agreed with you."
+            : "This page does not confirm a submission or a calendar appointment."}
+        </p>
+        <div className="contact-thanks-actions">
+          <Link
+            href={received ? "/lab" : "/contact"}
+            className="button button-primary"
+          >
+            {received ? "Explore the Lab" : "Book a call"}
+            <ArrowUpRight size={18} />
+          </Link>
           <a
-            href={waUrl}
+            href={contactWhatsApp(
+              received
+                ? "Hi Kulvir, I recently sent a call request through your website."
+                : undefined,
+            )}
+            className="button button-secondary"
             target="_blank"
             rel="noopener noreferrer"
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-whatsapp text-ink font-semibold rounded-xl text-sm hover:opacity-95 transition-opacity"
           >
-            <WhatsAppIcon className="w-4 h-4 text-ink" />
-            <span>Message Kulvir on WhatsApp</span>
+            WhatsApp Kulvir <ArrowUpRight size={18} />
           </a>
-          <Link
-            href="/"
-            className="w-full sm:w-auto inline-flex items-center justify-center px-6 py-3.5 border border-line text-ink-2 font-medium rounded-xl text-sm hover:text-ink hover:border-line-strong transition-colors"
-          >
-            Return to Homepage
-          </Link>
         </div>
-      </div>
+      </section>
     </div>
   );
 }

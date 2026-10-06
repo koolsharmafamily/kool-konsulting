@@ -1,277 +1,181 @@
-import React from "react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { servicesData } from "@/data/services";
-import { servicePricing } from "@/data/pricing";
-import { projects } from "@/data/work";
-import { Section, SectionHeading } from "@/components/ui/Section";
-import Button from "@/components/ui/Button";
-import ProcessSection from "@/components/home/ProcessSection";
-import FinalCtaSection from "@/components/home/FinalCtaSection";
-import { getWhatsAppUrl } from "@/lib/whatsapp";
-import { site } from "@/data/site";
-import { JsonLd } from "@/components/seo/JsonLd";
-import { getServiceSchema, getBreadcrumbSchema, getFaqSchema } from "@/lib/schema";
-import { Check, X, ArrowRight, CheckCircle2 } from "lucide-react";
+import { serviceFamilies, investmentRanges } from "@/data/brand-content";
+import "../../inner.css";
 
-export async function generateStaticParams() {
-  return Object.keys(servicesData).map((slug) => ({
-    slug,
-  }));
-}
-
-export async function generateMetadata({ params }: { params: { slug: string } }) {
-  const service = servicesData[params.slug];
-  if (!service) return {};
-  return {
-    title: `${service.metaTitle}`,
-    description: service.metaDescription,
-    alternates: {
-      canonical: `/services/${params.slug}`,
-    },
-    openGraph: {
-      title: `${service.metaTitle}`,
-      description: service.metaDescription,
-      url: `${site.origin}/services/${params.slug}`,
-      siteName: site.name,
-      locale: "en_IN",
-      type: "website",
-    },
-    twitter: {
-      card: "summary_large_image",
-      title: `${service.metaTitle}`,
-      description: service.metaDescription,
-    },
-  };
-}
-
-export default function ServiceDetailPage({
-  params,
-}: {
-  params: { slug: string };
-}) {
-  const service = servicesData[params.slug];
-  const pricing = servicePricing[params.slug];
-
-  if (!service) {
-    notFound();
-  }
-
-  const related = projects.filter((p) =>
-    p.services.includes(params.slug as any)
+function findService(slug: string) {
+  return serviceFamilies.find(
+    (s) => s.slug === (slug === "software" ? "apps" : slug),
   );
+}
+export function generateStaticParams() {
+  return [
+    ...serviceFamilies.map((s) => ({ slug: s.slug })),
+    { slug: "software" },
+  ];
+}
+export function generateMetadata({ params }: { params: { slug: string } }) {
+  const service = findService(params.slug);
+  return service
+    ? {
+        title: service.name,
+        description: service.summary,
+        alternates: { canonical: "/services/" + service.slug },
+      }
+    : { title: "Service not found" };
+}
 
-  const waServiceUrl = getWhatsAppUrl(service.whatsappMessage);
-
-  const breadcrumbs = getBreadcrumbSchema([
-    { name: "Home", url: "/" },
-    { name: "Services", url: "/services" },
-    { name: service.name, url: `/services/${params.slug}` },
-  ]);
-
+export default function ServicePage({ params }: { params: { slug: string } }) {
+  const service = findService(params.slug);
+  if (!service) notFound();
+  const prices = investmentRanges.filter((p) => p.family === service.slug);
   return (
-    <div className="bg-bg min-h-screen">
-      <JsonLd data={getServiceSchema(service, pricing?.startingPriceNumber)} />
-      <JsonLd data={breadcrumbs} />
-      {service.faqs && service.faqs.length > 0 && (
-        <JsonLd data={getFaqSchema(service.faqs)} />
-      )}
-      
-      {/* 1. Hero Section */}
-      <section className="pt-16 pb-16 md:pt-24 md:pb-24 bg-surface border-b border-line">
-        <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-            
-            <div className="lg:col-span-7 space-y-6">
-              <span className="text-xs font-semibold text-kk-indigo bg-kk-indigo-050 px-3 py-1 rounded-full border border-[#DCD9F5]">
-                {service.name}
-              </span>
-
-              <h1 className="text-4xl sm:text-5xl md:text-6xl font-display font-bold text-ink tracking-tight leading-[1.08] font-stretch-h1">
-                {service.h1}
-              </h1>
-
-              <p className="text-lg md:text-xl text-ink-2 font-normal leading-relaxed">
-                {service.lead}
+    <div className="inner-page">
+      <section className="container inner-intro service-intro">
+        <Link href="/services" className="eyebrow">
+          Expertise <span aria-hidden="true">/</span> {service.name}
+        </Link>
+        <h1>{service.heading}</h1>
+        <p>{service.intro}</p>
+        <div className="inner-actions">
+          <Link
+            className="button button-primary"
+            href={
+              "/contact?service=" +
+              service.slug +
+              "&source=service-" +
+              service.slug
+            }
+          >
+            Book a call <span aria-hidden="true">↗</span>
+          </Link>
+          <Link className="text-link" href={"/lab/" + service.demoSlug}>
+            Explore the demo <span aria-hidden="true">↗</span>
+          </Link>
+        </div>
+        {params.slug === "software" && (
+          <p className="inner-note">
+            Custom business software is part of our Apps & Digital Products
+            practice, connecting internal workflows with the people who use
+            them.
+          </p>
+        )}
+      </section>
+      <section className="service-system">
+        <div className="container">
+          <span className="eyebrow">
+            A potential application / The connection that matters
+          </span>
+          <ol className="service-flow">
+            {service.flow.map((step, i) => (
+              <li key={step}>
+                <span className="inner-number">0{i + 1}</span>
+                <h2>{step}</h2>
+                {i < 2 && (
+                  <span className="flow-arrow" aria-hidden="true">
+                    ↗
+                  </span>
+                )}
+              </li>
+            ))}
+          </ol>
+          <p>
+            Illustrative workflow. The details are shaped around your business.
+          </p>
+        </div>
+      </section>
+      <section className="container inner-section inner-split">
+        <div>
+          <span className="eyebrow">What we shape</span>
+          <h2>
+            Considered at
+            <br />
+            every layer.
+          </h2>
+        </div>
+        <div className="detail-list">
+          {service.deliverables.map((d) => (
+            <article key={d.title}>
+              <h3>{d.title}</h3>
+              <p>{d.body}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+      <section className="inner-dark">
+        <div className="container inner-split">
+          <div>
+            <span className="eyebrow">Designed for real work</span>
+            <h2>
+              Imagine what
+              <br />
+              this could unlock.
+            </h2>
+          </div>
+          <div className="example-lines">
+            {service.examples.map((e) => (
+              <p key={e}>
+                <span aria-hidden="true">↳</span>
+                {e}
               </p>
-
-              <div className="p-4 rounded-card bg-bg border border-line flex flex-wrap items-center justify-between gap-4 text-sm">
-                <div>
-                  <span className="text-xs text-ink-3 block">Starting from</span>
-                  <span className="text-xl font-bold font-display text-ink tabular-nums">
-                    {pricing?.startingPriceDisplay}
-                  </span>
-                </div>
-                <div>
-                  <span className="text-xs text-ink-3 block">Typical delivery</span>
-                  <span className="text-sm font-semibold text-ink">
-                    {pricing?.timeline}
-                  </span>
-                </div>
-                <Button
-                  variant="whatsapp"
-                  href={waServiceUrl}
-                  className="text-xs px-4 py-2.5"
-                >
-                  Inquire on WhatsApp
-                </Button>
-              </div>
-
-              {params.slug === "websites" && (
-                <p className="text-xs text-ink-3 italic">
-                  Fact: Only 26.9% of Indian MSMEs have a business website. (India SME Forum, Dec 2025)
-                </p>
-              )}
-            </div>
-
-            {/* Visual Deliverable Callout */}
-            <div className="lg:col-span-5">
-              <div className="p-6 md:p-8 bg-bg border border-line rounded-stage shadow-sm space-y-4">
-                <span className="text-xs font-semibold text-kk-indigo block">
-                  Example builds in this category:
-                </span>
-                <div className="space-y-2">
-                  {service.examples.map((ex, i) => (
-                    <div
-                      key={i}
-                      className="p-3 bg-surface rounded-card border border-line text-sm font-medium text-ink flex items-center justify-between"
-                    >
-                      <span>{ex}</span>
-                      <CheckCircle2 className="w-4 h-4 text-leaf flex-shrink-0" />
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-
+            ))}
+            <Link href={"/lab/" + service.demoSlug} className="text-link">
+              Try a concept demonstration <span aria-hidden="true">↗</span>
+            </Link>
           </div>
         </div>
       </section>
-
-      {/* 2. What We Build */}
-      <Section variant="bg">
-        <SectionHeading
-          h2="What we actually build & deliver"
-          lead="Every line item is tested, documented, and handed over in your name."
-        />
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {service.deliverables.map((del, idx) => (
-            <div
-              key={idx}
-              className="p-5 bg-surface rounded-card border border-line flex items-start gap-3.5 shadow-sm"
-            >
-              <Check className="w-5 h-5 text-leaf flex-shrink-0 mt-0.5" />
-              <span className="text-sm md:text-base text-ink leading-relaxed">
-                {del}
-              </span>
-            </div>
-          ))}
-        </div>
-      </Section>
-
-      {/* 3. Included vs Not Included */}
-      <Section variant="surface">
-        <SectionHeading
-          h2="Clear expectations from day one"
-          lead="What is included in every build, and what we do not do."
-        />
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {/* Included */}
-          <div className="p-6 md:p-8 bg-bg rounded-stage border border-line space-y-4">
-            <span className="text-xs font-bold text-leaf block">
-              ✓ What's always included
-            </span>
-            <ul className="space-y-3 text-sm text-ink-2">
-              {service.included.map((item, i) => (
-                <li key={i} className="flex items-start gap-2.5">
-                  <Check className="w-4 h-4 text-leaf flex-shrink-0 mt-0.5" />
-                  <span>{item}</span>
-                </li>
-              ))}
-            </ul>
+      <section className="container inner-section">
+        <div className="inner-split">
+          <div>
+            <span className="eyebrow">Investment / Indicative ranges</span>
+            <h2>
+              Make room for
+              <br />
+              the right scope.
+            </h2>
+            <p className="inner-muted">
+              Final fees follow discovery and a written scope.
+            </p>
           </div>
-
-          {/* Not Included */}
-          <div className="p-6 md:p-8 bg-bg rounded-stage border border-line space-y-4">
-            <span className="text-xs font-bold text-bahi block">
-              ✕ What we don't do
-            </span>
-            <ul className="space-y-3 text-sm text-ink-2">
-              {service.notIncluded.map((item, i) => (
-                <li key={i} className="flex items-start gap-2.5">
-                  <X className="w-4 h-4 text-bahi flex-shrink-0 mt-0.5" />
-                  <span>{item}</span>
-                </li>
-              ))}
-            </ul>
+          <div>
+            {prices.map((p) => (
+              <article className="service-price" key={p.id}>
+                <h3>{p.name}</h3>
+                <strong>{p.range}</strong>
+                <p>{p.scope}</p>
+              </article>
+            ))}
+            <Link href="/pricing" className="text-link">
+              All investment details <span aria-hidden="true">↗</span>
+            </Link>
           </div>
         </div>
-      </Section>
-
-      {/* 4. Related Projects */}
-      {related.length > 0 && (
-        <Section variant="bg">
-          <SectionHeading
-            h2="Relevant work & deployments"
-            lead="Real projects delivered in this domain."
-          />
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {related.slice(0, 2).map((proj) => (
-              <Link
-                key={proj.slug}
-                href={`/work/${proj.slug}`}
-                className="p-6 bg-surface border border-line rounded-card hover:border-line-strong transition-all group"
-              >
-                <div className="flex justify-between items-center text-xs text-ink-3 mb-2">
-                  <span className="font-semibold text-kk-indigo">
-                    {proj.industry}
-                  </span>
-                  <span>{proj.status}</span>
-                </div>
-                <h3 className="font-display font-bold text-xl text-ink group-hover:text-kk-indigo transition-colors mb-2">
-                  {proj.title}
-                </h3>
-                <p className="text-xs text-ink-2 line-clamp-2 mb-4">
-                  {proj.problem}
-                </p>
-                <span className="text-xs font-semibold text-kk-indigo inline-flex items-center gap-1">
-                  Read project story
-                </span>
-              </Link>
+        <div className="scope-notes">
+          <h3>Agreed before we build</h3>
+          <ul>
+            {service.boundaries.map((b) => (
+              <li key={b}>{b}</li>
             ))}
-          </div>
-        </Section>
-      )}
-
-      {/* 5. Process Section */}
-      <ProcessSection />
-
-      {/* 6. Service FAQs */}
-      {service.faqs && service.faqs.length > 0 && (
-        <Section variant="bg">
-          <SectionHeading
-            h2={`Questions about ${service.name.toLowerCase()}`}
-            lead="Practical details on timeline, revisions, and ownership."
-          />
-          <div className="max-w-3xl mx-auto space-y-4">
-            {service.faqs.map((f, i) => (
-              <div
-                key={i}
-                className="p-5 md:p-6 bg-surface border border-line rounded-card space-y-2"
-              >
-                <h3 className="font-bold text-ink text-base md:text-lg font-display">
-                  {f.q}
-                </h3>
-                <p className="text-sm text-ink-2 leading-relaxed">{f.a}</p>
-              </div>
-            ))}
-          </div>
-        </Section>
-      )}
-
-      {/* 7. Final CTA */}
-      <FinalCtaSection />
-
+          </ul>
+        </div>
+      </section>
+      <section className="inner-close">
+        <div className="container">
+          <span className="eyebrow">A conversation is a good start.</span>
+          <h2>
+            Let’s make your next move
+            <br />
+            work beautifully.
+          </h2>
+          <Link
+            className="button button-primary"
+            href={"/contact?service=" + service.slug + "&source=service-close"}
+          >
+            Book a call <span aria-hidden="true">↗</span>
+          </Link>
+        </div>
+      </section>
     </div>
   );
 }

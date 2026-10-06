@@ -1,213 +1,156 @@
-import React from "react";
-import { Section, SectionHeading } from "@/components/ui/Section";
-import Button from "@/components/ui/Button";
-import BallparkEstimator from "@/components/home/BallparkEstimator";
-import FinalCtaSection from "@/components/home/FinalCtaSection";
-import { servicePricing, carePlans } from "@/data/pricing";
-import { site } from "@/data/site";
-import { JsonLd } from "@/components/seo/JsonLd";
-import { getBreadcrumbSchema } from "@/lib/schema";
-import { Check, ShieldCheck, CheckCircle2 } from "lucide-react";
-
+import Link from "next/link";
+import {
+  commercialStatus,
+  investmentRanges,
+  serviceFamilies,
+} from "@/data/brand-content";
+import "../inner.css";
 export const metadata = {
-  title: "Pricing & Care Plans | Kool Konsulting",
+  title: "Investment",
   description:
-    "Transparent starting prices and care plans for Indian businesses. Fixed written quotes, milestone payments, zero software lock-in.",
-  alternates: {
-    canonical: "/pricing",
-  },
-  openGraph: {
-    title: "Pricing & Care Plans | Kool Konsulting",
-    description:
-      "Transparent starting prices and care plans for Indian businesses. Fixed written quotes, milestone payments, zero software lock-in.",
-    url: `${site.origin}/pricing`,
-    siteName: site.name,
-    locale: "en_IN",
-    type: "website",
-    images: [{ url: "/opengraph-image", width: 1200, height: 630 }],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Pricing & Care Plans | Kool Konsulting",
-    description:
-      "Transparent starting prices and care plans for Indian businesses. Fixed written quotes, milestone payments, zero software lock-in.",
-    images: ["/opengraph-image"],
-  },
+    "Indicative, scoped project ranges for automation, websites and apps, with clear boundaries around ongoing care and third-party costs.",
+  alternates: { canonical: "/pricing" },
 };
-
-export default function PricingPage() {
-  const services = Object.values(servicePricing);
-  const breadcrumbs = getBreadcrumbSchema([
-    { name: "Home", url: "/" },
-    { name: "Pricing", url: "/pricing" },
-  ]);
-
+export default function InvestmentPage() {
   return (
-    <div className="bg-bg min-h-screen">
-      <JsonLd data={breadcrumbs} />
-      
-      {/* 1. Header */}
-      <section className="pt-16 pb-12 md:pt-24 md:pb-16 bg-surface border-b border-line">
-        <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 max-w-3xl">
-          <span className="text-xs font-semibold text-kk-indigo bg-kk-indigo-050 px-3 py-1 rounded-full border border-[#DCD9F5]">
-            Transparent Investment
-          </span>
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-display font-bold text-ink tracking-tight mt-4 mb-4 font-stretch-h1">
-            Predictable pricing. Fixed quotes. Zero lock-in.
-          </h1>
-          <p className="text-lg md:text-xl text-ink-2 font-normal leading-relaxed">
-            Every project starts with a clear written plan. You know the exact deliverables, timeline, and cost before we begin.
-          </p>
+    <div className="inner-page">
+      <section className="container inner-intro">
+        <span className="eyebrow">
+          Investment / A considered starting point
+        </span>
+        <h1>
+          Big on possibility.
+          <br />
+          <em>Clear on scope.</em>
+        </h1>
+        <p>
+          Every good project starts with shared expectations. These indicative
+          ranges help us find a useful first scope together.
+        </p>
+        <p className="inner-note">{commercialStatus.notice}</p>
+      </section>
+      <section
+        className="container price-groups"
+        aria-label="Indicative project investment"
+      >
+        {serviceFamilies.map((family) => (
+          <div className="price-group" key={family.slug}>
+            <div>
+              <span className="inner-number">{family.number}</span>
+              <h2>{family.name}</h2>
+              <Link href={"/services/" + family.slug} className="text-link">
+                Explore the expertise <span aria-hidden="true">↗</span>
+              </Link>
+            </div>
+            <div>
+              {investmentRanges
+                .filter((p) => p.family === family.slug)
+                .map((p) => (
+                  <article className="investment-row" key={p.id}>
+                    <h3>{p.name}</h3>
+                    <strong>{p.range}</strong>
+                    <p>{p.scope}</p>
+                  </article>
+                ))}
+            </div>
+          </div>
+        ))}
+      </section>
+      <section className="inner-dark">
+        <div className="container">
+          <div className="inner-split">
+            <div>
+              <span className="eyebrow">
+                After launch / Optional ongoing care
+              </span>
+              <h2>
+                Keep things
+                <br />
+                working beautifully.
+              </h2>
+            </div>
+            <div>
+              <p>
+                A care plan is a separate engagement with defined hours,
+                responsibilities and response arrangements. The right level
+                depends on the system and the team using it.
+              </p>
+            </div>
+          </div>
+          <div className="care-grid">
+            {investmentRanges
+              .filter((p) => p.family === "care")
+              .map((p) => (
+                <article key={p.id}>
+                  <h3>{p.name}</h3>
+                  <strong>{p.range}</strong>
+                  <p>{p.scope}</p>
+                </article>
+              ))}
+          </div>
         </div>
       </section>
-
-      {/* 2. Core Services Price Table */}
-      <Section id="engagement-models" variant="bg">
-        <SectionHeading
-          h2="Starting prices by service"
-          lead="Every quote is fixed for the agreed scope. No open-ended hourly billing."
-        />
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {services.map((svc) => (
-            <div
-              key={svc.id}
-              className="bg-surface rounded-stage border border-line p-8 flex flex-col justify-between shadow-sm space-y-6"
-            >
-              <div className="space-y-4">
-                <div className="flex justify-between items-start border-b border-line pb-4">
-                  <div>
-                    <h3 className="font-display font-bold text-2xl text-ink font-stretch-h3">
-                      {svc.name}
-                    </h3>
-                    <span className="text-xs text-ink-3">
-                      Typical delivery: {svc.timeline}
-                    </span>
-                  </div>
-                  <div className="text-right">
-                    <span className="text-xs text-ink-3 block">Starting from</span>
-                    <span className="text-2xl font-bold font-display text-ink tabular-nums">
-                      {svc.startingPriceDisplay}
-                    </span>
-                    {svc.unit && (
-                      <span className="text-[11px] text-ink-3 block">
-                        {svc.unit}
-                      </span>
-                    )}
-                  </div>
-                </div>
-
-                <div className="space-y-2">
-                  <span className="text-xs font-semibold text-ink-3 block">
-                    What is included in this tier:
-                  </span>
-                  <ul className="space-y-2 text-xs md:text-sm text-ink-2">
-                    {svc.included.map((item, i) => (
-                      <li key={i} className="flex items-start gap-2.5">
-                        <Check className="w-4 h-4 text-leaf flex-shrink-0 mt-0.5" />
-                        <span>{item}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-
-              <div className="pt-4 border-t border-line">
-                <Button
-                  variant="secondary"
-                  href={`/contact?service=${encodeURIComponent(svc.name)}`}
-                  className="w-full text-sm"
-                >
-                  Get a written quote for {svc.name.toLowerCase()}
-                </Button>
-              </div>
-            </div>
-          ))}
+      <section className="container inner-section inner-split">
+        <div>
+          <span className="eyebrow">The details matter</span>
+          <h2>
+            A proposal with
+            <br />
+            everything in view.
+          </h2>
         </div>
-      </Section>
-
-      {/* 3. Care Plans */}
-      <Section variant="surface">
-        <SectionHeading
-          h2="Monthly care plans"
-          lead="Optional ongoing maintenance, backups, and adjustments once your system is live."
-        />
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-          {carePlans.map((plan, idx) => (
-            <div
-              key={idx}
-              className="bg-bg rounded-stage border border-line p-8 flex flex-col justify-between space-y-6"
-            >
-              <div className="space-y-4">
-                <div className="border-b border-line pb-4">
-                  <h3 className="font-display font-bold text-xl text-ink">
-                    {plan.name}
-                  </h3>
-                  <div className="mt-2 flex items-baseline gap-2">
-                    <span className="text-3xl font-display font-bold text-ink tabular-nums">
-                      {plan.priceDisplay}
-                    </span>
-                    <span className="text-xs text-ink-3">{plan.cadence}</span>
-                  </div>
-                  <p className="text-xs text-ink-2 mt-2 leading-relaxed">
-                    {plan.description}
-                  </p>
-                </div>
-
-                <ul className="space-y-2.5 text-xs text-ink-2">
-                  {plan.features.map((feat, i) => (
-                    <li key={i} className="flex items-start gap-2.5">
-                      <Check className="w-4 h-4 text-leaf flex-shrink-0 mt-0.5" />
-                      <span>{feat}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              <div className="pt-4 border-t border-line">
-                <span className="text-[11px] text-ink-3 block text-center">
-                  Billed monthly. Cancel anytime with 30 days notice.
-                </span>
-              </div>
-            </div>
-          ))}
-        </div>
-      </Section>
-
-      {/* 4. Payment Terms & Guarantee */}
-      <Section variant="bg">
-        <div className="max-w-3xl mx-auto p-8 bg-surface rounded-stage border border-line space-y-6">
-          <div className="flex items-center gap-3 text-kk-indigo">
-            <ShieldCheck className="w-6 h-6" />
-            <h2 className="font-display font-bold text-2xl text-ink">
-              How payments and ownership work
-            </h2>
-          </div>
-
-          <div className="space-y-3 text-sm text-ink-2 leading-relaxed">
+        <div className="detail-list">
+          <article>
+            <h3>One clear build scope</h3>
             <p>
-              <strong className="text-ink font-semibold">Payment terms:</strong>{" "}
-              {site.payments}
+              Deliverables, milestones, review rounds, responsibilities and
+              acceptance criteria are agreed in writing. These are alternative
+              engagement sizes; the higher tiers are not compulsory add-ons.
             </p>
+          </article>
+          <article>
+            <h3>Separate external costs</h3>
             <p>
-              <strong className="text-ink font-semibold">Free fix window:</strong>{" "}
-              Any bugs or defects in what we built are resolved free for{" "}
-              {site.freeFixWindowDays} days after launch.
+              Third-party subscriptions and usage, hosting, content production,
+              optional support and any applicable taxes are identified
+              separately in your proposal. Tax treatment is confirmed for the
+              engagement.
             </p>
-            <p className="p-4 bg-bg rounded-card border border-line text-xs font-medium text-ink">
-              Never included: licence fees paid to us, lock-in, or charges you didn't approve in writing. All prices exclude GST.
+          </article>
+          <article>
+            <h3>Specialist work, specifically scoped</h3>
+            <p>
+              Original 3D production, photography, video, brand identity,
+              content migration and bespoke integrations need their own agreed
+              scope. Complex platforms and substantial native apps require a
+              tailored proposal.
             </p>
-          </div>
+          </article>
+          <article>
+            <h3>Timelines and handover</h3>
+            <p>
+              Delivery dates, payments, ownership, third-party licences and
+              post-launch responsibilities are agreed before work starts.
+            </p>
+          </article>
         </div>
-      </Section>
-
-      {/* 5. Ballpark Estimator */}
-      <BallparkEstimator />
-
-      {/* 6. Final CTA */}
-      <FinalCtaSection />
-
+      </section>
+      <section className="inner-close">
+        <div className="container">
+          <span className="eyebrow">Let’s find a useful first scope.</span>
+          <h2>
+            What would move
+            <br />
+            your business forward?
+          </h2>
+          <Link
+            href="/contact?source=investment"
+            className="button button-primary"
+          >
+            Book a call <span aria-hidden="true">↗</span>
+          </Link>
+        </div>
+      </section>
     </div>
   );
 }

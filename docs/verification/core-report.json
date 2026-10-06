@@ -1,0 +1,46 @@
+[
+  {
+    "name": "Unavailable dining keeps input and offers explicit alternative",
+    "passed": true
+  },
+  {
+    "name": "Dining covers available, invalid and no-alternative states",
+    "passed": true
+  },
+  {
+    "name": "Unknown knowledge and allergy require a person; blank input is an error",
+    "passed": true
+  },
+  {
+    "name": "All six product preference combinations are meaningful and inventory distinct",
+    "passed": true
+  },
+  {
+    "name": "Routing honours consent and human control before qualification",
+    "passed": true
+  },
+  {
+    "name": "No provider yields 503 and preserves useful WhatsApp fallback",
+    "passed": true
+  },
+  {
+    "name": "Validation, honeypot, origin and body limits reject bad requests",
+    "passed": true
+  },
+  {
+    "name": "Provider acknowledgement confirms request only; receipt and rate limit work",
+    "passed": true
+  },
+  {
+    "name": "Missing provider receipt or failed delivery never produces success",
+    "passed": true
+  },
+  {
+    "name": "Webhook fallback accepts only successful HTTP acknowledgement",
+    "passed": true
+  },
+  {
+    "name": "Native form path returns truthful fallback HTML without JavaScript",
+    "passed": true
+  }
+]

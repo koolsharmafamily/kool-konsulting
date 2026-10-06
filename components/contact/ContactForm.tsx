@@ -1,306 +1,320 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import Button from "@/components/ui/Button";
-import { getWhatsAppUrl } from "@/lib/whatsapp";
-import { WhatsAppIcon } from "@/components/brand/WhatsAppIcon";
-import { CheckCircle2, AlertCircle } from "lucide-react";
+import { ArrowUpRight, Check, Send } from "lucide-react";
+import { contactWhatsApp } from "@/data/contact";
+import {
+  budgetOptions,
+  Enquiry,
+  EnquiryErrors,
+  enquiryWhatsAppText,
+  normaliseInterest,
+  projectInterests,
+  timingOptions,
+  validateEnquiry,
+} from "./enquiry";
 
-export default function ContactForm() {
-  const [name, setName] = useState("");
-  const [business, setBusiness] = useState("");
-  const [phone, setPhone] = useState("");
-  const [service, setService] = useState("Not sure yet");
-  const [problem, setProblem] = useState("");
-  const [city, setCity] = useState("");
-  const [email, setEmail] = useState("");
-  const [renderTime, setRenderTime] = useState<number>(0);
-
-  const [loading, setLoading] = useState(false);
-  const [successMessage, setSuccessMessage] = useState<string | null>(null);
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+export default function ContactForm({
+  initialService = "",
+  context = "",
+}: {
+  initialService?: string;
+  context?: string;
+}) {
+  const [values, setValues] = useState<Enquiry>({
+    name: "",
+    contact: "",
+    business: "",
+    service: normaliseInterest(initialService),
+    description: "",
+    budget: "Not sure yet",
+    timing: "Not sure yet",
+    context,
+  });
+  const [renderTime, setRenderTime] = useState(0);
+  const [sending, setSending] = useState(false);
+  const [received, setReceived] = useState(false);
+  const [errors, setErrors] = useState<EnquiryErrors>({});
+  const [deliveryError, setDeliveryError] = useState("");
+  const formRef = useRef<HTMLFormElement>(null);
+  const resultRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setRenderTime(Date.now());
-
-    if (typeof window !== "undefined") {
-      const params = new URLSearchParams(window.location.search);
-      const svcParam = params.get("service");
-      if (svcParam) {
-        setService(decodeURIComponent(svcParam));
-      }
-      const noteParam = params.get("notes") || params.get("size");
-      if (noteParam) {
-        setProblem(`Scope: ${decodeURIComponent(noteParam)}`);
-      }
-    }
   }, []);
+  useEffect(() => {
+    if (received || deliveryError) resultRef.current?.focus();
+  }, [received, deliveryError]);
 
-  const serviceChips = [
-    "Website",
-    "App",
-    "Business software",
-    "Automation",
-    "Not sure yet",
-  ];
+  function update(field: keyof Enquiry, value: string) {
+    setValues((previous) => ({ ...previous, [field]: value }));
+    if (errors[field])
+      setErrors((previous) => ({ ...previous, [field]: undefined }));
+  }
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setLoading(true);
-    setErrorMessage(null);
-
-    const payload = {
-      name,
-      business,
-      phone,
-      service,
-      problem,
-      city,
-      email,
-      "render-time": renderTime,
-    };
-
+  async function submit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    if (sending) return;
+    setDeliveryError("");
+    const checked = validateEnquiry(values);
+    setErrors(checked.errors);
+    const firstError = Object.keys(checked.errors)[0];
+    if (firstError) {
+      formRef.current
+        ?.querySelector<HTMLElement>(`[name="${firstError}"]`)
+        ?.focus();
+      return;
+    }
+    setSending(true);
+    const formData = new FormData(event.currentTarget);
     try {
-      const res = await fetch("/api/enquiry", {
+      const response = await fetch("/api/enquiry", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",
         },
-        body: JSON.stringify(payload),
+        body: JSON.stringify({
+          ...checked.values,
+          "render-time": renderTime,
+          "company-website": formData.get("company-website"),
+        }),
+        signal: AbortSignal.timeout(25000),
       });
-
-      const data = await res.json();
-
-      if (res.ok && data.ok) {
-        setSuccessMessage(
-          data.message || `Thanks, ${name.split(" ")[0]}. Kulvir will reply on WhatsApp within one working day.`
-        );
+      const data = await response.json();
+      if (response.ok && data.ok && data.status === "received") {
+        setReceived(true);
       } else {
-        setErrorMessage(data.error || "Could not dispatch enquiry.");
+        if (data.errors) setErrors(data.errors);
+        setDeliveryError(
+          data.error ||
+            "Your request could not be delivered. Please try again or continue on WhatsApp.",
+        );
       }
     } catch {
-      setErrorMessage(
-        "Network connection failed. Please message Kulvir directly on WhatsApp."
+      setDeliveryError(
+        "We could not confirm delivery. Your details are still here. Please try again or continue on WhatsApp.",
       );
     } finally {
-      setLoading(false);
+      setSending(false);
     }
-  };
+  }
 
-  const waFallbackUrl = getWhatsAppUrl(
-    `Hi Kulvir, I tried submitting the enquiry form. Here are my details:\nName: ${name}\nBusiness: ${business}\nPhone: ${phone}\nNeed: ${service}\nNotes: ${problem}`
-  );
+  const fieldProps = (field: keyof Enquiry) => ({
+    id: `enquiry-${field}`,
+    name: field,
+    value: values[field],
+    onChange: (
+      event: React.ChangeEvent<
+        HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+      >,
+    ) => update(field, event.target.value),
+    "aria-invalid": Boolean(errors[field]),
+    "aria-describedby": errors[field] ? `error-${field}` : undefined,
+  });
+  const error = (field: keyof Enquiry) =>
+    errors[field] && (
+      <span className="contact-field-error" id={`error-${field}`} role="alert">
+        {errors[field]}
+      </span>
+    );
 
-  if (successMessage) {
+  if (received)
     return (
-      <div className="p-8 md:p-10 bg-surface rounded-stage border border-line shadow-sm space-y-6 animate-in fade-in">
-        <div className="w-12 h-12 rounded-full bg-[#E6F4EA] text-leaf flex items-center justify-center">
-          <CheckCircle2 className="w-6 h-6" />
-        </div>
-        <div className="space-y-2">
-          <h2 className="text-2xl font-display font-bold text-ink">
-            Enquiry Received
-          </h2>
-          <p className="text-base text-ink-2 leading-relaxed">
-            {successMessage}
-          </p>
-        </div>
-        <div className="pt-2">
-          <Button
-            variant="whatsapp"
-            href={getWhatsAppUrl(`Hi Kulvir, I just submitted an enquiry for ${business}.`)}
-          >
-            Chat with Kulvir on WhatsApp
-          </Button>
-        </div>
+      <div
+        className="contact-received"
+        ref={resultRef}
+        tabIndex={-1}
+        role="status"
+      >
+        <span className="contact-received-icon">
+          <Check size={26} />
+        </span>
+        <p className="eyebrow">Call request received</p>
+        <h3>A good place to start.</h3>
+        <p>
+          Thank you, {values.name.split(" ")[0]}. Your request has been received
+          for Kulvir to review. He can follow up at{" "}
+          <strong>{values.contact}</strong> to discuss the next step.
+        </p>
+        <p className="contact-received-note">
+          No appointment has been booked yet. A time still needs to be agreed
+          with you.
+        </p>
+        <Link className="button button-secondary" href="/lab">
+          Explore the Lab <ArrowUpRight size={18} />
+        </Link>
       </div>
     );
-  }
 
   return (
     <form
+      ref={formRef}
+      className="contact-form"
       action="/api/enquiry"
       method="POST"
-      onSubmit={handleSubmit}
-      className="p-6 md:p-10 bg-surface rounded-stage border border-line shadow-sm space-y-6"
+      onSubmit={submit}
+      noValidate
+      aria-busy={sending}
     >
       <input type="hidden" name="render-time" value={renderTime} />
-      {/* Honeypot field for bot suppression */}
-      <div className="hidden" aria-hidden="true">
-        <input type="text" name="company-website" tabIndex={-1} autoComplete="off" />
+      <input type="hidden" name="context" value={context} />
+      <div className="contact-honeypot" aria-hidden="true">
+        <label htmlFor="company-website">Leave this field empty</label>
+        <input
+          id="company-website"
+          name="company-website"
+          type="text"
+          tabIndex={-1}
+          autoComplete="off"
+        />
       </div>
-
-      {errorMessage && (
-        <div className="p-4 rounded-btn bg-[#FDF2F2] border border-ledger-red/30 text-xs md:text-sm text-ledger-red space-y-2 animate-in fade-in">
-          <div className="flex items-start gap-2">
-            <AlertCircle className="w-4 h-4 flex-shrink-0 mt-0.5" />
-            <span>{errorMessage}</span>
-          </div>
-          <div>
-            <a
-              href={waFallbackUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="font-semibold underline inline-flex items-center gap-1.5"
-            >
-              <WhatsAppIcon className="w-4 h-4 text-ledger-red" />
-              <span>Click here to send this via WhatsApp instead</span>
-            </a>
-          </div>
+      {context && (
+        <p className="contact-context">
+          <span>Coming from</span>
+          {context}
+        </p>
+      )}
+      {deliveryError && (
+        <div
+          className="contact-delivery-error"
+          role="alert"
+          tabIndex={-1}
+          ref={resultRef}
+        >
+          <strong>Request not confirmed</strong>
+          <p>{deliveryError}</p>
+          <a
+            href={contactWhatsApp(enquiryWhatsAppText(values))}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Continue with these details on WhatsApp <ArrowUpRight size={16} />
+          </a>
+          <small>You’ll review and send the message yourself.</small>
         </div>
       )}
-
-      {/* Row 1: Name and Business */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <div className="space-y-1.5">
-          <label htmlFor="name" className="block text-xs font-semibold text-ink">
-            Your Name <span className="text-ledger-red">*</span>
+      <div className="contact-fields-row">
+        <div className="contact-field">
+          <label htmlFor="enquiry-name">
+            Your name <span aria-hidden="true">*</span>
           </label>
           <input
-            id="name"
-            name="name"
-            type="text"
+            {...fieldProps("name")}
             required
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            placeholder="e.g. Anand Agrawal"
-            className="w-full px-4 py-3 bg-bg border border-line rounded-btn text-ink text-sm focus:border-kk-indigo focus:bg-surface focus:outline-none transition-colors"
+            autoComplete="name"
+            maxLength={100}
+            placeholder="First and last name"
           />
+          {error("name")}
         </div>
-
-        <div className="space-y-1.5">
-          <label htmlFor="business" className="block text-xs font-semibold text-ink">
-            Business Name <span className="text-ledger-red">*</span>
+        <div className="contact-field">
+          <label htmlFor="enquiry-contact">
+            Email or phone <span aria-hidden="true">*</span>
           </label>
           <input
-            id="business"
-            name="business"
-            type="text"
+            {...fieldProps("contact")}
             required
-            value={business}
-            onChange={(e) => setBusiness(e.target.value)}
-            placeholder="e.g. Vidarbha Agro"
-            className="w-full px-4 py-3 bg-bg border border-line rounded-btn text-ink text-sm focus:border-kk-indigo focus:bg-surface focus:outline-none transition-colors"
+            autoComplete="email"
+            maxLength={254}
+            placeholder="How should Kulvir reach you?"
           />
+          {error("contact")}
         </div>
       </div>
-
-      {/* Row 2: Phone/WhatsApp */}
-      <div className="space-y-1.5">
-        <label htmlFor="phone" className="block text-xs font-semibold text-ink">
-          Phone or WhatsApp Number <span className="text-ledger-red">*</span>
+      <div className="contact-field">
+        <label htmlFor="enquiry-business">
+          Business or website <span aria-hidden="true">*</span>
         </label>
         <input
-          id="phone"
-          name="phone"
-          type="tel"
+          {...fieldProps("business")}
           required
-          value={phone}
-          onChange={(e) => setPhone(e.target.value)}
-          placeholder="+91 98230 XXXXX"
-          className="w-full px-4 py-3 bg-bg border border-line rounded-btn text-ink text-sm focus:border-kk-indigo focus:bg-surface focus:outline-none transition-colors tabular-nums"
+          autoComplete="organization"
+          maxLength={200}
+          placeholder="Your brand, company or next idea"
         />
-        <span className="text-[11px] text-ink-3">
-          Kulvir replies personally on this number. No marketing calls.
-        </span>
+        {error("business")}
       </div>
-
-      {/* Row 3: What do you need? Chips */}
-      <div className="space-y-2">
-        <label className="block text-xs font-semibold text-ink">
-          What do you need built?
-        </label>
-        <input type="hidden" name="service" value={service} />
-        <div className="flex flex-wrap gap-2">
-          {serviceChips.map((chip) => {
-            const isSelected = service.toLowerCase() === chip.toLowerCase();
-            return (
-              <button
-                key={chip}
-                type="button"
-                onClick={() => setService(chip)}
-                className={`px-3.5 py-1.5 rounded-full text-xs font-medium border transition-colors ${
-                  isSelected
-                    ? "bg-ink text-white border-ink font-semibold"
-                    : "bg-bg text-ink-2 border-line hover:border-line-strong hover:text-ink"
-                }`}
-              >
-                {chip}
-              </button>
-            );
-          })}
+      <fieldset className="contact-interest">
+        <legend>What do you have in mind?</legend>
+        <div className="contact-interest-options">
+          {projectInterests.map((interest) => (
+            <label key={interest}>
+              <input
+                type="radio"
+                name="service"
+                value={interest}
+                checked={values.service === interest}
+                onChange={() => update("service", interest)}
+              />
+              <span>{interest}</span>
+            </label>
+          ))}
         </div>
-      </div>
-
-      {/* Row 4: Tell us a little (Textarea) */}
-      <div className="space-y-1.5">
-        <label htmlFor="problem" className="block text-xs font-semibold text-ink">
-          Tell us a little about where your team loses time (Optional)
+        {error("service")}
+      </fieldset>
+      <div className="contact-field">
+        <label htmlFor="enquiry-description">
+          A little about the project <span aria-hidden="true">*</span>
         </label>
         <textarea
-          id="problem"
-          name="problem"
-          rows={3}
-          value={problem}
-          onChange={(e) => setProblem(e.target.value)}
-          placeholder="e.g. We take orders on WhatsApp and lose track of payments, or site attendance is still kept in notebooks."
-          className="w-full px-4 py-3 bg-bg border border-line rounded-btn text-ink text-sm focus:border-kk-indigo focus:bg-surface focus:outline-none transition-colors resize-none"
+          {...fieldProps("description")}
+          rows={4}
+          required
+          minLength={10}
+          maxLength={3000}
+          placeholder="What would you like to build, improve or make possible?"
         />
+        {error("description")}
       </div>
-
-      {/* Row 5: City and Email */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <div className="space-y-1.5">
-          <label htmlFor="city" className="block text-xs font-semibold text-ink">
-            City (Optional)
+      <div className="contact-fields-row">
+        <div className="contact-field">
+          <label htmlFor="enquiry-budget">
+            Budget <span>(optional)</span>
           </label>
-          <input
-            id="city"
-            name="city"
-            type="text"
-            value={city}
-            onChange={(e) => setCity(e.target.value)}
-            placeholder="Nagpur"
-            className="w-full px-4 py-3 bg-bg border border-line rounded-btn text-ink text-sm focus:border-kk-indigo focus:bg-surface focus:outline-none transition-colors"
-          />
+          <select {...fieldProps("budget")}>
+            {budgetOptions.map((option) => (
+              <option key={option}>{option}</option>
+            ))}
+          </select>
+          {error("budget")}
         </div>
-
-        <div className="space-y-1.5">
-          <label htmlFor="email" className="block text-xs font-semibold text-ink">
-            Email Address (Optional)
+        <div className="contact-field">
+          <label htmlFor="enquiry-timing">
+            Timing <span>(optional)</span>
           </label>
-          <input
-            id="email"
-            name="email"
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="anand@example.com"
-            className="w-full px-4 py-3 bg-bg border border-line rounded-btn text-ink text-sm focus:border-kk-indigo focus:bg-surface focus:outline-none transition-colors"
-          />
+          <select {...fieldProps("timing")}>
+            {timingOptions.map((option) => (
+              <option key={option}>{option}</option>
+            ))}
+          </select>
+          {error("timing")}
         </div>
       </div>
-
-      {/* Submit Button & Consent Line */}
-      <div className="pt-2 space-y-3">
-        <Button
-          type="submit"
-          variant="primary"
-          disabled={loading}
-          className="w-full py-4 text-base"
-        >
-          {loading ? "Sending enquiry..." : "Get a free tech check-up"}
-        </Button>
-
-        <p className="text-[11px] text-ink-3 text-center leading-relaxed">
-          We'll use these details only to reply to your enquiry. We don't share them.{" "}
-          <Link href="/privacy" className="text-kk-indigo hover:underline">
-            Read our DPDP privacy notice
-          </Link>.
+      <p className="contact-form-privacy">
+        We use your details to respond and discuss your project. Please avoid
+        sending passwords or sensitive information.{" "}
+        <Link href="/privacy">Privacy notice</Link>.
+      </p>
+      <button
+        type="submit"
+        className="button button-primary contact-submit"
+        disabled={sending}
+      >
+        {sending ? "Sending your request…" : "Send call request"}
+        <Send size={17} aria-hidden="true" />
+      </button>
+      <p className="contact-form-footnote">
+        <span aria-hidden="true">*</span> Required fields. A request starts a
+        conversation; it does not book a slot.
+      </p>
+      <noscript>
+        <p className="contact-small">
+          This form also works without JavaScript. You will leave this page to
+          see the delivery result.
         </p>
-      </div>
+      </noscript>
     </form>
   );
 }

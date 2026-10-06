@@ -1,15 +1,24 @@
+import { contact } from "@/data/contact";
 export const site = {
   name: "Kool Konsulting",
-  origin: "https://kool-konsulting.vercel.app", // TODO(kulvir): switch to https://koolkonsulting.com once bought and connected
+  origin:
+    process.env.NEXT_PUBLIC_SITE_URL || "https://kool-konsulting.vercel.app", // TODO(kulvir): switch to https://koolkonsulting.com once bought and connected
   oneLiner:
-    "Kool Konsulting builds websites, apps, business software and automations for growing Indian businesses. Based in Nagpur. Working across India.",
-  phoneDisplay: "+91 88888 21351",
-  phoneE164: "+918888821351",
-  whatsappNumber: "918888821351",
-  whatsappDefault: "Hi Kulvir, I found Kool Konsulting's website. I'd like to talk about my business.",
+    "An independent technology studio creating beautiful digital experiences and intelligent operations for ambitious startups, luxury brands and smart SMEs. Based in Nagpur, India.",
+  phoneDisplay: contact.phoneDisplay,
+  phoneE164: contact.phoneE164,
+  whatsappNumber: contact.whatsappNumber,
+  whatsappDefault:
+    "Hi Kulvir, I found Kool Konsulting's website. I'd like to talk about my business.",
   email: "hello@koolkonsulting.com",
   emailLive: false, // TODO(kulvir): set to true once the mailbox works
-  address: { street: "", locality: "Nagpur", region: "Maharashtra", postalCode: "", country: "IN" }, // TODO(kulvir)
+  address: {
+    street: "",
+    locality: "Nagpur",
+    region: "Maharashtra",
+    postalCode: "",
+    country: "IN",
+  }, // TODO(kulvir)
   mapsUrl: "", // TODO(kulvir): Google Maps link to the office
   geo: null as null | { lat: number; lng: number },
   hours: "Mon–Sat, 10 am–7 pm", // TODO(kulvir): confirm
@@ -22,7 +31,10 @@ export const site = {
   freeFixWindowDays: 30, // TODO(kulvir): confirm
   payments:
     "Projects under ₹2 lakh: 50% to start, 50% at launch. Larger projects: milestones agreed in the quote. UPI or bank transfer.", // TODO(kulvir): confirm
-  analytics: { provider: "none" as "none" | "plausible" | "umami" | "ga4", id: "" },
+  analytics: {
+    provider: "none" as "none" | "plausible" | "umami" | "ga4",
+    id: "",
+  },
   founder: {
     name: "Kulvir Sharma",
     role: "Founder",

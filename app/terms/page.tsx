@@ -1,100 +1,93 @@
-import React from "react";
 import Link from "next/link";
-import { site } from "@/data/site";
-import { JsonLd } from "@/components/seo/JsonLd";
-import { getBreadcrumbSchema } from "@/lib/schema";
-
+import "../inner.css";
 export const metadata = {
-  title: "Terms of Engagement | Kool Konsulting",
-  description: "Straightforward terms regarding proposals, quotes, milestone payments, and code ownership.",
-  alternates: {
-    canonical: "/terms",
-  },
-  openGraph: {
-    title: "Terms of Engagement | Kool Konsulting",
-    description: "Straightforward terms regarding proposals, quotes, milestone payments, and code ownership.",
-    url: `${site.origin}/terms`,
-    siteName: site.name,
-    locale: "en_IN",
-    type: "website",
-    images: [{ url: "/opengraph-image", width: 1200, height: 630 }],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Terms of Engagement | Kool Konsulting",
-    description: "Straightforward terms regarding proposals, quotes, milestone payments, and code ownership.",
-    images: ["/opengraph-image"],
-  },
+  title: "Terms of Engagement",
+  description:
+    "An outline of project scoping, indicative investment, third-party costs and handover, subject to a written project agreement.",
+  alternates: { canonical: "/terms" },
 };
-
 export default function TermsPage() {
-  const breadcrumbs = getBreadcrumbSchema([
-    { name: "Home", url: "/" },
-    { name: "Terms", url: "/terms" },
-  ]);
-
   return (
-    <div className="bg-bg min-h-screen py-16 md:py-24">
-      <JsonLd data={breadcrumbs} />
-      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
-        
-        <div className="border-b border-line pb-6 space-y-2">
-          <span className="text-xs font-semibold text-kk-indigo bg-kk-indigo-050 px-3 py-1 rounded-full border border-[#DCD9F5]">
-            Terms
-          </span>
-          <h1 className="text-3xl md:text-5xl font-display font-bold text-ink tracking-tight font-stretch-h1">
-            Terms of Engagement
+    <div className="inner-page">
+      <article className="container legal-page">
+        <header>
+          <span className="eyebrow">Working together / Engagement outline</span>
+          <h1>
+            Clear expectations.
+            <br />
+            From the beginning.
           </h1>
-          <p className="text-sm text-ink-3">
-            Last updated: October 2026.
+          <p>
+            Updated 6 October 2026. This is a provisional outline for discussing
+            an engagement. The signed project agreement sets the actual terms.
           </p>
-        </div>
-
-        <div className="space-y-6 text-sm md:text-base text-ink-2 leading-relaxed">
-          <section className="space-y-2">
-            <h2 className="text-xl font-bold text-ink font-display">
-              1. Fixed Quotes & Scope
-            </h2>
-            <p>
-              Estimates provided via our website calculator or initial phone discussions are informational ballparks. Work commences only upon mutual signing of a formal Written Project Scope detailing deliverables, milestone payments, and timelines.
-            </p>
-          </section>
-
-          <section className="space-y-2">
-            <h2 className="text-xl font-bold text-ink font-display">
-              2. Milestones & Payments
-            </h2>
-            <p>
-              For projects under ₹2,00,000, standard terms are 50% advance to commence architecture and design, and 50% upon final staging approval prior to production deployment. Larger enterprise software projects operate on agreed multi-stage milestone releases. All fees exclude statutory GST.
-            </p>
-          </section>
-
-          <section className="space-y-2">
-            <h2 className="text-xl font-bold text-ink font-display">
-              3. 100% Intellectual Property Handover
-            </h2>
-            <p>
-              Upon receipt of final project payment, full ownership of custom application source code, databases, design assets, and administrative accounts transfers entirely to you. Kool Konsulting does not hold hostage client domains, hosting accounts, or proprietary code.
-            </p>
-          </section>
-
-          <section className="space-y-2">
-            <h2 className="text-xl font-bold text-ink font-display">
-              4. Post-Launch Warranty
-            </h2>
-            <p>
-              We provide a {site.freeFixWindowDays}-day defect warranty following system rollout. Any technical errors or bugs deviating from agreed scope are corrected free of charge during this window.
-            </p>
-          </section>
-        </div>
-
-        <div className="pt-8 border-t border-line">
-          <Link href="/" className="text-xs font-semibold text-kk-indigo hover:underline">
-            Return to homepage
-          </Link>
-        </div>
-
-      </div>
+        </header>
+        <section>
+          <h2>Scope and proposals</h2>
+          <p>
+            Website ranges and introductory conversations are indicative. A
+            project begins under an agreed written scope covering deliverables,
+            responsibilities, milestones, acceptance criteria and fees. Changes
+            to that scope need a corresponding agreement on cost and timing.
+          </p>
+        </section>
+        <section>
+          <h2>Fees and external costs</h2>
+          <p>
+            Payment milestones and any applicable tax treatment are confirmed in
+            the proposal. Hosting, subscriptions, usage-based services, content
+            production and ongoing support are identified separately. A
+            published starting range is not an offer to include every capability
+            listed on a service page.
+          </p>
+        </section>
+        <section>
+          <h2>Ownership and licences</h2>
+          <p>
+            The agreement specifies ownership of custom work, source-code and
+            account handover, payment conditions and any retained or third-party
+            materials. Open-source software, fonts, imagery and external
+            platforms retain their respective licence terms.
+          </p>
+        </section>
+        <section>
+          <h2>Reviews and delivery</h2>
+          <p>
+            Timelines rely on agreed access, content, decisions and reviews.
+            Revision rounds, launch criteria and responsibilities are set out in
+            scope. Third-party approvals, app-store decisions and platform
+            availability remain outside the studio’s direct control.
+          </p>
+        </section>
+        <section>
+          <h2>After launch</h2>
+          <p>
+            Any defect-resolution period, support hours, monitoring and response
+            arrangements are agreed in writing. Ongoing care is a separate,
+            defined engagement. No unlimited maintenance or round-the-clock
+            availability is implied.
+          </p>
+        </section>
+        <section>
+          <h2>Demonstrations and bookings</h2>
+          <p>
+            Kool Lab is illustrative and uses sample data. Demo completions are
+            not real transactions. A call request is an enquiry; an appointment
+            exists only when confirmed through the actual scheduling process.
+          </p>
+        </section>
+        <section>
+          <h2>Before a commitment</h2>
+          <p>
+            Final commercial terms and any legal provisions are reviewed for the
+            actual engagement. Discuss anything important to your project before
+            accepting a proposal.
+          </p>
+        </section>
+        <Link href="/contact?source=terms" className="text-link">
+          Discuss a project <span aria-hidden="true">↗</span>
+        </Link>
+      </article>
     </div>
   );
 }

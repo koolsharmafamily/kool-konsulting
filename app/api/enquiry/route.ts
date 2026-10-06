@@ -1,259 +1,315 @@
 import { NextRequest, NextResponse } from "next/server";
-import { site } from "@/data/site";
-import { getWhatsAppUrl } from "@/lib/whatsapp";
+import { randomUUID } from "node:crypto";
+import { contact, contactWhatsApp } from "@/data/contact";
+import {
+  Enquiry,
+  EnquiryErrors,
+  enquiryWhatsAppText,
+  validateEnquiry,
+} from "@/components/contact/enquiry";
 
-const TO = process.env.LEAD_INBOX || "koolsharmafamily@gmail.com";
-const FROM = process.env.LEAD_FROM || "onboarding@resend.dev";
-const BRAND = site.name;
-const WHATSAPP_DISPLAY = site.phoneDisplay;
+export const runtime = "nodejs";
+const MAX_BODY_BYTES = 32_768;
+const COOLDOWN_MS = 20_000;
+const attempts = new Map<string, number>();
+const esc = (value: string) =>
+  value.replace(
+    /[&<>"']/g,
+    (char) =>
+      ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[
+        char
+      ]!,
+  );
 
-// Per-instance memory cooldown
-const seen = new Map<string, number>();
-
-function tooFrequent(ip: string): boolean {
+function limited(ip: string) {
   const now = Date.now();
-  seen.forEach((t, k) => {
-    if (now - t > 60_000) seen.delete(k);
-  });
-  const last = seen.get(ip);
-  if (last && now - last < 20_000) return true;
-  seen.set(ip, now);
+  for (const [key, at] of attempts)
+    if (now - at >= COOLDOWN_MS) attempts.delete(key);
+  if (attempts.has(ip)) return true;
+  // Bound memory. This is per-instance abuse protection, not a distributed quota.
+  if (attempts.size >= 10_000) return true;
+  attempts.set(ip, now);
   return false;
 }
 
-const esc = (s: unknown = "") =>
-  String(s || "").replace(/[<>&]/g, (c) => ({ "<": "&lt;", ">": "&gt;", "&": "&amp;" }[c] || c));
-
-function failResponse(wantsJson: boolean, status: number, message: string, userTypedDetails: string = "") {
-  if (wantsJson) {
-    return NextResponse.json({ ok: false, error: message }, { status });
-  }
-
-  const waMsg = `Hi Kulvir, I tried submitting the website form but hit an issue: ${message}. Here are my details: ${userTypedDetails}`;
-  const waLink = getWhatsAppUrl(waMsg);
-
-  const html = `<!doctype html><html lang="en-IN"><head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="robots" content="noindex"><title>Form could not be sent | ${BRAND}</title>
-<style>
-body{margin:0;background:#FBFAF6;color:#17161C;font:16px/1.6 system-ui,-apple-system,sans-serif;display:flex;min-height:100vh;align-items:center;justify-content:center;padding:24px}
-.box{max-width:34rem;background:#FFFFFF;border:1px solid #E6E2DA;border-radius:18px;padding:36px;box-shadow:0 8px 16px -8px rgba(23,22,28,.08)}
-h1{font-size:1.75rem;margin:0 0 1rem;font-weight:700;line-height:1.2}
-p{color:#55515E;margin:0 0 1.25rem}
-a.btn{display:inline-flex;align-items:center;padding:12px 24px;background:#25D366;color:#17161C;text-decoration:none;font-weight:600;font-size:15px;border-radius:12px}
-a.back{color:#35309A;text-decoration:none;font-size:14px;font-weight:500;display:inline-block;margin-top:1.5rem}
-</style></head><body><div class="box">
-<h1>Submission not sent</h1>
-<p>${esc(message)}</p>
-<p><a class="btn" href="${waLink}">Message Kulvir directly on WhatsApp</a></p>
-<p><a class="back" href="/contact">← Return to the contact page</a></p>
-</div></body></html>`;
-
+function failure(
+  wantsJson: boolean,
+  status: number,
+  message: string,
+  values?: Enquiry,
+  errors?: EnquiryErrors,
+) {
+  const whatsappUrl = contactWhatsApp(
+    values
+      ? enquiryWhatsAppText(values)
+      : "Hi Kulvir, I would like to request a call about a project.",
+  );
+  const headers: Record<string, string> = {
+    "Cache-Control": "no-store",
+    "Referrer-Policy": "no-referrer",
+  };
+  if (status === 429) headers["Retry-After"] = "20";
+  if (wantsJson)
+    return NextResponse.json(
+      {
+        ok: false,
+        status: "not-confirmed",
+        error: message,
+        errors,
+        whatsappUrl,
+      },
+      { status, headers },
+    );
+  const fields = errors
+    ? `<ul>${Object.values(errors)
+        .map((value) => `<li>${esc(value)}</li>`)
+        .join("")}</ul>`
+    : "";
+  const html = `<!doctype html><html lang="en-IN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex"><title>Request not confirmed | Kool Konsulting</title><style>body{margin:0;background:#F3F2EE;color:#0E1016;font:17px/1.7 system-ui,sans-serif;min-height:100vh;display:grid;place-items:center;padding:24px;box-sizing:border-box}.box{max-width:560px;background:#fff;border:1px solid #d7d7dc;padding:clamp(24px,5vw,48px)}h1{font-weight:500;line-height:1.15;letter-spacing:-.04em;font-size:42px}p,li{color:#525560}.action{display:inline-block;background:#5145E5;color:white;padding:12px 20px;text-decoration:none;border-radius:3px;font-weight:600}a:focus-visible{outline:3px solid #5145E5;outline-offset:4px}.back{color:#3930b9}</style></head><body><main class="box"><p>KOOL KONSULTING</p><h1>Request not confirmed.</h1><p>${esc(message)}</p>${fields}<p><a class="action" href="${esc(whatsappUrl)}">Continue on WhatsApp</a></p><p>You will review and send the message yourself. No calendar appointment has been booked.</p><a class="back" href="/contact">Return to the contact page</a></main></body></html>`;
   return new NextResponse(html, {
     status,
-    headers: { "Content-Type": "text/html; charset=utf-8" },
+    headers: { ...headers, "Content-Type": "text/html; charset=utf-8" },
   });
 }
 
-async function sendResendEmail(payload: {
-  from: string;
-  to: string[];
-  reply_to?: string;
-  subject: string;
-  html: string;
-}) {
-  const key = process.env.RESEND_API_KEY;
-  if (!key) return { ok: false, reason: "no-key" };
-
-  try {
-    const res = await fetch("https://api.resend.com/emails", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${key}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(payload),
-    });
-
-    if (!res.ok) {
-      return { ok: false, reason: `resend-${res.status}`, detail: await res.text() };
+async function readBody(req: NextRequest) {
+  if (Number(req.headers.get("content-length")) > MAX_BODY_BYTES)
+    throw new Error("too-large");
+  const reader = req.body?.getReader();
+  if (!reader) throw new Error("invalid");
+  let length = 0;
+  const chunks: Uint8Array[] = [];
+  while (true) {
+    const part = await reader.read();
+    if (part.done) break;
+    length += part.value.byteLength;
+    if (length > MAX_BODY_BYTES) {
+      await reader.cancel();
+      throw new Error("too-large");
     }
-    return { ok: true };
-  } catch (err: unknown) {
-    return { ok: false, reason: "network-error", detail: String(err) };
+    chunks.push(part.value);
   }
+  const text = Buffer.concat(chunks).toString("utf8");
+  const contentType = req.headers.get("content-type") || "";
+  if (contentType.includes("application/json")) {
+    const parsed = JSON.parse(text);
+    if (!parsed || typeof parsed !== "object" || Array.isArray(parsed))
+      throw new Error("invalid");
+    return parsed as Record<string, unknown>;
+  }
+  const parsedForm = await new Request(req.url, {
+    method: "POST",
+    headers: { "Content-Type": contentType },
+    body: text,
+  }).formData();
+  return Object.fromEntries(parsedForm.entries()) as Record<string, unknown>;
 }
 
-async function sendWebhookBackup(payload: Record<string, unknown>) {
-  const webhookUrl = process.env.LEAD_WEBHOOK_URL;
-  if (!webhookUrl) return { ok: false, reason: "no-webhook" };
-
+function deliveryConfig() {
+  const emailPattern = /^[^\s@<>]+@[^\s@<>]+\.[^\s@<>]+$/;
+  const key = process.env.RESEND_API_KEY || "";
+  const to = process.env.LEAD_INBOX?.trim() || "";
+  const from = process.env.LEAD_FROM?.trim() || "";
+  let webhook = "";
   try {
-    const res = await fetch(webhookUrl, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-    });
-    return { ok: res.ok };
-  } catch (err: unknown) {
-    return { ok: false, reason: "webhook-failed", detail: String(err) };
+    const url = new URL(process.env.LEAD_WEBHOOK_URL || "");
+    if (url.protocol === "https:" && !url.username && !url.password)
+      webhook = url.href;
+  } catch {
+    /* Missing optional channel. */
   }
+  return {
+    key,
+    to,
+    from,
+    emailReady: Boolean(
+      key && emailPattern.test(to) && emailPattern.test(from),
+    ),
+    webhook,
+  };
+}
+
+async function deliver(
+  values: Enquiry,
+  requestId: string,
+  config: ReturnType<typeof deliveryConfig>,
+) {
+  if (config.emailReady) {
+    const rows = Object.entries(values)
+      .filter(([, value]) => value)
+      .map(
+        ([key, value]) =>
+          `<tr><th style="text-align:left;vertical-align:top;padding:8px 18px 8px 0">${esc(key)}</th><td style="padding:8px 0;white-space:pre-wrap">${esc(value)}</td></tr>`,
+      )
+      .join("");
+    try {
+      const response = await fetch("https://api.resend.com/emails", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${config.key}`,
+          "Content-Type": "application/json",
+          "Idempotency-Key": requestId,
+        },
+        body: JSON.stringify({
+          from: `Kool Konsulting <${config.from}>`,
+          to: [config.to],
+          reply_to: values.contact.includes("@") ? values.contact : undefined,
+          subject: `Call request — ${values.business.replace(/[\r\n]/g, " ")}`,
+          html: `<h1 style="font:24px system-ui">New call request</h1><p>This is a request to arrange a conversation, not a booked appointment.</p><table>${rows}</table><p>Reference: ${requestId}</p>`,
+        }),
+        signal: AbortSignal.timeout(8000),
+      });
+      if (response.ok) {
+        const receipt = await response.json();
+        if (typeof receipt.id === "string" && receipt.id) return true;
+      }
+    } catch {
+      /* Try the configured fallback. Never log contacts, provider bodies or secrets. */
+    }
+  }
+  if (config.webhook) {
+    try {
+      const response = await fetch(config.webhook, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Idempotency-Key": requestId,
+          ...(process.env.LEAD_WEBHOOK_SECRET
+            ? { Authorization: `Bearer ${process.env.LEAD_WEBHOOK_SECRET}` }
+            : {}),
+        },
+        body: JSON.stringify({
+          ...values,
+          requestId,
+          type: "call-request",
+          timezone: contact.timezone,
+          timestamp: new Date().toISOString(),
+        }),
+        signal: AbortSignal.timeout(8000),
+        redirect: "error",
+      });
+      if (response.ok) return true;
+    } catch {
+      /* No receipt is claimed when a provider has not accepted the request. */
+    }
+  }
+  return false;
 }
 
 export async function POST(req: NextRequest) {
-  let body: Record<string, unknown> = {};
   const contentType = req.headers.get("content-type") || "";
-  const accept = req.headers.get("accept") || "";
-  const wantsJson = accept.includes("application/json") || contentType.includes("application/json");
-
-  try {
-    if (contentType.includes("application/json")) {
-      body = await req.json();
-    } else {
-      const formData = await req.formData();
-      body = Object.fromEntries(formData.entries());
+  const wantsJson =
+    (req.headers.get("accept") || "").includes("application/json") ||
+    contentType.includes("application/json");
+  const origin = req.headers.get("origin");
+  // Next may reconstruct req.url with localhost behind its development/proxy server.
+  // The actual Host header still identifies the origin the browser requested.
+  if (origin) {
+    let sameOrigin = false;
+    try {
+      const source = new URL(origin);
+      sameOrigin =
+        ["http:", "https:"].includes(source.protocol) &&
+        source.host === (req.headers.get("host") || new URL(req.url).host);
+    } catch {
+      /* Invalid origins are rejected. */
     }
-  } catch {
-    return failResponse(wantsJson, 400, "Invalid form submission data.");
+    if (!sameOrigin)
+      return failure(
+        wantsJson,
+        403,
+        "This request could not be verified. Please submit the form from the contact page.",
+      );
   }
-
-  // Honeypot check
-  if (body["company-website"] || body["website-url"]) {
-    return wantsJson
-      ? NextResponse.json({ ok: true })
-      : NextResponse.redirect(new URL("/thanks", req.url), 303);
-  }
-
-  // Minimum render time check (2.5s)
-  const rendered = Number(body["render-time"]);
-  if (rendered && Date.now() - rendered < 2500) {
-    return failResponse(wantsJson, 429, "That was submitted unusually fast. Please try once more.");
-  }
-
-  // IP cooldown
-  const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
-  if (tooFrequent(ip)) {
-    return failResponse(
+  if (
+    !/application\/json|application\/x-www-form-urlencoded|multipart\/form-data/.test(
+      contentType,
+    )
+  )
+    return failure(
       wantsJson,
-      429,
-      "You have just sent an enquiry. Please wait a moment before sending another."
+      415,
+      "Use the form on the contact page to submit your request.",
+    );
+  let body: Record<string, unknown>;
+  try {
+    body = await readBody(req);
+  } catch (error) {
+    const tooLarge = error instanceof Error && error.message === "too-large";
+    return failure(
+      wantsJson,
+      tooLarge ? 413 : 400,
+      tooLarge
+        ? "This request is too long. Please shorten the project description."
+        : "The form could not be read. Please try again.",
     );
   }
-
-  // Field validation
-  const name = String(body.name || "").trim();
-  const business = String(body.business || "").trim();
-  const phone = String(body.phone || "").trim();
-  const service = String(body.service || "Not sure yet").trim();
-  const problem = String(body.problem || body.notes || "").trim();
-  const city = String(body.city || "").trim();
-  const email = String(body.email || "").trim();
-
-  const userTypedString = `Name: ${name}, Business: ${business}, Phone: ${phone}, Service: ${service}`;
-
-  if (!name) {
-    return failResponse(wantsJson, 400, "Please enter your name.", userTypedString);
-  }
-  if (!business) {
-    return failResponse(wantsJson, 400, "Please enter your business name.", userTypedString);
-  }
-  if (!phone || phone.length < 8) {
-    return failResponse(wantsJson, 400, "Please enter a valid phone or WhatsApp number.", userTypedString);
-  }
-  if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) {
-    return failResponse(wantsJson, 400, "Please enter a valid email address.", userTypedString);
-  }
-
-  const rows = [
-    ["Name", name],
-    ["Business", business],
-    ["Phone / WhatsApp", phone],
-    ["Service Needed", service],
-    ["Notes / Bottleneck", problem],
-    ["City", city],
-    ["Email", email],
-  ].filter(([, v]) => String(v || "").trim());
-
-  const tableHtml = rows
-    .map(
-      ([k, v]) =>
-        `<tr><td style="padding:6px 14px 6px 0;color:#55515E;vertical-align:top;font-size:14px;">${k}</td><td style="padding:6px 0;font-weight:500;font-size:14px;color:#17161C;">${esc(
-          v
-        )}</td></tr>`
-    )
-    .join("");
-
-  const submissionPayload = {
-    ...body,
-    name,
-    business,
-    phone,
-    service,
-    problem,
-    city,
-    email,
-    ip,
-    timestamp: new Date().toISOString(),
-  };
-
-  // Always log to Vercel logs so leads can be retrieved
-  console.log("[lead:enquiry]", JSON.stringify(submissionPayload));
-
-  // 1. Try sending email alert to Kulvir
-  const emailAlert = await sendResendEmail({
-    from: `${BRAND} <${FROM}>`,
-    to: [TO],
-    reply_to: email || undefined,
-    subject: `New Tech Check-up Enquiry — ${business} (${name})`,
-    html: `<div style="font-family:system-ui,sans-serif;font-size:15px;color:#17161C;line-height:1.6;">
-      <p style="margin:0 0 16px;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#35309A;font-weight:700;">
-        New Enquiry from Website
-      </p>
-      <table style="border-collapse:collapse;width:100%;margin-bottom:16px;">${tableHtml}</table>
-      <p style="margin:16px 0 0;font-size:13px;color:#6F6A78;">
-        Phone/WhatsApp: <a href="https://wa.me/${phone.replace(/[^0-9]/g, "")}">${phone}</a>
-      </p>
-    </div>`,
+  if (body["company-website"] || body["website-url"])
+    return failure(
+      wantsJson,
+      400,
+      "This request could not be verified. Please use the contact page or WhatsApp.",
+    );
+  const rendered = Number(body["render-time"]);
+  if (rendered && (!Number.isFinite(rendered) || Date.now() - rendered < 2500))
+    return failure(
+      wantsJson,
+      429,
+      "Please take a moment to review your details, then send the request again.",
+    );
+  const { values, errors } = validateEnquiry(body);
+  if (Object.keys(errors).length)
+    return failure(
+      wantsJson,
+      400,
+      "Please check the highlighted details and try again.",
+      undefined,
+      errors,
+    );
+  const config = deliveryConfig();
+  if (!config.emailReady && !config.webhook)
+    return failure(
+      wantsJson,
+      503,
+      `Online request delivery is currently unavailable. Please contact Kulvir on WhatsApp at ${contact.phoneDisplay}.`,
+      values,
+    );
+  const ip =
+    req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
+  if (limited(ip))
+    return failure(
+      wantsJson,
+      429,
+      "A request was just attempted. Please wait 20 seconds before trying again.",
+      values,
+    );
+  const requestId = randomUUID();
+  const accepted = await deliver(values, requestId, config);
+  if (!accepted)
+    return failure(
+      wantsJson,
+      502,
+      "We could not confirm delivery. Please continue on WhatsApp with your project details.",
+      values,
+    );
+  const response = wantsJson
+    ? NextResponse.json(
+        {
+          ok: true,
+          status: "received",
+          message:
+            "Your call request was received. A time still needs to be agreed with you.",
+        },
+        { headers: { "Cache-Control": "no-store" } },
+      )
+    : NextResponse.redirect(new URL("/thanks", req.url), 303);
+  // No personal data is stored in this short-lived confirmation marker.
+  response.cookies.set("kk-call-request", requestId, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax",
+    path: "/thanks",
+    maxAge: 600,
   });
-
-  // 2. If enquirer provided an email, send acknowledgement
-  if (email && emailAlert.ok) {
-    await sendResendEmail({
-      from: `${BRAND} <${FROM}>`,
-      to: [email],
-      subject: `Thanks — we have received your enquiry for ${business}`,
-      html: `<div style="font-family:system-ui,sans-serif;font-size:15px;line-height:1.6;color:#17161C;">
-        <p>Hello ${esc(name.split(" ")[0])},</p>
-        <p>Thank you for reaching out about <strong>${esc(business)}</strong>.</p>
-        <p>Kulvir Sharma has received your enquiry and will reply personally on WhatsApp (${esc(phone)}) or email within one working day.</p>
-        <p>If you'd like to talk right away, message Kulvir on WhatsApp: <a href="https://wa.me/${site.whatsappNumber}">${WHATSAPP_DISPLAY}</a>.</p>
-        <p style="margin-top:24px;">Kulvir Sharma<br><span style="color:#6F6A78;">Founder, ${BRAND} · Nagpur</span></p>
-      </div>`,
-    });
-  }
-
-  // 3. Backup to Google Sheet webhook if configured
-  const webhookResult = await sendWebhookBackup(submissionPayload);
-
-  // Success if either email or webhook succeeded
-  const channelSucceeded = emailAlert.ok || webhookResult.ok;
-
-  if (!channelSucceeded) {
-    // If no provider is configured, do not fake success
-    const failureReason = emailAlert.reason === "no-key" && webhookResult.reason === "no-webhook"
-      ? `Our automated email inbox is currently being connected.`
-      : `Delivery network failed to dispatch the lead.`;
-
-    const message = `${failureReason} Please send your message directly to Kulvir on WhatsApp at ${WHATSAPP_DISPLAY}.`;
-    return failResponse(wantsJson, 502, message, userTypedString);
-  }
-
-  if (wantsJson) {
-    return NextResponse.json({
-      ok: true,
-      message: `Thanks, ${name.split(" ")[0]}. Kulvir will reply on WhatsApp within one working day.`,
-    });
-  }
-
-  return NextResponse.redirect(new URL("/thanks", req.url), 303);
+  return response;
 }

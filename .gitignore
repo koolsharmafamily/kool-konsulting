@@ -32,7 +32,14 @@ out
 .netlify
 .vercel
 .env*
+!.env.example
+.npm-cache/
+test-results/
+*.tsbuildinfo
 
 # 3D assets outside public/
 *.glb
 !public/**/*.glb
+
+.browser-runtime/
+

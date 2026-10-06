@@ -31,7 +31,7 @@ export function getOrganizationSchema() {
         name: site.name,
         url: site.origin,
         telephone: site.phoneE164,
-        priceRange: "₹25,000 - ₹5,00,000",
+
         areaServed: [
           { "@type": "City", name: "Nagpur" },
           { "@type": "State", name: "Maharashtra" },
@@ -45,7 +45,6 @@ export function getOrganizationSchema() {
               addressCountry: site.address.country,
             }
           : undefined,
-        openingHours: site.hours,
       },
     ],
   };
@@ -78,23 +77,13 @@ export function getPersonSchema() {
     "@type": "Person",
     "@id": `${site.origin}/about#founder`,
     name: site.founder.name,
-    jobTitle: "Founder & Technology Architect",
+    jobTitle: "Founder",
     worksFor: {
       "@type": "Organization",
       name: site.name,
       url: site.origin,
     },
-    alumniOf: [
-      {
-        "@type": "CollegeOrUniversity",
-        name: "The University of Melbourne",
-      },
-      {
-        "@type": "CollegeOrUniversity",
-        name: "SSCBS, University of Delhi",
-      },
-    ],
-    image: `${site.origin}${site.founder.photo}`,
+
     url: `${site.origin}/about`,
     knowsAbout: [
       "Custom Software Development",
@@ -151,7 +140,9 @@ export function getBreadcrumbSchema(items: { name: string; url: string }[]) {
       "@type": "ListItem",
       position: index + 1,
       name: item.name,
-      item: item.url.startsWith("http") ? item.url : `${site.origin}${item.url}`,
+      item: item.url.startsWith("http")
+        ? item.url
+        : `${site.origin}${item.url}`,
     })),
   };
 }

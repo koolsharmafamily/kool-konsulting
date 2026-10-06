@@ -1,0 +1,20 @@
+export default function FoldMark({
+  className = "",
+  size = 48,
+}: {
+  className?: string;
+  size?: number;
+}) {
+  return (
+    <svg
+      viewBox="0 0 114 64"
+      width={size * 1.78}
+      height={size}
+      fill="currentColor"
+      aria-hidden="true"
+      className={className}
+    >
+      <path d="M43 5h11v54H43zM38 29 17 5H2l25 27L2 59h15l21-24zM60 5h11v54H60zM76 29 97 5h15L87 32l25 27H97L76 35z" />
+    </svg>
+  );
+}

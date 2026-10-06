@@ -1,148 +1,194 @@
-import React, { Suspense } from "react";
+import Link from "next/link";
+import { ArrowDown, ArrowUpRight, MessageCircle, Plus } from "lucide-react";
 import ContactForm from "@/components/contact/ContactForm";
-import { site } from "@/data/site";
-import { getWhatsAppUrl, getPhoneUrl } from "@/lib/whatsapp";
-import { WhatsAppIcon } from "@/components/brand/WhatsAppIcon";
+import { contact, contactWhatsApp, getBookingSettings } from "@/data/contact";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { getBreadcrumbSchema } from "@/lib/schema";
-import { Phone, Clock, MapPin, Mail, ShieldCheck } from "lucide-react";
+import "@/app/contact.css";
 
 export const metadata = {
-  title: "Get a Free Tech Check-up | Kool Konsulting Nagpur",
+  title: "Book a call",
   description:
-    "Schedule a 30-minute operational review with Kulvir Sharma. No sales pitches, just practical software recommendations for your business.",
-  alternates: {
-    canonical: "/contact",
-  },
-  openGraph: {
-    title: "Get a Free Tech Check-up | Kool Konsulting Nagpur",
-    description:
-      "Schedule a 30-minute operational review with Kulvir Sharma. No sales pitches, just practical software recommendations for your business.",
-    url: `${site.origin}/contact`,
-    siteName: site.name,
-    locale: "en_IN",
-    type: "website",
-    images: [{ url: "/opengraph-image", width: 1200, height: 630 }],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Get a Free Tech Check-up | Kool Konsulting Nagpur",
-    description:
-      "Schedule a 30-minute operational review with Kulvir Sharma. No sales pitches, just practical software recommendations for your business.",
-    images: ["/opengraph-image"],
-  },
+    "Discuss your next website, app or AI workflow with Kulvir Sharma, founder of Kool Konsulting in Nagpur.",
+  alternates: { canonical: "/contact" },
 };
 
-export default function ContactPage() {
-  const waContactUrl = getWhatsAppUrl("Hi Kulvir, I'd like to book a free 30-minute tech check-up for my business.");
-  const breadcrumbs = getBreadcrumbSchema([
-    { name: "Home", url: "/" },
-    { name: "Contact", url: "/contact" },
-  ]);
+export default function ContactPage({
+  searchParams,
+}: {
+  searchParams: Record<string, string | string[] | undefined>;
+}) {
+  const settings = getBookingSettings();
+  const param = (key: string) =>
+    typeof searchParams[key] === "string"
+      ? (searchParams[key] as string).slice(0, 500)
+      : "";
+  const demoNames: Record<string, string> = {
+    hospitality: "Hospitality concierge concept",
+    lifestyle: "Lifestyle discovery concept",
+    startup: "Startup onboarding concept",
+  };
+  const demo = param("demo");
+  const context = [
+    param("context") || param("from") || param("source"),
+    demoNames[demo] || demo,
+    param("project"),
+    param("notes") || param("size"),
+  ]
+    .filter(Boolean)
+    .join(" · ")
+    .slice(0, 500);
 
   return (
-    <div className="bg-bg min-h-screen py-12 md:py-24">
-      <JsonLd data={breadcrumbs} />
-      <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
-        
-        {/* Page Top Title */}
-        <div className="max-w-2xl mb-12 space-y-3">
-          <span className="text-xs font-semibold text-kk-indigo bg-kk-indigo-050 px-3 py-1 rounded-full border border-[#DCD9F5]">
-            Direct Intake
-          </span>
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-display font-bold text-ink tracking-tight font-stretch-h1">
-            Get a free tech check-up.
+    <div className="contact-page">
+      <JsonLd
+        data={getBreadcrumbSchema([
+          { name: "Home", url: "/" },
+          { name: "Book a call", url: "/contact" },
+        ])}
+      />
+      <section className="container contact-intro">
+        <p className="eyebrow">A conversation is a good beginning</p>
+        <div className="contact-heading-row">
+          <h1>
+            What comes
+            <br />
+            next<span>?</span>
           </h1>
-          <p className="text-lg md:text-xl text-ink-2 font-normal leading-relaxed">
-            30 minutes by phone, Google Meet, or at your office in Nagpur. We'll examine what's slowing your operations down and give you a straight answer on what to fix first.
-          </p>
-        </div>
-
-        {/* Two-Column Grid */}
-        <div id="check-up" className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
-          
-          {/* Left Column: Form */}
-          <div className="lg:col-span-7">
-            <Suspense fallback={<div className="p-8 text-xs text-ink-3">Loading form...</div>}>
-              <ContactForm />
-            </Suspense>
+          <div className="contact-intro-note">
+            <p>
+              A beautiful experience. A smarter way of working. Let’s find the
+              right place to start.
+            </p>
+            <a
+              href={settings.bookingUrl ? "#choose-a-time" : "#request-a-call"}
+              className="contact-jump"
+              aria-label={
+                settings.bookingUrl
+                  ? "Go to scheduling"
+                  : "Go to call request form"
+              }
+            >
+              <ArrowDown size={22} />
+            </a>
           </div>
+        </div>
+      </section>
 
-          {/* Right Column: Direct Contact & Guarantees */}
-          <div className="lg:col-span-5 space-y-6">
-            
-            {/* Direct WhatsApp Callout */}
-            <div className="p-8 bg-surface rounded-stage border border-line shadow-sm space-y-6">
-              <span className="text-xs font-semibold text-ink-3 block">
-                Skip the form & reach out directly
+      <section
+        className="container contact-layout"
+        aria-label="Arrange a conversation"
+      >
+        <aside className="contact-aside">
+          <div className="contact-founder-block">
+            <div className="contact-monogram" aria-hidden="true">
+              KS
+              <span>
+                <Plus size={18} />
               </span>
-
-              <div className="space-y-3">
-                <a
-                  href={waContactUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="p-4 rounded-btn bg-whatsapp text-ink font-semibold flex items-center justify-between shadow-sm hover:opacity-95 transition-opacity"
-                >
-                  <div className="flex items-center gap-3">
-                    <WhatsAppIcon className="w-5 h-5 flex-shrink-0 text-ink" />
-                    <div>
-                      <span className="text-[11px] block opacity-80">WhatsApp directly</span>
-                      <span className="text-base font-bold tabular-nums">{site.phoneDisplay}</span>
-                    </div>
-                  </div>
-                  <span className="text-xs font-semibold underline">Chat now</span>
-                </a>
-
-                <a
-                  href={getPhoneUrl()}
-                  className="p-4 rounded-btn bg-bg border border-line text-ink font-semibold flex items-center justify-between hover:border-line-strong transition-colors"
-                >
-                  <div className="flex items-center gap-3">
-                    <Phone className="w-5 h-5 flex-shrink-0 text-ink" />
-                    <div>
-                      <span className="text-[11px] text-ink-3 block">Phone call</span>
-                      <span className="text-base font-bold tabular-nums">{site.phoneDisplay}</span>
-                    </div>
-                  </div>
-                  <span className="text-xs text-ink font-semibold">Call now</span>
-                </a>
-              </div>
-
-              <div className="pt-4 border-t border-line space-y-3 text-xs text-ink-2">
-                <div className="flex items-start gap-2.5">
-                  <Clock className="w-4 h-4 text-kk-indigo flex-shrink-0 mt-0.5" />
-                  <span>
-                    <strong>Response commitment:</strong> Kulvir replies {site.responsePromise}.
-                  </span>
-                </div>
-                <div className="flex items-start gap-2.5">
-                  <MapPin className="w-4 h-4 text-kk-indigo flex-shrink-0 mt-0.5" />
-                  <span>
-                    <strong>Location:</strong> Nagpur, Maharashtra. On-site visits available across MIDC Hingna, Butibori, and Central India.
-                  </span>
-                </div>
-                <div className="flex items-start gap-2.5">
-                  <ShieldCheck className="w-4 h-4 text-leaf flex-shrink-0 mt-0.5" />
-                  <span>
-                    <strong>Founder guarantee:</strong> You talk directly with Kulvir, not a sales representative or junior intern.
-                  </span>
-                </div>
-              </div>
             </div>
+            <p className="contact-founder-name">Kulvir Sharma</p>
+            <p className="contact-small">
+              Founder, Kool Konsulting · {contact.location}
+            </p>
+          </div>
+          <h2>
+            Let’s talk about
+            <br />
+            your next move.
+          </h2>
+          <p>
+            Tell me what you’re building or what could work better. We’ll
+            discuss the opportunity, explore a useful first scope and see if
+            we’re a good fit.
+          </p>
+          <div className="contact-call-agenda">
+            <p>
+              <span>01</span>Your business and the opportunity
+            </p>
+            <p>
+              <span>02</span>The experience or workflow to improve
+            </p>
+            <p>
+              <span>03</span>A practical next step
+            </p>
+          </div>
+          <p className="contact-small">
+            No presentation needed. A rough idea is enough.
+          </p>
+          <div className="contact-direct">
+            <p className="contact-small">Prefer a direct conversation?</p>
+            <a
+              href={contactWhatsApp(
+                context
+                  ? `Hi Kulvir, I'd like to discuss ${context}.`
+                  : undefined,
+              )}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <MessageCircle size={18} />
+              <span>
+                WhatsApp Kulvir<small>{contact.phoneDisplay}</small>
+              </span>
+              <ArrowUpRight size={18} />
+            </a>
+            {settings.email && (
+              <a className="contact-email" href={`mailto:${settings.email}`}>
+                {settings.email}
+                <ArrowUpRight size={16} />
+              </a>
+            )}
+          </div>
+        </aside>
 
-            {/* Practical note */}
-            <div className="p-6 bg-kk-indigo-050 rounded-card border border-[#DCD9F5] text-xs text-ink-2 space-y-1.5">
-              <span className="font-bold text-kk-indigo block">What to have ready for the call:</span>
+        <div className="contact-main">
+          {settings.bookingUrl && (
+            <div id="choose-a-time" className="contact-scheduler">
+              <p className="eyebrow">Find a time together</p>
+              <h2>Book a call.</h2>
               <p>
-                Nothing formal. Just know roughly how many hours your staff spends on WhatsApp, Tally, or Excel each day, and what problem you'd most like solved first.
+                View available times in the booking calendar. The studio’s
+                timezone is {settings.timezoneLabel} ({settings.timezone});
+                check the timezone shown beside your selected slot.
+              </p>
+              <a
+                className="button button-primary"
+                href={settings.bookingUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Open booking calendar <ArrowUpRight size={18} />
+              </a>
+              <p className="contact-small">
+                Your appointment is booked only when the scheduling provider
+                confirms it. Use the provider’s confirmation to reschedule or
+                cancel, or contact Kulvir on WhatsApp.
               </p>
             </div>
-
+          )}
+          <div id="request-a-call" className="contact-form-heading">
+            <p className="eyebrow">
+              {settings.bookingUrl
+                ? "Or leave a little context"
+                : "Start the conversation"}
+            </p>
+            <h2>Request a call.</h2>
+            <p>
+              {settings.bookingUrl
+                ? "Prefer to introduce the project first? Share a few details below."
+                : "Share a few details. Kulvir can follow up using your preferred contact to arrange a time."}{" "}
+              This sends a request; it does not reserve a calendar slot.
+            </p>
           </div>
-
+          <ContactForm initialService={param("service")} context={context} />
         </div>
-
+      </section>
+      <div className="container contact-bottom-note">
+        <span>A considered beginning. A useful next step.</span>
+        <Link href="/pricing" className="text-link">
+          Explore indicative investment <ArrowUpRight size={16} />
+        </Link>
       </div>
     </div>
   );

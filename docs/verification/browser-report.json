@@ -1,0 +1,172 @@
+{
+  "base": "http://127.0.0.1:3000",
+  "checks": [
+    {
+      "name": "Homepage offer and corrected audience",
+      "passed": true
+    },
+    {
+      "name": "Fold opens, audience changes and closes",
+      "passed": true
+    },
+    {
+      "name": "All audience examples change the explanation",
+      "passed": true
+    },
+    {
+      "name": "Homepage width 360",
+      "passed": true
+    },
+    {
+      "name": "Homepage width 390",
+      "passed": true
+    },
+    {
+      "name": "Homepage width 768",
+      "passed": true
+    },
+    {
+      "name": "Homepage width 1024",
+      "passed": true
+    },
+    {
+      "name": "Homepage width 1440",
+      "passed": true
+    },
+    {
+      "name": "Homepage width 1920",
+      "passed": true
+    },
+    {
+      "name": "Mobile menu focus, Escape and background inert",
+      "passed": true
+    },
+    {
+      "name": "Route and mobile overflow /services",
+      "passed": true
+    },
+    {
+      "name": "Route and mobile overflow /services/automation",
+      "passed": true
+    },
+    {
+      "name": "Route and mobile overflow /services/websites",
+      "passed": true
+    },
+    {
+      "name": "Route and mobile overflow /services/apps",
+      "passed": true
+    },
+    {
+      "name": "Route and mobile overflow /services/software",
+      "passed": true
+    },
+    {
+      "name": "Route and mobile overflow /lab",
+      "passed": true
+    },
+    {
+      "name": "Route and mobile overflow /lab/startup-onboarding",
+      "passed": true
+    },
+    {
+      "name": "Route and mobile overflow /lab/lifestyle-discovery",
+      "passed": true
+    },
+    {
+      "name": "Route and mobile overflow /lab/hospitality-concierge",
+      "passed": true
+    },
+    {
+      "name": "Route and mobile overflow /about",
+      "passed": true
+    },
+    {
+      "name": "Route and mobile overflow /pricing",
+      "passed": true
+    },
+    {
+      "name": "Route and mobile overflow /contact",
+      "passed": true
+    },
+    {
+      "name": "Route and mobile overflow /faq",
+      "passed": true
+    },
+    {
+      "name": "Route and mobile overflow /privacy",
+      "passed": true
+    },
+    {
+      "name": "Route and mobile overflow /terms",
+      "passed": true
+    },
+    {
+      "name": "Route and mobile overflow /work",
+      "passed": true
+    },
+    {
+      "name": "Startup discovery, changed rule, human branch, permission pause, validation, reset",
+      "passed": true
+    },
+    {
+      "name": "Lifestyle recommendations, unchanged quantity, stock errors, alternative, completion, reset",
+      "passed": true
+    },
+    {
+      "name": "Hospitality unavailable slot, explicit alternative, accurate handoff, unknown question and reset",
+      "passed": true
+    },
+    {
+      "name": "Call request context, validation and honest unconfigured delivery",
+      "passed": true
+    },
+    {
+      "name": "Direct thanks URL never confirms a request",
+      "passed": true
+    },
+    {
+      "name": "200% text zoom reflows",
+      "passed": true
+    },
+    {
+      "name": "Reduced motion retains artwork and functional controls",
+      "passed": true
+    },
+    {
+      "name": "No JavaScript core content and contact fallback",
+      "passed": true
+    }
+  ],
+  "accessibility": [
+    {
+      "route": "/services",
+      "violations": []
+    },
+    {
+      "route": "/lab/startup-onboarding",
+      "violations": []
+    },
+    {
+      "route": "/lab/lifestyle-discovery",
+      "violations": []
+    },
+    {
+      "route": "/lab/hospitality-concierge",
+      "violations": []
+    },
+    {
+      "route": "/about",
+      "violations": []
+    },
+    {
+      "route": "/pricing",
+      "violations": []
+    },
+    {
+      "route": "/contact",
+      "violations": []
+    }
+  ],
+  "errors": []
+}

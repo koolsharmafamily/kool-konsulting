@@ -1,7 +1,1 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" role="img" aria-label="Kool Konsulting">
-  <g fill="none" stroke="#3D35E0" stroke-width="15" stroke-linejoin="miter" stroke-miterlimit="10">
-    <path d="M17 12V88M83 12V88" stroke-linecap="butt"/>
-    <path d="M22 50L50 22L78 50L50 78Z" stroke-linecap="butt"/>
-  </g>
-  <rect x="45" y="45" width="10" height="10" fill="#22C3EE"/>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128"><rect width="128" height="128" rx="27" fill="#5145E5"/><g fill="#fff" transform="translate(14 36) scale(.88)"><path d="M43 5h11v54H43zM38 29 17 5H2l25 27L2 59h15l21-24zM60 5h11v54H60zM76 29 97 5h15L87 32l25 27H97L76 35z"/></g></svg>

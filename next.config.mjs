@@ -16,6 +16,8 @@ const nextConfig = {
   },
   async redirects() {
     return [
+      { source: '/expertise', destination: '/services', permanent: true },
+      { source: '/expertise/:slug*', destination: '/services/:slug*', permanent: true },
       { source: '/scorecard', destination: '/contact', permanent: true },
       { source: '/services/web-development', destination: '/services/websites', permanent: true },
       { source: '/services/local-visibility', destination: '/services/websites', permanent: true },

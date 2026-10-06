@@ -10,11 +10,11 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        bg: "#F6F7FB",
-        paper: "#F6F7FB",
+        bg: "#F3F2EE",
+        paper: "#F3F2EE",
         surface: "#FFFFFF",
         ink: {
-          DEFAULT: "#0E0F1A",
+          DEFAULT: "#0E1016",
           2: "#4A4D63",
           3: "#6B6F86",
         },
@@ -23,14 +23,14 @@ const config: Config = {
           strong: "#D1D5E2",
         },
         "kk-indigo": {
-          DEFAULT: "#3D35E0",
+          DEFAULT: "#5145E5",
           600: "#2F28B8",
           "050": "#EEEDFF",
         },
         "kk-signal": "#22C3EE",
         engine: "#0B0C16",
         carbon: {
-          DEFAULT: "#3D35E0",
+          DEFAULT: "#5145E5",
           600: "#2F28B8",
           "050": "#EEEDFF",
         },
@@ -41,8 +41,8 @@ const config: Config = {
         whatsapp: "#25D366",
       },
       fontFamily: {
-        display: ["var(--font-anek)", "sans-serif"],
-        sans: ["var(--font-mukta)", "sans-serif"],
+        display: ["var(--font-manrope)", "sans-serif"],
+        sans: ["var(--font-manrope)", "sans-serif"],
         handwriting: ["var(--font-kalam)", "cursive"],
       },
       borderRadius: {

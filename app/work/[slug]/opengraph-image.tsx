@@ -1,29 +1,19 @@
 import { createOgImage, ogSize, ogContentType } from "@/lib/og-generator";
 import { getProjectBySlug } from "@/data/work";
-
+import { getCaseStudy } from "@/data/caseStudies";
 export const size = ogSize;
 export const contentType = ogContentType;
-
-export default async function Image({
-  params,
-}: {
-  params: { slug: string };
-}) {
-  const project = getProjectBySlug(params.slug);
-
-  const title = project ? project.title : "Kool Konsulting Case Study";
-  const subtitle = project
-    ? project.problem
-    : "Proven software delivery for Indian businesses.";
-  const badge = project ? `Case Study · ${project.industry}` : "Case Study";
-  const meta = project?.tools?.length
-    ? project.tools.join(" · ")
-    : "Websites · Apps · Business Software · Automation";
-
+export default async function Image({ params }: { params: { slug: string } }) {
+  const study = getCaseStudy(params.slug);
+  const record = getProjectBySlug(params.slug);
+  const project = record?.hidden ? undefined : record;
   return createOgImage({
-    title,
-    subtitle,
-    badge,
-    meta,
+    title: study?.title || project?.title || "Project records",
+    subtitle:
+      study?.subtitle ||
+      project?.problem ||
+      "The experience and the system behind it.",
+    badge: study?.status || project?.status || "Project record",
+    meta: "Kool Konsulting / Work",
   });
 }

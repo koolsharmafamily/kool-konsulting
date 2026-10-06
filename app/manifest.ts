@@ -5,11 +5,11 @@ export default function manifest(): MetadataRoute.Manifest {
     name: "Kool Konsulting",
     short_name: "Kool Konsulting",
     description:
-      "We build the tech that runs growing Indian businesses. Websites, apps, business software and automations.",
+      "Beautiful digital experiences and intelligent operations for startups, luxury brands and smart SMEs.",
     start_url: "/",
     display: "standalone",
-    background_color: "#F6F7FB",
-    theme_color: "#3D35E0",
+    background_color: "#F3F2EE",
+    theme_color: "#5145E5",
     icons: [
       {
         src: "/favicon.svg",

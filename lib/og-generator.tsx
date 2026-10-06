@@ -1,237 +1,86 @@
 import { ImageResponse } from "next/og";
-import fs from "fs";
-import path from "path";
-
 export interface OgImageOptions {
   title: string;
   subtitle?: string;
   badge?: string;
   meta?: string;
 }
-
-export const ogSize = {
-  width: 1200,
-  height: 630,
-};
-
+export const ogSize = { width: 1200, height: 630 };
 export const ogContentType = "image/png";
-
 export function createOgImage({
   title,
-  subtitle = "We build websites, apps, business software and automations for growing Indian businesses.",
-  badge = "Nagpur, Maharashtra",
-  meta = "Websites · Apps · Business Software · Automation",
+  subtitle = "Beautiful digital experiences and intelligent operations.",
+  badge = "An independent technology studio",
+  meta = "AI & Automation · Websites · Apps",
 }: OgImageOptions) {
-  const fontPath = path.join(
-    process.cwd(),
-    "node_modules/@fontsource/anek-latin/files/anek-latin-latin-700-normal.woff"
-  );
-  const fontData = fs.readFileSync(fontPath);
-
   return new ImageResponse(
-    (
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-between",
+        width: "100%",
+        height: "100%",
+        background: "#F3F2EE",
+        padding: "58px 70px",
+        color: "#0E1016",
+        fontFamily: "sans-serif",
+      }}
+    >
       <div
         style={{
-          width: "100%",
-          height: "100%",
           display: "flex",
-          flexDirection: "column",
+          alignItems: "center",
           justifyContent: "space-between",
-          padding: "64px 80px",
-          backgroundColor: "#F6F7FB",
-          position: "relative",
-          fontFamily: "'Anek Latin'",
         }}
       >
-        {/* Dot Grid Background */}
-        <svg
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            width: "1200px",
-            height: "630px",
-          }}
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <defs>
-            <pattern
-              id="og-dot-grid"
-              x="0"
-              y="0"
-              width="24"
-              height="24"
-              patternUnits="userSpaceOnUse"
-            >
-              <circle cx="2" cy="2" r="1.2" fill="#D9DCE8" />
-            </pattern>
-          </defs>
-          <rect width="1200" height="630" fill="url(#og-dot-grid)" />
-        </svg>
-
-        {/* Top Header */}
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            position: "relative",
-            zIndex: 10,
-          }}
-        >
-          {/* Logo Mark + Wordmark */}
-          <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
-            <svg
-              viewBox="0 0 100 100"
-              width="48"
-              height="48"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <g
-                fill="none"
-                stroke="#3D35E0"
-                strokeWidth="15"
-                strokeLinejoin="miter"
-                strokeMiterlimit="10"
-              >
-                <path d="M17 12V88M83 12V88" strokeLinecap="butt" />
-                <path d="M22 50L50 22L78 50L50 78Z" strokeLinecap="butt" />
-              </g>
-              <rect x="45" y="45" width="10" height="10" fill="#22C3EE" />
-            </svg>
-            <span
-              style={{
-                fontSize: "32px",
-                fontWeight: 700,
-                color: "#0E0F1A",
-                letterSpacing: "-0.02em",
-              }}
-            >
-              Kool Konsulting
-            </span>
-          </div>
-
-          {/* Badge with signal node */}
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "8px",
-              padding: "8px 18px",
-              borderRadius: "9999px",
-              backgroundColor: "#EEEDFF",
-              border: "1px solid #DCD9F5",
-            }}
-          >
-            <div
-              style={{
-                width: "8px",
-                height: "8px",
-                backgroundColor: "#22C3EE",
-              }}
-            />
-            <span
-              style={{
-                fontSize: "16px",
-                fontWeight: 700,
-                color: "#3D35E0",
-              }}
-            >
-              {badge}
-            </span>
-          </div>
+        <div style={{ display: "flex", alignItems: "center", gap: 18 }}>
+          <svg viewBox="0 0 114 64" width="80" height="46" fill="#5145E5">
+            <path d="M43 5h11v54H43zM38 29 17 5H2l25 27L2 59h15l21-24zM60 5h11v54H60zM76 29 97 5h15L87 32l25 27H97L76 35z" />
+          </svg>
+          <span style={{ fontSize: 29 }}>Kool Konsulting</span>
         </div>
-
-        {/* Center: Main Headline & Subtitle */}
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            gap: "18px",
-            position: "relative",
-            zIndex: 10,
-            maxWidth: "1020px",
-          }}
-        >
-          <h1
-            style={{
-              fontSize: title.length > 40 ? "50px" : "60px",
-              fontWeight: 700,
-              color: "#0E0F1A",
-              lineHeight: 1.15,
-              letterSpacing: "-0.02em",
-              margin: 0,
-            }}
-          >
-            {title}
-          </h1>
-          <p
-            style={{
-              fontSize: "24px",
-              color: "#4A4D63",
-              lineHeight: 1.45,
-              margin: 0,
-            }}
-          >
-            {subtitle}
-          </p>
-        </div>
-
-        {/* Bottom Bar: Capabilities & Domain with Signal Node */}
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            paddingTop: "24px",
-            borderTop: "1px solid #E3E6EF",
-            position: "relative",
-            zIndex: 10,
-          }}
-        >
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "20px",
-              color: "#6B6F86",
-              fontSize: "20px",
-            }}
-          >
-            {meta}
-          </div>
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "8px",
-              fontSize: "18px",
-              fontWeight: 700,
-              color: "#3D35E0",
-            }}
-          >
-            <div
-              style={{
-                width: "8px",
-                height: "8px",
-                backgroundColor: "#22C3EE",
-              }}
-            />
-            <span>kool-konsulting.vercel.app</span>
-          </div>
-        </div>
+        <span style={{ fontSize: 16, color: "#565860" }}>{badge}</span>
       </div>
-    ),
-    {
-      ...ogSize,
-      fonts: [
-        {
-          name: "Anek Latin",
-          data: fontData,
-          style: "normal",
-          weight: 700,
-        },
-      ],
-    }
+      <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+        <h1
+          style={{
+            fontSize: title.length > 55 ? 48 : 62,
+            letterSpacing: "-2.5px",
+            lineHeight: 1.13,
+            margin: 0,
+            fontWeight: 500,
+            maxWidth: 1030,
+          }}
+        >
+          {title}
+        </h1>
+        <p
+          style={{
+            fontSize: 25,
+            lineHeight: 1.5,
+            color: "#565860",
+            margin: 0,
+            maxWidth: 960,
+          }}
+        >
+          {subtitle}
+        </p>
+      </div>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          borderTop: "1px solid #c9c9c4",
+          paddingTop: 25,
+          fontSize: 17,
+          color: "#5145E5",
+        }}
+      >
+        <span>{meta}</span>
+        <span>Nagpur, India</span>
+      </div>
+    </div>,
+    ogSize,
   );
 }
